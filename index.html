@@ -12,12 +12,12 @@
                 extend: {
                     colors: {
                         school: {
-                            maroon: '#7A1C2C',       /* Deep Institutional Maroon */
-                            maroonLight: '#942637',  /* Vibrant Secondary Accent Maroon */
-                            canvas: '#FAF7F2',       /* Matte Light Cream Base Canvas */
-                            sheet: '#FFFFFF',       /* Pure White Component Containers */
-                            textDark: '#1C1917',    /* Deep Charcoal for high-contrast reading */
-                            textMuted: '#6B6661'     /* Soft Slate for secondary subtitles */
+                            maroon: '#631B26',      /* Exact Warm Textured Maroon */
+                            maroonMuted: '#4D121B',
+                            peach: '#D6B395',       /* Exact Premium Rich Peach Tone */
+                            peachLight: '#E8D2BF',  /* Accent Highlights */
+                            canvas: '#EFE3D5',      /* Soft Interior Canvas Matte */
+                            textDark: '#2B1A14'     /* Deep Roasted Earth for high readability */
                         }
                     }
                 }
@@ -27,85 +27,85 @@
 </head>
 <body class="bg-school-canvas text-school-textDark font-sans min-h-screen selection:bg-school-maroon selection:text-white antialiased">
 
-    <header class="border-b border-stone-200 bg-school-sheet/80 backdrop-blur sticky top-0 z-50 px-4 py-4 shadow-sm">
+    <header class="border-b border-school-peach/40 bg-school-maroon px-4 py-4 shadow-md">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-school-maroon animate-pulse"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-school-peach animate-pulse"></div>
                 <div class="flex items-center font-black tracking-tight text-xl uppercase">
-                    <span class="text-school-maroon">Dunes</span>
-                    <span class="mx-1.5 text-stone-300 font-light text-lg">/</span>
-                    <span class="bg-gradient-to-r from-school-maroonLight to-stone-600 bg-clip-text text-transparent">CrickHub</span>
+                    <span class="text-school-peachLight">Dunes</span>
+                    <span class="mx-1.5 text-school-peach/40 font-light text-lg">/</span>
+                    <span class="text-white">CrickHub</span>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-3 py-1 bg-school-maroon text-school-canvas rounded-full tracking-widest uppercase shadow-sm">
-                Interhouse 2026
+            <span class="text-[10px] font-black px-3 py-1 bg-school-peach text-school-maroon rounded-full tracking-widest uppercase shadow-sm">
+                DUNES FM LIVE
             </span>
         </div>
     </header>
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
-        <div class="grid grid-cols-3 bg-stone-200/60 border border-stone-300/40 p-1 rounded-xl">
-            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-school-sheet text-school-maroon shadow-sm">Live Hub</button>
-            <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-textMuted hover:text-school-maroon">Points Table</button>
-            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-textMuted hover:text-school-maroon">Fixtures</button>
+        <div class="grid grid-cols-3 bg-school-maroon p-1 rounded-xl shadow-inner border border-school-maroonMuted">
+            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-school-peach text-school-maroon shadow">Live Hub</button>
+            <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-peachLight/60 hover:text-white">Points Table</button>
+            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-peachLight/60 hover:text-white">Fixtures</button>
         </div>
     </div>
 
     <main class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 
         <div id="view-live-section" class="space-y-6">
-            <section class="bg-school-sheet border border-stone-200/80 rounded-2xl p-6 shadow-md relative overflow-hidden">
-                <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <section class="bg-school-peach/40 border border-school-peach rounded-2xl p-6 shadow relative overflow-hidden">
+                <div class="absolute inset-0 opacity-[0.04] pointer-events-none bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:24px_24px]"></div>
                 
                 <div class="relative z-10 space-y-6">
-                    <div class="flex justify-between items-center border-b border-stone-100 pb-4">
+                    <div class="flex justify-between items-center border-b border-school-peach/50 pb-4">
                         <div>
-                            <span class="text-[10px] font-black tracking-widest text-school-maroon uppercase opacity-80">Batting</span>
-                            <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-school-textDark mt-0.5">Loading...</h2>
+                            <span class="text-[10px] font-black tracking-widest text-school-maroon uppercase">Batting</span>
+                            <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-school-maroon mt-0.5">Loading...</h2>
                         </div>
-                        <div class="text-center font-black text-school-maroon px-3 py-1 bg-school-canvas rounded-lg text-xs border border-stone-200">VS</div>
+                        <div class="text-center font-black text-school-peach px-3 py-1 bg-school-maroon rounded-lg text-xs shadow-sm">VS</div>
                         <div class="text-right">
-                            <span class="text-[10px] font-black tracking-widest text-school-textMuted uppercase">Bowling</span>
-                            <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-stone-400 mt-0.5">Loading...</h2>
+                            <span class="text-[10px] font-black tracking-widest text-school-textDark/60 uppercase">Bowling</span>
+                            <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-school-textDark/80 mt-0.5">Loading...</h2>
                         </div>
                     </div>
                     
                     <div class="flex justify-between items-baseline py-4">
-                        <div class="text-6xl sm:text-7xl font-black tracking-tighter text-school-textDark">
-                            <span id="view-runs">0</span><span class="text-stone-300 font-light">/</span><span id="view-wickets" class="text-school-maroon">0</span>
+                        <div class="text-6xl sm:text-7xl font-black tracking-tighter text-school-maroon">
+                            <span id="view-runs">0</span><span class="text-school-peach font-light">/</span><span id="view-wickets" class="text-red-700">0</span>
                         </div>
                         <div class="text-right">
-                            <div class="text-school-textMuted text-xs font-bold uppercase tracking-wider">Overs</div>
-                            <div id="view-overs" class="text-3xl sm:text-4xl font-black text-school-maroonLight tracking-tight mt-0.5">0.0</div>
+                            <div class="text-school-textDark/60 text-xs font-bold uppercase tracking-wider">Overs</div>
+                            <div id="view-overs" class="text-3xl sm:text-4xl font-black text-school-maroon tracking-tight mt-0.5">0.0</div>
                         </div>
                     </div>
                     
-                    <div class="bg-school-canvas border border-stone-200/60 rounded-xl p-4 flex gap-3 items-start shadow-inner">
-                        <span class="text-[10px] font-black bg-school-maroon text-school-canvas px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shrink-0">LATEST</span>
-                        <p id="view-commentary" class="text-sm font-semibold text-stone-700 italic">Connecting to field scoring feed...</p>
+                    <div class="bg-school-canvas border border-school-peach rounded-xl p-4 flex gap-3 items-start shadow-inner">
+                        <span class="text-[10px] font-black bg-school-maroon text-white px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shrink-0">LATEST</span>
+                        <p id="view-commentary" class="text-sm font-semibold text-school-maroonMuted italic">Connecting to field scoring feed...</p>
                     </div>
                 </div>
             </section>
         </div>
 
         <div id="view-points-section" class="hidden space-y-4">
-            <div class="bg-school-sheet border border-stone-200 rounded-2xl overflow-hidden shadow-md">
-                <div class="p-5 border-b border-stone-100 bg-stone-50/50">
+            <div class="bg-school-peach/20 border border-school-peach rounded-2xl overflow-hidden shadow">
+                <div class="p-5 border-b border-school-peach bg-school-peach/30">
                     <h3 class="font-black text-lg uppercase tracking-tight text-school-maroon">Standings Matrix</h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-school-canvas text-school-textMuted text-[11px] font-black uppercase tracking-wider border-b border-stone-200">
+                            <tr class="bg-school-maroon text-school-peachLight text-[11px] font-black uppercase tracking-wider border-b border-school-maroonMuted">
                                 <th class="py-4 px-6">House</th>
                                 <th class="py-4 px-4 text-center">P</th>
                                 <th class="py-4 px-4 text-center">W</th>
                                 <th class="py-4 px-4 text-center">L</th>
-                                <th class="py-4 px-4 text-center text-school-maroon font-black">Pts</th>
+                                <th class="py-4 px-4 text-center text-school-peach font-black">Pts</th>
                                 <th class="py-4 px-6 text-right">NRR</th>
                             </tr>
                         </thead>
-                        <tbody id="points-table-rows" class="divide-y divide-stone-100 font-medium text-sm"></tbody>
+                        <tbody id="points-table-rows" class="divide-y divide-school-peach/40 font-semibold text-sm text-school-maroon"></tbody>
                     </table>
                 </div>
             </div>
@@ -121,6 +121,7 @@
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
 
+        // Single client instantiation
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         function switchTab(activeTab) {
@@ -129,10 +130,10 @@
                 const btn = document.getElementById(`tab-${tab}`);
                 const view = document.getElementById(`view-${tab}-section`);
                 if (tab === activeTab) {
-                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-school-maroon text-school-canvas shadow-sm";
+                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-school-peach text-school-maroon shadow";
                     view.classList.remove('hidden');
                 } else {
-                    btn.className = "py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-textMuted hover:text-school-maroon";
+                    btn.className = "py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-school-peachLight/60 hover:text-white";
                     view.classList.add('hidden');
                 }
             });
@@ -141,17 +142,23 @@
         }
 
         async function fetchLiveScore() {
-            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
-            if (data) updateUI(data);
+            try {
+                const { data, error } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+                if (error) console.error("Fetch Live Error:", error);
+                if (data) updateUI(data);
+            } catch (err) {
+                console.error("Connection caught error:", err);
+            }
         }
 
         function updateUI(matchData) {
-            document.getElementById('view-batting').innerText = matchData.batting_team;
-            document.getElementById('view-bowling').innerText = matchData.bowling_team;
-            document.getElementById('view-runs').innerText = matchData.runs;
-            document.getElementById('view-wickets').innerText = matchData.wickets;
-            document.getElementById('view-overs').innerText = matchData.overs;
-            document.getElementById('view-commentary').innerText = matchData.commentary;
+            if (!matchData) return;
+            document.getElementById('view-batting').innerText = matchData.batting_team || "N/A";
+            document.getElementById('view-bowling').innerText = matchData.bowling_team || "N/A";
+            document.getElementById('view-runs').innerText = matchData.runs ?? 0;
+            document.getElementById('view-wickets').innerText = matchData.wickets ?? 0;
+            document.getElementById('view-overs').innerText = matchData.overs || "0.0";
+            document.getElementById('view-commentary').innerText = matchData.commentary || "";
         }
 
         async function fetchPointsTable() {
@@ -161,13 +168,13 @@
                 container.innerHTML = '';
                 data.forEach(row => {
                     container.innerHTML += `
-                        <tr class="hover:bg-stone-50/80 transition">
-                            <td class="py-4 px-6 font-black text-school-textDark uppercase tracking-wide">${row.house_name}</td>
-                            <td class="py-4 px-4 text-center text-school-textMuted">${row.played}</td>
-                            <td class="py-4 px-4 text-center text-emerald-600 font-bold">${row.won}</td>
-                            <td class="py-4 px-4 text-center text-rose-600 font-bold">${row.lost}</td>
+                        <tr class="hover:bg-school-peach/20 transition">
+                            <td class="py-4 px-6 font-black text-school-maroon uppercase tracking-wide">${row.house_name}</td>
+                            <td class="py-4 px-4 text-center text-school-textDark/70">${row.played}</td>
+                            <td class="py-4 px-4 text-center text-emerald-800 font-bold">${row.won}</td>
+                            <td class="py-4 px-4 text-center text-red-700 font-bold">${row.lost}</td>
                             <td class="py-4 px-4 text-center text-school-maroon font-black text-base">${row.points}</td>
-                            <td class="py-4 px-6 text-right text-stone-600 font-mono">${row.nrr}</td>
+                            <td class="py-4 px-6 text-right text-school-textDark/70 font-mono">${row.nrr}</td>
                         </tr>`;
                 });
             }
@@ -181,20 +188,21 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-school-sheet border ${isLive ? 'border-school-maroon ring-1 ring-school-maroon/30 shadow-md' : 'border-stone-200'} p-5 rounded-xl space-y-3 relative">
+                        <div class="bg-school-peach/20 border ${isLive ? 'border-school-maroon ring-1 ring-school-maroon/40 shadow-md' : 'border-school-peach'} p-5 rounded-xl space-y-3 relative">
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-black text-school-textMuted uppercase tracking-wider">Match 0${match.match_num}</span>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-school-maroon text-school-canvas animate-pulse' : 'bg-school-canvas text-school-textMuted'}">${match.time_status}</span>
+                                <span class="text-[10px] font-black text-school-maroon/60 uppercase tracking-wider">Match 0${match.match_num}</span>
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-school-maroon text-white animate-pulse' : 'bg-school-peach text-school-maroon'}">${match.time_status}</span>
                             </div>
-                            <h4 class="font-black text-md uppercase text-school-textDark tracking-tight">${match.teams}</h4>
-                            <p class="text-xs font-semibold text-school-textMuted border-t border-stone-100 pt-2">${match.result_summary}</p>
+                            <h4 class="font-black text-md uppercase text-school-maroon tracking-tight">${match.teams}</h4>
+                            <p class="text-xs font-semibold text-school-maroonMuted border-t border-school-peach/60 pt-2">${match.result_summary}</p>
                         </div>`;
                 });
             }
         }
 
+        // Realtime Subscription Engine
         supabaseConnection.channel('public:live_match').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
-            updateUI(payload.new);
+            if(payload && payload.new) updateUI(payload.new);
         }).subscribe();
 
         fetchLiveScore();
