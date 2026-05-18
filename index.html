@@ -148,6 +148,9 @@
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
 
+        // Use standard naming convention to align with library architecture
+        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // TAB SWITCHING INFRASTRUCTURE LAYOUTS
         function switchTab(activeTab) {
             const tabs = ['live', 'points', 'fixtures'];
@@ -168,7 +171,11 @@
 
         // ==================== LIVE Hub LOGIC ====================
         async function fetchLiveScore() {
-            const { data, error } = await supabase.from('live_match').select('*').eq('id', 1).single();
+            const { data, error } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
+            if (error) {
+                console.error("Fetch Live Error:", error);
+                return;
+            }
             if (data) {
                 updateUI(data);
                 document.getElementById('input-runs').value = data.runs;
@@ -190,7 +197,7 @@
         }
 
         document.getElementById('btn-update').addEventListener('click', async () => {
-            await supabase.from('live_match').update({ 
+            await supabaseConnection.from('live_match').update({ 
                 runs: parseInt(document.getElementById('input-runs').value) || 0, 
                 wickets: parseInt(document.getElementById('input-wickets').value) || 0, 
                 overs: document.getElementById('input-overs').value || "0.0", 
@@ -199,7 +206,7 @@
         });
 
         document.getElementById('btn-teams-update').addEventListener('click', async () => {
-            await supabase.from('live_match').update({ 
+            await supabaseConnection.from('live_match').update({ 
                 batting_team: document.getElementById('input-batting-team').value, 
                 bowling_team: document.getElementById('input-bowling-team').value 
             }).eq('id', 1);
@@ -207,7 +214,7 @@
 
         // ==================== POINTS TABLE LOGIC ====================
         async function fetchPointsTable() {
-            const { data, error } = await supabase.from('points_table').select('*').order('points', { ascending: false });
+            const { data, error } = await supabaseConnection.from('points_table').select('*').order('points', { ascending: false });
             if (data) {
                 const container = document.getElementById('points-table-rows');
                 container.innerHTML = '';
@@ -227,7 +234,7 @@
 
         // ==================== FIXTURES LOGIC ====================
         async function fetchFixtures() {
-            const { data, error } = await supabase.from('fixtures').select('*').order('match_num', { ascending: true });
+            const { data, error } = await supabaseConnection.from('fixtures').select('*').order('match_num', { ascending: true });
             if (data) {
                 const container = document.getElementById('fixtures-container');
                 container.innerHTML = '';
@@ -246,11 +253,15 @@
             }
         }
 
-        // REALTIME CHANNEL ENGINE CONTROLLER
-        supabase.channel('public:live_match').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
-            updateUI(payload.new);
-        }).subscribe();
+        // REALTIME CHANNEL ENGINE CONTROLLER (Supabase v2 Standard Setup)
+        supabaseConnection
+            .channel('public:live_match')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
+                updateUI(payload.new);
+            })
+            .subscribe();
 
+        // Initial setup execution
         fetchLiveScore();
     </script>
 </body>
