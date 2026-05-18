@@ -15,8 +15,8 @@
                             bgCanvas: '#0A0A0A',     /* Pitch-Black Base Canvas Background */
                             card: '#16161A',         /* Sleek Dark Container Blocks */
                             border: '#24242B',       /* Subtle Structural Frame Lines */
-                            accentYellow: '#FACC15', /* High-Energy Broadcast Gold Accent */
-                            accentCyan: '#06B6D4',   /* Console Cyan Status Element */
+                            accentGreen: '#10B981',  /* Clean Emerald Broadcast Green Accent */
+                            accentGreenMuted: '#059669',
                             textMain: '#F3F4F6',     /* Crisp Bright Off-White For Headings */
                             textMuted: '#9CA3AF',    /* Soft Gray for Subtext and Titles */
                             inputBg: '#0F0F12'       /* Deep Secondary Insert Backgrounds */
@@ -27,27 +27,27 @@
         }
     </script>
 </head>
-<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen selection:bg-command-accentYellow selection:text-command-bgCanvas antialiased">
+<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen selection:bg-command-accentGreen selection:text-command-bgCanvas antialiased">
 
     <header class="border-b border-command-border bg-command-card/80 backdrop-blur sticky top-0 z-50 px-4 py-4 shadow-lg">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-command-accentYellow animate-pulse"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-command-accentGreen animate-pulse"></div>
                 <div class="flex items-center font-black tracking-tight text-xl uppercase">
-                    <span class="text-command-accentYellow">Dunes</span>
+                    <span class="text-command-accentGreen">Dunes</span>
                     <span class="mx-1.5 text-command-textMuted/30 font-light text-lg">/</span>
                     <span class="text-command-textMain">CrickHub</span>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-3 py-1 bg-command-accentYellow text-command-bgCanvas rounded-md tracking-widest uppercase shadow-sm">
-                DUNES LIVE
+            <span class="text-[10px] font-black px-3 py-1 bg-command-accentGreen text-command-bgCanvas rounded-md tracking-widest uppercase shadow-sm">
+                DUNES FM LIVE
             </span>
         </div>
     </header>
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
         <div class="grid grid-cols-3 bg-command-card border border-command-border p-1 rounded-xl shadow-inner">
-            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-command-accentYellow text-command-bgCanvas shadow font-bold">Live Hub</button>
+            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-command-accentGreen text-command-bgCanvas shadow font-bold">Live Hub</button>
             <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-command-textMuted hover:text-command-textMain">Points Table</button>
             <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-command-textMuted hover:text-command-textMain">Fixtures</button>
         </div>
@@ -62,10 +62,10 @@
                 <div class="relative z-10 space-y-6">
                     <div class="flex justify-between items-center border-b border-command-border pb-4">
                         <div>
-                            <span class="text-[10px] font-bold tracking-widest text-command-accentYellow uppercase">1. Real-Time Score Engine</span>
+                            <span class="text-[10px] font-bold tracking-widest text-command-accentGreen uppercase">1. Real-Time Score Engine</span>
                             <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-command-textMain mt-1">Loading...</h2>
                         </div>
-                        <div class="text-center font-black text-command-accentYellow px-3 py-1 bg-command-inputBg border border-command-border rounded-lg text-xs tracking-wider shadow-sm">VS</div>
+                        <div class="text-center font-black text-command-accentGreen px-3 py-1 bg-command-inputBg border border-command-border rounded-lg text-xs tracking-wider shadow-sm">VS</div>
                         <div class="text-right">
                             <span class="text-[10px] font-bold tracking-widest text-command-textMuted uppercase">Bowling Field</span>
                             <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-command-textMuted mt-1">Loading...</h2>
@@ -75,7 +75,7 @@
                     <div class="grid grid-cols-2 gap-4 bg-command-inputBg border border-command-border/60 p-6 rounded-xl">
                         <div>
                             <div class="text-command-textMuted text-[10px] font-bold uppercase tracking-wider">Runs / Wickets</div>
-                            <div class="text-5xl sm:text-6xl font-black tracking-tighter text-command-accentYellow mt-1">
+                            <div class="text-5xl sm:text-6xl font-black tracking-tighter text-command-accentGreen mt-1">
                                 <span id="view-runs">0</span><span class="text-command-border font-light">/</span><span id="view-wickets" class="text-command-textMain">0</span>
                             </div>
                         </div>
@@ -87,8 +87,8 @@
                     
                     <div class="bg-command-inputBg border border-command-border rounded-xl p-4 space-y-2 shadow-inner">
                         <div class="flex items-center justify-between">
-                            <span class="text-[9px] font-black bg-command-accentYellow/10 text-command-accentYellow border border-command-accentYellow/20 px-2 py-0.5 rounded uppercase tracking-wider">Ball Commentary Update</span>
-                            <div class="w-1.5 h-1.5 rounded-full bg-command-accentYellow animate-pulse"></div>
+                            <span class="text-[9px] font-black bg-command-accentGreen/10 text-command-accentGreen border border-command-accentGreen/20 px-2 py-0.5 rounded uppercase tracking-wider">Ball Commentary Update</span>
+                            <div class="w-1.5 h-1.5 rounded-full bg-command-accentGreen animate-pulse"></div>
                         </div>
                         <p id="view-commentary" class="text-sm font-medium text-command-textMain italic tracking-wide">Connecting to field scoring feed...</p>
                     </div>
@@ -99,18 +99,18 @@
         <div id="view-points-section" class="hidden space-y-4">
             <div class="bg-command-card border border-command-border rounded-2xl overflow-hidden shadow-xl">
                 <div class="p-5 border-b border-command-border bg-command-inputBg/50 flex justify-between items-center">
-                    <h3 class="font-black text-sm uppercase tracking-wider text-command-textMuted">2. Standings Matrix Modifier</h3>
-                    <span class="text-[9px] font-black px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded uppercase tracking-wider">Live System</span>
+                    <h3 class="font-black text-sm uppercase tracking-wider text-command-textMuted">2. Standings Matrix</h3>
+                    <span class="text-[9px] font-black px-2 py-0.5 bg-command-accentGreen/10 text-command-accentGreen border border-command-accentGreen/20 rounded uppercase tracking-wider">Live System</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-command-inputBg text-command-textMuted text-[11px] font-black uppercase tracking-wider border-b border-command-border">
-                                <th class="py-4 px-6">Target House Table Row</th>
+                                <th class="py-4 px-6">House Lineup</th>
                                 <th class="py-4 px-4 text-center">P</th>
                                 <th class="py-4 px-4 text-center">W</th>
                                 <th class="py-4 px-4 text-center">L</th>
-                                <th class="py-4 px-4 text-center text-command-accentYellow font-black">Pts</th>
+                                <th class="py-4 px-4 text-center text-command-accentGreen font-black">Pts</th>
                                 <th class="py-4 px-6 text-right">NRR</th>
                             </tr>
                         </thead>
@@ -138,7 +138,7 @@
                 const btn = document.getElementById(`tab-${tab}`);
                 const view = document.getElementById(`view-${tab}-section`);
                 if (tab === activeTab) {
-                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-command-accentYellow text-command-bgCanvas shadow";
+                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-command-accentGreen text-command-bgCanvas shadow";
                     view.classList.remove('hidden');
                 } else {
                     btn.className = "py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-command-textMuted hover:text-command-textMain";
@@ -179,9 +179,9 @@
                         <tr class="hover:bg-command-inputBg transition">
                             <td class="py-4 px-6 font-black text-command-textMain uppercase tracking-wide">${row.house_name}</td>
                             <td class="py-4 px-4 text-center text-command-textMuted">${row.played}</td>
-                            <td class="py-4 px-4 text-center text-emerald-400 font-bold">${row.won}</td>
+                            <td class="py-4 px-4 text-center text-command-accentGreen font-bold">${row.won}</td>
                             <td class="py-4 px-4 text-center text-rose-500 font-bold">${row.lost}</td>
-                            <td class="py-4 px-4 text-center text-command-accentYellow font-black text-base">${row.points}</td>
+                            <td class="py-4 px-4 text-center text-command-accentGreen font-black text-base">${row.points}</td>
                             <td class="py-4 px-6 text-right text-command-textMuted font-mono">${row.nrr}</td>
                         </tr>`;
                 });
@@ -196,10 +196,10 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-command-card border ${isLive ? 'border-command-accentYellow ring-1 ring-command-accentYellow/30 shadow-md' : 'border-command-border'} p-5 rounded-xl space-y-3 relative">
+                        <div class="bg-command-card border ${isLive ? 'border-command-accentGreen ring-1 ring-command-accentGreen/30 shadow-md' : 'border-command-border'} p-5 rounded-xl space-y-3 relative">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-black text-command-textMuted uppercase tracking-wider">Match 0${match.match_num}</span>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-command-accentYellow text-command-bgCanvas animate-pulse' : 'bg-command-inputBg text-command-textMuted border border-command-border'}">${match.time_status}</span>
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-command-accentGreen text-command-bgCanvas animate-pulse' : 'bg-command-inputBg text-command-textMuted border border-command-border'}">${match.time_status}</span>
                             </div>
                             <h4 class="font-black text-md uppercase text-command-textMain tracking-tight">${match.teams}</h4>
                             <p class="text-xs font-semibold text-command-textMuted border-t border-command-border/60 pt-2">${match.result_summary}</p>
