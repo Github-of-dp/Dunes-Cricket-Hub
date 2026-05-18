@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dunes Scorer Station Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans min-h-screen p-6">
+
+    <main class="max-w-2xl mx-auto space-y-8 mt-10">
+        <div class="text-center">
+            <h1 class="text-2xl font-black tracking-widest text-yellow-400 uppercase">DUNES FM SCORER COMMAND STATION</h1>
+            <p class="text-xs text-zinc-500 mt-1 uppercase font-bold tracking-wider">Authorized Personnel Only</p>
+        </div>
+
+        <section class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 space-y-6 shadow-2xl">
+            <div class="space-y-4">
+                <h4 class="text-xs font-black uppercase tracking-widest text-yellow-500">1. Score Stream Updates</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Runs</label>
+                        <input type="number" id="input-runs" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Wickets</label>
+                        <input type="number" id="input-wickets" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400" max="10">
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Overs</label>
+                        <input type="text" id="input-overs" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Ball Commentary Update</label>
+                    <input type="text" id="input-commentary" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
+                </div>
+                <button id="btn-update" class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-black uppercase text-sm py-3 rounded-xl transition duration-200 tracking-wider shadow-lg">
+                    Broadcast Live Update
+                </button>
+                <p id="status-msg-1" class="text-xs text-center font-bold uppercase tracking-wider text-emerald-400 hidden">✓ Broadcast Sent Successfully</p>
+            </div>
+
+            <div class="pt-6 border-t border-zinc-800 space-y-4">
+                <h4 class="text-xs font-black uppercase tracking-widest text-yellow-500">2. Swap Active Match Teams</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Batting House</label>
+                        <input type="text" id="input-batting-team" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Bowling House</label>
+                        <input type="text" id="input-bowling-team" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
+                    </div>
+                </div>
+                <button id="btn-teams-update" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold uppercase text-xs py-2.5 rounded-xl transition tracking-wider">
+                    Update Participating Teams
+                </button>
+                <p id="status-msg-2" class="text-xs text-center font-bold uppercase tracking-wider text-emerald-400 hidden">✓ Teams Updated Successfully</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
+        
+        // 🚨 CRITICAL: Paste your long "service_role" SECRET key here!
+        const SUPABASE_SECRET_KEY = "sb_secret_3KOvjHPv_tx7OODwA2ANcQ_5M3ELuvm"; 
+
+        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
+
+        async function fetchLiveScore() {
+            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('input-runs').value = data.runs;
+                document.getElementById('input-wickets').value = data.wickets;
+                document.getElementById('input-overs').value = data.overs;
+                document.getElementById('input-commentary').value = data.commentary;
+                document.getElementById('input-batting-team').value = data.batting_team;
+                document.getElementById('input-bowling-team').value = data.bowling_team;
+            }
+        }
+
+        document.getElementById('btn-update').addEventListener('click', async () => {
+            const { error } = await supabaseConnection.from('live_match').update({ 
+                runs: parseInt(document.getElementById('input-runs').value) || 0, 
+                wickets: parseInt(document.getElementById('input-wickets').value) || 0, 
+                overs: document.getElementById('input-overs').value || "0.0", 
+                commentary: document.getElementById('input-commentary').value || "" 
+            }).eq('id', 1);
+
+            if(!error) {
+                showStatus('status-msg-1');
+            } else {
+                alert("Error updating database: " + error.message);
+            }
+        });
+
+        document.getElementById('btn-teams-update').addEventListener('click', async () => {
+            const { error } = await supabaseConnection.from('live_match').update({ 
+                batting_team: document.getElementById('input-batting-team').value, 
+                bowling_team: document.getElementById('input-bowling-team').value 
+            }).eq('id', 1);
+
+            if(!error) {
+                showStatus('status-msg-2');
+            } else {
+                alert("Error updating teams: " + error.message);
+            }
+        });
+
+        function showStatus(elementId) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 3000);
+        }
+
+        fetchLiveScore();
+    </script>
+</body>
+</html>
