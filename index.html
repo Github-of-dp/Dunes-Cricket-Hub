@@ -15,11 +15,11 @@
                             maroon: '#631B26',       /* Rich Anchoring Maroon */
                             maroonHover: '#4A121B',
                             yellow: '#FACC15',       /* High-Energy Vibrant Yellow */
-                            yellowLight: '#FEF08A',  /* Soft Pastel Accent Yellow */
-                            pastelGreen: '#EAF5EE',  /* Clean Mint Green Base Canvas */
+                            yellowLight: '#FEF08A',  /* Soft Accent Yellow */
+                            cream: '#F4ECE1',        /* Solid Thick Cream Base Canvas */
+                            creamDark: '#E6DCCF',    /* Soft Shadowing Cream for Borders */
                             sheet: '#FFFFFF',       /* Crisp White Scorecard Backdrops */
-                            borderGreen: '#C6E2D0',  /* Subtle Mint Wireframes */
-                            textDark: '#1A241F'      /* Deep Roasted Charcoal for text contrast */
+                            textDark: '#2B1A14'      /* Deep Roasted Charcoal for High Readability */
                         }
                     }
                 }
@@ -27,9 +27,9 @@
         }
     </script>
 </head>
-<body class="bg-cricket-pastelGreen text-cricket-textDark font-sans min-h-screen selection:bg-cricket-maroon selection:text-white antialiased">
+<body class="bg-cricket-cream text-cricket-textDark font-sans min-h-screen selection:bg-cricket-maroon selection:text-white antialiased">
 
-    <header class="border-b border-cricket-borderGreen bg-cricket-maroon px-4 py-4 shadow-md">
+    <header class="border-b border-cricket-creamDark bg-cricket-maroon px-4 py-4 shadow-md">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-2.5 h-2.5 rounded-full bg-cricket-yellow animate-pulse"></div>
@@ -46,7 +46,7 @@
     </header>
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
-        <div class="grid grid-cols-3 bg-cricket-sheet border border-cricket-borderGreen p-1 rounded-xl shadow-sm">
+        <div class="grid grid-cols-3 bg-cricket-sheet border border-cricket-creamDark p-1 rounded-xl shadow-sm">
             <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-cricket-maroon text-white shadow shadow-cricket-maroon/20">Live Hub</button>
             <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-cricket-textDark/60 hover:text-cricket-maroon">Points Table</button>
             <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-cricket-textDark/60 hover:text-cricket-maroon">Fixtures</button>
@@ -56,7 +56,7 @@
     <main class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 
         <div id="view-live-section" class="space-y-6">
-            <section class="bg-cricket-sheet border border-cricket-borderGreen rounded-2xl p-6 shadow-md relative overflow-hidden">
+            <section class="bg-cricket-sheet border border-cricket-creamDark rounded-2xl p-6 shadow-md relative overflow-hidden">
                 <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:24px_24px]"></div>
                 
                 <div class="relative z-10 space-y-6">
@@ -65,7 +65,7 @@
                             <span class="text-[10px] font-black tracking-widest text-cricket-maroon uppercase">Batting</span>
                             <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-cricket-textDark mt-0.5">Loading...</h2>
                         </div>
-                        <div class="text-center font-black text-cricket-maroon px-3 py-1 bg-cricket-yellow rounded-lg text-xs border border-cricket-yellow/20 shadow-sm">VS</div>
+                        <div class="text-center font-black text-cricket-maroon px-3 py-1 bg-cricket-cream rounded-lg text-xs border border-cricket-creamDark shadow-sm">VS</div>
                         <div class="text-right">
                             <span class="text-[10px] font-black tracking-widest text-cricket-textDark/50 uppercase">Bowling</span>
                             <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-stone-400 mt-0.5">Loading...</h2>
@@ -82,8 +82,8 @@
                         </div>
                     </div>
                     
-                    <div class="bg-cricket-pastelGreen/60 border border-cricket-borderGreen rounded-xl p-4 flex gap-3 items-start shadow-inner">
-                        <span class="text-[10px] font-black bg-cricket-yellow text-cricket-maroon px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shrink-0 shadow-sm border border-cricket-yellow/20">LATEST</span>
+                    <div class="bg-cricket-cream/40 border border-cricket-creamDark rounded-xl p-4 flex gap-3 items-start shadow-inner">
+                        <span class="text-[10px] font-black bg-cricket-yellow text-cricket-maroon px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shadow-sm border border-cricket-yellow/15">LATEST</span>
                         <p id="view-commentary" class="text-sm font-semibold text-cricket-textDark italic">Connecting to field scoring feed...</p>
                     </div>
                 </div>
@@ -91,8 +91,8 @@
         </div>
 
         <div id="view-points-section" class="hidden space-y-4">
-            <div class="bg-cricket-sheet border border-cricket-borderGreen rounded-2xl overflow-hidden shadow-md">
-                <div class="p-5 border-b border-cricket-borderGreen/60 bg-cricket-pastelGreen/40 flex justify-between items-center">
+            <div class="bg-cricket-sheet border border-cricket-creamDark rounded-2xl overflow-hidden shadow-md">
+                <div class="p-5 border-b border-cricket-creamDark bg-cricket-cream/30 flex justify-between items-center">
                     <h3 class="font-black text-lg uppercase tracking-tight text-cricket-maroon">Standings Matrix</h3>
                     <div class="w-2 h-2 rounded-full bg-cricket-yellow animate-pulse"></div>
                 </div>
@@ -108,7 +108,7 @@
                                 <th class="py-4 px-6 text-right">NRR</th>
                             </tr>
                         </thead>
-                        <tbody id="points-table-rows" class="divide-y divide-cricket-pastelGreen font-semibold text-sm text-cricket-textDark"></tbody>
+                        <tbody id="points-table-rows" class="divide-y divide-cricket-cream/60 font-semibold text-sm text-cricket-textDark"></tbody>
                     </table>
                 </div>
             </div>
@@ -170,11 +170,11 @@
                 container.innerHTML = '';
                 data.forEach(row => {
                     container.innerHTML += `
-                        <tr class="hover:bg-cricket-pastelGreen/40 transition">
+                        <tr class="hover:bg-cricket-cream/40 transition">
                             <td class="py-4 px-6 font-black text-cricket-textDark uppercase tracking-wide">${row.house_name}</td>
                             <td class="py-4 px-4 text-center text-cricket-textDark/70">${row.played}</td>
-                            <td class="py-4 px-4 text-center text-emerald-600 font-bold">${row.won}</td>
-                            <td class="py-4 px-4 text-center text-rose-600 font-bold">${row.lost}</td>
+                            <td class="py-4 px-4 text-center text-emerald-700 font-bold">${row.won}</td>
+                            <td class="py-4 px-4 text-center text-rose-700 font-bold">${row.lost}</td>
                             <td class="py-4 px-4 text-center text-cricket-maroon font-black text-base">${row.points}</td>
                             <td class="py-4 px-6 text-right text-cricket-textDark/70 font-mono">${row.nrr}</td>
                         </tr>`;
@@ -190,10 +190,10 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-cricket-sheet border ${isLive ? 'border-cricket-maroon ring-1 ring-cricket-maroon/30 shadow-md' : 'border-cricket-borderGreen'} p-5 rounded-xl space-y-3 relative">
+                        <div class="bg-cricket-sheet border ${isLive ? 'border-cricket-maroon ring-1 ring-cricket-maroon/30 shadow-md' : 'border-cricket-creamDark'} p-5 rounded-xl space-y-3 relative">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-black text-cricket-textDark/40 uppercase tracking-wider">Match 0${match.match_num}</span>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-cricket-maroon text-white animate-pulse' : 'bg-cricket-pastelGreen text-cricket-textDark/60'}">${match.time_status}</span>
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-cricket-maroon text-white animate-pulse' : 'bg-cricket-cream text-cricket-textDark/60'}">${match.time_status}</span>
                             </div>
                             <h4 class="font-black text-md uppercase text-cricket-textDark tracking-tight">${match.teams}</h4>
                             <p class="text-xs font-semibold text-cricket-textDark/60 border-t border-stone-100 pt-2">${match.result_summary}</p>
