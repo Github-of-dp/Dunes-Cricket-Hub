@@ -65,10 +65,10 @@
     <script>
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         
-        // 🚨 CRITICAL: Paste your long "service_role" SECRET key here!
-        const SUPABASE_SECRET_KEY = "sb_secret_3KOvjHPv_tx7OODwA2ANcQ_5M3ELuvm"; 
+        // 🚨 PASTE YOUR STANDARD ANON PUBLISHABLE KEY HERE
+        const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
 
-        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
+        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         async function fetchLiveScore() {
             const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
