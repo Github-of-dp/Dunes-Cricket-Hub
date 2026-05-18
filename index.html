@@ -11,14 +11,13 @@
             theme: {
                 extend: {
                     colors: {
-                        cricket: {
-                            burgundy: '#780116',     /* Exact Deep Stadium Burgundy */
-                            burgundyMuted: '#54000F',
-                            xanthous: '#F7B538',     /* Exact High-Energy Gold */
-                            cream: '#F4ECE1',        /* Solid Thick Cream Base Canvas */
-                            creamDark: '#E6DCCF',    /* Framing Cream for Borders */
-                            sheet: '#FFFFFF',       /* Clean Container Cards */
-                            textDark: '#2B1A14'      /* High-contrast dark text */
+                        tournament: {
+                            anzac: '#DEA450',         /* Anzac Gold Highlight */
+                            prairie: '#9B461F',       /* Prairie Sand Base Canvas */
+                            plum: '#6A1D2F',          /* Persian Plum Burgundy */
+                            plumMuted: '#4E1120',
+                            tomThumb: '#354C3C',      /* Tom Thumb Dark Green */
+                            textLight: '#FFF6E9'      /* High-contrast crisp light cream text */
                         }
                     }
                 }
@@ -26,88 +25,88 @@
         }
     </script>
 </head>
-<body class="bg-cricket-cream text-cricket-textDark font-sans min-h-screen selection:bg-cricket-burgundy selection:text-white antialiased">
+<body class="bg-tournament-prairie text-tournament-textLight font-sans min-h-screen selection:bg-tournament-anzac selection:text-tournament-plum antialiased">
 
-    <header class="border-b border-cricket-creamDark bg-cricket-burgundy px-4 py-4 shadow-md">
+    <header class="border-b border-tournament-plum bg-tournament-tomThumb px-4 py-4 shadow-md">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <div class="w-2.5 h-2.5 rounded-full bg-cricket-xanthous animate-pulse"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-tournament-anzac animate-pulse"></div>
                 <div class="flex items-center font-black tracking-tight text-xl uppercase">
-                    <span class="text-cricket-cream">Dunes</span>
-                    <span class="mx-1.5 text-white/20 font-light text-lg">/</span>
-                    <span class="text-cricket-xanthous">CrickHub</span>
+                    <span class="text-tournament-anzac">Dunes</span>
+                    <span class="mx-1.5 text-tournament-textLight/20 font-light text-lg">/</span>
+                    <span class="text-tournament-textLight">CrickHub</span>
                 </div>
             </div>
-            <span class="text-[10px] font-black px-3 py-1 bg-cricket-xanthous text-cricket-burgundy rounded-full tracking-widest uppercase shadow-sm">
+            <span class="text-[10px] font-black px-3 py-1 bg-tournament-anzac text-tournament-plum rounded-full tracking-widest uppercase shadow-sm">
                 DUNES FM LIVE
             </span>
         </div>
     </header>
 
     <div class="max-w-4xl mx-auto px-4 mt-6">
-        <div class="grid grid-cols-3 bg-cricket-sheet border border-cricket-creamDark p-1 rounded-xl shadow-sm">
-            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-cricket-burgundy text-white shadow shadow-cricket-burgundy/20">Live Hub</button>
-            <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-cricket-textDark/60 hover:text-cricket-burgundy">Points Table</button>
-            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-cricket-textDark/60 hover:text-cricket-burgundy">Fixtures</button>
+        <div class="grid grid-cols-3 bg-tournament-tomThumb/60 border border-tournament-tomThumb p-1 rounded-xl shadow-inner">
+            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-tournament-anzac text-tournament-plum shadow">Live Hub</button>
+            <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-tournament-textLight/60 hover:text-tournament-anzac">Points Table</button>
+            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-tournament-textLight/60 hover:text-tournament-anzac">Fixtures</button>
         </div>
     </div>
 
     <main class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 
         <div id="view-live-section" class="space-y-6">
-            <section class="bg-cricket-sheet border border-cricket-creamDark rounded-2xl p-6 shadow-md relative overflow-hidden">
-                <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+            <section class="bg-tournament-tomThumb border border-tournament-tomThumb/40 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute inset-0 opacity-[0.04] pointer-events-none bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:24px_24px]"></div>
                 
                 <div class="relative z-10 space-y-6">
-                    <div class="flex justify-between items-center border-b border-stone-100 pb-4">
+                    <div class="flex justify-between items-center border-b border-tournament-prairie pb-4">
                         <div>
-                            <span class="text-[10px] font-black tracking-widest text-cricket-burgundy uppercase">Batting</span>
-                            <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-cricket-textDark mt-0.5">Loading...</h2>
+                            <span class="text-[10px] font-black tracking-widest text-tournament-anzac uppercase">Batting</span>
+                            <h2 id="view-batting" class="text-2xl font-black uppercase tracking-tight text-tournament-textLight mt-0.5">Loading...</h2>
                         </div>
-                        <div class="text-center font-black text-cricket-burgundy px-3 py-1 bg-cricket-xanthous rounded-lg text-xs border border-cricket-xanthous/20 shadow-sm">VS</div>
+                        <div class="text-center font-black text-tournament-textLight px-3 py-1 bg-tournament-plum rounded-lg text-xs border border-tournament-plumMuted shadow-sm">VS</div>
                         <div class="text-right">
-                            <span class="text-[10px] font-black tracking-widest text-cricket-textDark/50 uppercase">Bowling</span>
-                            <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-stone-400 mt-0.5">Loading...</h2>
+                            <span class="text-[10px] font-black tracking-widest text-tournament-textLight/50 uppercase">Bowling</span>
+                            <h2 id="view-bowling" class="text-2xl font-black uppercase tracking-tight text-tournament-textLight/70 mt-0.5">Loading...</h2>
                         </div>
                     </div>
                     
                     <div class="flex justify-between items-baseline py-4">
-                        <div class="text-6xl sm:text-7xl font-black tracking-tighter text-cricket-textDark">
-                            <span id="view-runs">0</span><span class="text-stone-300 font-light">/</span><span id="view-wickets" class="text-cricket-burgundy">0</span>
+                        <div class="text-6xl sm:text-7xl font-black tracking-tighter text-tournament-anzac">
+                            <span id="view-runs">0</span><span class="text-tournament-textLight/30 font-light">/</span><span id="view-wickets" class="text-tournament-textLight">0</span>
                         </div>
                         <div class="text-right">
-                            <div class="text-cricket-textDark/50 text-xs font-bold uppercase tracking-wider">Overs</div>
-                            <div id="view-overs" class="text-3xl sm:text-4xl font-black text-cricket-burgundy tracking-tight mt-0.5">0.0</div>
+                            <div class="text-tournament-textLight/50 text-xs font-bold uppercase tracking-wider">Overs</div>
+                            <div id="view-overs" class="text-3xl sm:text-4xl font-black text-tournament-textLight tracking-tight mt-0.5">0.0</div>
                         </div>
                     </div>
                     
-                    <div class="bg-cricket-cream/40 border border-cricket-creamDark rounded-xl p-4 flex gap-3 items-start shadow-inner">
-                        <span class="text-[10px] font-black bg-cricket-xanthous text-cricket-burgundy px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shadow-sm border border-cricket-xanthous/15">LATEST</span>
-                        <p id="view-commentary" class="text-sm font-semibold text-cricket-textDark italic">Connecting to field scoring feed...</p>
+                    <div class="bg-tournament-plum border border-tournament-plumMuted rounded-xl p-4 flex gap-3 items-start shadow-inner">
+                        <span class="text-[10px] font-black bg-tournament-anzac text-tournament-plum px-2 py-0.5 rounded uppercase tracking-wider mt-0.5 shadow-sm">LATEST</span>
+                        <p id="view-commentary" class="text-sm font-semibold text-tournament-textLight italic">Connecting to field scoring feed...</p>
                     </div>
                 </div>
             </section>
         </div>
 
         <div id="view-points-section" class="hidden space-y-4">
-            <div class="bg-cricket-sheet border border-cricket-creamDark rounded-2xl overflow-hidden shadow-md">
-                <div class="p-5 border-b border-cricket-creamDark bg-cricket-cream/30 flex justify-between items-center">
-                    <h3 class="font-black text-lg uppercase tracking-tight text-cricket-burgundy">Standings Matrix</h3>
-                    <div class="w-2 h-2 rounded-full bg-cricket-xanthous animate-pulse"></div>
+            <div class="bg-tournament-tomThumb border border-tournament-tomThumb/40 rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-5 border-b border-tournament-prairie bg-tournament-tomThumb/40 flex justify-between items-center">
+                    <h3 class="font-black text-lg uppercase tracking-tight text-tournament-anzac">Standings Matrix</h3>
+                    <div class="w-2 h-2 rounded-full bg-tournament-anzac animate-pulse"></div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-cricket-burgundy text-cricket-cream text-[11px] font-black uppercase tracking-wider border-b border-cricket-burgundyMuted">
+                            <tr class="bg-tournament-plum text-tournament-textLight text-[11px] font-black uppercase tracking-wider border-b border-tournament-plumMuted">
                                 <th class="py-4 px-6">House</th>
                                 <th class="py-4 px-4 text-center">P</th>
                                 <th class="py-4 px-4 text-center">W</th>
                                 <th class="py-4 px-4 text-center">L</th>
-                                <th class="py-4 px-4 text-center text-cricket-xanthous font-black">Pts</th>
+                                <th class="py-4 px-4 text-center text-tournament-anzac font-black">Pts</th>
                                 <th class="py-4 px-6 text-right">NRR</th>
                             </tr>
                         </thead>
-                        <tbody id="points-table-rows" class="divide-y divide-cricket-cream/60 font-semibold text-sm text-cricket-textDark"></tbody>
+                        <tbody id="points-table-rows" class="divide-y divide-tournament-tomThumb/60 font-semibold text-sm text-tournament-textLight"></tbody>
                     </table>
                 </div>
             </div>
@@ -131,10 +130,10 @@
                 const btn = document.getElementById(`tab-${tab}`);
                 const view = document.getElementById(`view-${tab}-section`);
                 if (tab === activeTab) {
-                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-cricket-burgundy text-white shadow shadow-cricket-burgundy/20";
+                    btn.className = "py-2.5 text-sm font-black uppercase tracking-wider rounded-lg transition bg-tournament-anzac text-tournament-plum shadow";
                     view.classList.remove('hidden');
                 } else {
-                    btn.className = "py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-cricket-textDark/60 hover:text-cricket-burgundy";
+                    btn.className = "py-2.5 text-sm font-bold uppercase tracking-wider rounded-lg transition text-tournament-textLight/60 hover:text-tournament-anzac";
                     view.classList.add('hidden');
                 }
             });
@@ -169,13 +168,13 @@
                 container.innerHTML = '';
                 data.forEach(row => {
                     container.innerHTML += `
-                        <tr class="hover:bg-cricket-cream/40 transition">
-                            <td class="py-4 px-6 font-black text-cricket-textDark uppercase tracking-wide">${row.house_name}</td>
-                            <td class="py-4 px-4 text-center text-cricket-textDark/70">${row.played}</td>
-                            <td class="py-4 px-4 text-center text-emerald-700 font-bold">${row.won}</td>
-                            <td class="py-4 px-4 text-center text-rose-700 font-bold">${row.lost}</td>
-                            <td class="py-4 px-4 text-center text-cricket-burgundy font-black text-base">${row.points}</td>
-                            <td class="py-4 px-6 text-right text-cricket-textDark/70 font-mono">${row.nrr}</td>
+                        <tr class="hover:bg-tournament-plum/30 transition">
+                            <td class="py-4 px-6 font-black text-tournament-textLight uppercase tracking-wide">${row.house_name}</td>
+                            <td class="py-4 px-4 text-center text-tournament-textLight/70">${row.played}</td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-bold">${row.won}</td>
+                            <td class="py-4 px-4 text-center text-rose-400 font-bold">${row.lost}</td>
+                            <td class="py-4 px-4 text-center text-tournament-anzac font-black text-base">${row.points}</td>
+                            <td class="py-4 px-6 text-right text-tournament-textLight/70 font-mono">${row.nrr}</td>
                         </tr>`;
                 });
             }
@@ -189,13 +188,13 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-cricket-sheet border ${isLive ? 'border-cricket-burgundy ring-1 ring-cricket-burgundy/30 shadow-md' : 'border-cricket-creamDark'} p-5 rounded-xl space-y-3 relative">
+                        <div class="bg-tournament-tomThumb border ${isLive ? 'border-tournament-anzac ring-1 ring-tournament-anzac/30 shadow-md' : 'border-tournament-tomThumb/40'} p-5 rounded-xl space-y-3 relative">
                             <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-black text-cricket-textDark/40 uppercase tracking-wider">Match 0${match.match_num}</span>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-cricket-burgundy text-white animate-pulse' : 'bg-cricket-cream text-cricket-textDark/60'}">${match.time_status}</span>
+                                <span class="text-[10px] font-black text-tournament-textLight/40 uppercase tracking-wider">Match 0${match.match_num}</span>
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-tournament-anzac text-tournament-plum animate-pulse' : 'bg-tournament-plum text-tournament-textLight/60'}">${match.time_status}</span>
                             </div>
-                            <h4 class="font-black text-md uppercase text-cricket-textDark tracking-tight">${match.teams}</h4>
-                            <p class="text-xs font-semibold text-cricket-textDark/60 border-t border-stone-100 pt-2">${match.result_summary}</p>
+                            <h4 class="font-black text-md uppercase text-tournament-textLight tracking-tight">${match.teams}</h4>
+                            <p class="text-xs font-semibold text-tournament-textLight/60 border-t border-tournament-prairie pt-2">${match.result_summary}</p>
                         </div>`;
                 });
             }
