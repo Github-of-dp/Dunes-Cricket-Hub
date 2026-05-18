@@ -78,80 +78,24 @@
                                 <th class="py-4 px-6 text-right">NRR</th>
                             </tr>
                         </thead>
-                        <tbody id="points-table-rows" class="divide-y divide-zinc-800 font-medium text-sm">
-                            </tbody>
+                        <tbody id="points-table-rows" class="divide-y divide-zinc-800 font-medium text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
         <div id="view-fixtures-section" class="hidden space-y-4">
-            <div id="fixtures-container" class="grid gap-4 sm:grid-cols-2">
-                </div>
+            <div id="fixtures-container" class="grid gap-4 sm:grid-cols-2"></div>
         </div>
-
-        <hr class="border-zinc-800">
-
-        <section class="bg-zinc-900/40 border border-dashed border-zinc-800 rounded-2xl p-6 space-y-6">
-            <div class="flex items-center justify-between border-b border-zinc-800/60 pb-3">
-                <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-400">Boundary Scorer Console</h3>
-                <span class="text-[10px] uppercase font-black text-zinc-500 px-2 py-0.5 bg-zinc-950 rounded border border-zinc-800">Scorer Station</span>
-            </div>
-            
-            <div class="space-y-4">
-                <h4 class="text-xs font-black uppercase tracking-widest text-yellow-500">1. Score Stream Updates</h4>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Runs</label>
-                        <input type="number" id="input-runs" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Wickets</label>
-                        <input type="number" id="input-wickets" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400" max="10">
-                    </div>
-                    <div class="col-span-2 sm:col-span-1">
-                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Overs</label>
-                        <input type="text" id="input-overs" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white font-bold focus:outline-none focus:border-yellow-400">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Ball Commentary Update</label>
-                    <input type="text" id="input-commentary" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
-                </div>
-                <button id="btn-update" class="w-full bg-white hover:bg-zinc-200 text-black font-black uppercase text-sm py-3 rounded-xl transition duration-200 tracking-wider shadow-lg">
-                    Broadcast Live Update
-                </button>
-            </div>
-
-            <div class="pt-4 border-t border-zinc-800/60 space-y-4">
-                <h4 class="text-xs font-black uppercase tracking-widest text-yellow-500">2. Swap Active Match Teams</h4>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Batting House</label>
-                        <input type="text" id="input-batting-team" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-400 uppercase mb-1">Bowling House</label>
-                        <input type="text" id="input-bowling-team" class="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-yellow-400">
-                    </div>
-                </div>
-                <button id="btn-teams-update" class="w-full bg-zinc-800 hover:bg-zinc-700 text-white font-bold uppercase text-xs py-2.5 rounded-xl transition tracking-wider">
-                    Update Participating Teams
-                </button>
-            </div>
-        </section>
 
     </main>
 
     <script>
-        // 🚨 CONFIGURATION
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
 
-        // Use standard naming convention to align with library architecture
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // TAB SWITCHING INFRASTRUCTURE LAYOUTS
         function switchTab(activeTab) {
             const tabs = ['live', 'points', 'fixtures'];
             tabs.forEach(tab => {
@@ -169,22 +113,9 @@
             if(activeTab === 'fixtures') fetchFixtures();
         }
 
-        // ==================== LIVE Hub LOGIC ====================
         async function fetchLiveScore() {
-            const { data, error } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
-            if (error) {
-                console.error("Fetch Live Error:", error);
-                return;
-            }
-            if (data) {
-                updateUI(data);
-                document.getElementById('input-runs').value = data.runs;
-                document.getElementById('input-wickets').value = data.wickets;
-                document.getElementById('input-overs').value = data.overs;
-                document.getElementById('input-commentary').value = data.commentary;
-                document.getElementById('input-batting-team').value = data.batting_team;
-                document.getElementById('input-bowling-team').value = data.bowling_team;
-            }
+            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).single();
+            if (data) updateUI(data);
         }
 
         function updateUI(matchData) {
@@ -196,25 +127,8 @@
             document.getElementById('view-commentary').innerText = matchData.commentary;
         }
 
-        document.getElementById('btn-update').addEventListener('click', async () => {
-            await supabaseConnection.from('live_match').update({ 
-                runs: parseInt(document.getElementById('input-runs').value) || 0, 
-                wickets: parseInt(document.getElementById('input-wickets').value) || 0, 
-                overs: document.getElementById('input-overs').value || "0.0", 
-                commentary: document.getElementById('input-commentary').value || "" 
-            }).eq('id', 1);
-        });
-
-        document.getElementById('btn-teams-update').addEventListener('click', async () => {
-            await supabaseConnection.from('live_match').update({ 
-                batting_team: document.getElementById('input-batting-team').value, 
-                bowling_team: document.getElementById('input-bowling-team').value 
-            }).eq('id', 1);
-        });
-
-        // ==================== POINTS TABLE LOGIC ====================
         async function fetchPointsTable() {
-            const { data, error } = await supabaseConnection.from('points_table').select('*').order('points', { ascending: false });
+            const { data } = await supabaseConnection.from('points_table').select('*').order('points', { ascending: false });
             if (data) {
                 const container = document.getElementById('points-table-rows');
                 container.innerHTML = '';
@@ -232,9 +146,8 @@
             }
         }
 
-        // ==================== FIXTURES LOGIC ====================
         async function fetchFixtures() {
-            const { data, error } = await supabaseConnection.from('fixtures').select('*').order('match_num', { ascending: true });
+            const { data } = await supabaseConnection.from('fixtures').select('*').order('match_num', { ascending: true });
             if (data) {
                 const container = document.getElementById('fixtures-container');
                 container.innerHTML = '';
@@ -253,15 +166,10 @@
             }
         }
 
-        // REALTIME CHANNEL ENGINE CONTROLLER (Supabase v2 Standard Setup)
-        supabaseConnection
-            .channel('public:live_match')
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
-                updateUI(payload.new);
-            })
-            .subscribe();
+        supabaseConnection.channel('public:live_match').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
+            updateUI(payload.new);
+        }).subscribe();
 
-        // Initial setup execution
         fetchLiveScore();
     </script>
 </body>
