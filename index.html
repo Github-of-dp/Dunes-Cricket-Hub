@@ -12,13 +12,15 @@
                 extend: {
                     colors: {
                         crick: {
-                            bgCanvas: '#0D0D0E',     /* Pitch Black/Deep Charcoal background */
+                            bgCanvas: '#0D0D0E',     /* Pitch Black background */
                             card: '#131316',         /* Card body gray background */
                             border: '#1F1F23',       /* Subtle card border gray */
-                            textMain: '#FFFFFF',     /* Pure white title text */
+                            textMain: '#FFFFFF',     /* Pure white text */
                             textMuted: '#71717A',    /* Dimmed gray text */
-                            accentYellow: '#FACC15', /* Tactical Yellow label tags */
-                            liveRed: '#EF4444'       /* Sharp red live wicket color */
+                            accentYellow: '#FACC15', /* Orange Cap Style Text Accent */
+                            accentPurple: '#A855F7', /* Purple Cap Style Text Accent */
+                            accentCyan: '#0EA5E9',   /* High Score Style Text Accent */
+                            liveRed: '#EF4444'       /* Wicket live indicator color */
                         }
                     }
                 }
@@ -41,10 +43,11 @@
     </header>
 
     <nav class="max-w-md mx-auto px-4 mt-2">
-        <div class="grid grid-cols-3 bg-crick-card/60 border border-crick-border p-1 rounded-xl">
-            <button id="tab-live" onclick="switchTab('live')" class="py-2 text-xs font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm">Live Hub</button>
-            <button id="tab-points" onclick="switchTab('points')" class="py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Points Table</button>
-            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Fixtures</button>
+        <div class="grid grid-cols-4 bg-crick-card/60 border border-crick-border p-1 rounded-xl gap-0.5">
+            <button id="tab-live" onclick="switchTab('live')" class="py-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm">Live Hub</button>
+            <button id="tab-points" onclick="switchTab('points')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Standings</button>
+            <button id="tab-stats" onclick="switchTab('stats')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Player Stats</button>
+            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Fixtures</button>
         </div>
     </nav>
 
@@ -58,12 +61,12 @@
                     <div class="grid grid-cols-7 items-center justify-between">
                         <div class="col-span-3 space-y-0.5">
                             <span class="text-[10px] font-bold tracking-wider text-crick-accentYellow uppercase">Batting</span>
-                            <h2 id="view-batting" class="text-xl font-black uppercase tracking-tight leading-tight">Loading...</h2>
+                            <h2 id="view-batting" class="text-base font-black uppercase tracking-tight leading-tight">Loading...</h2>
                         </div>
                         <div class="col-span-1 text-center font-bold text-crick-textMuted text-xs bg-crick-bgCanvas py-1 border border-crick-border rounded-md shadow-inner">vs</div>
                         <div class="col-span-3 text-right space-y-0.5">
                             <span class="text-[10px] font-bold tracking-wider text-crick-textMuted uppercase">Bowling</span>
-                            <h2 id="view-bowling" class="text-xl font-black uppercase tracking-tight text-crick-textMuted leading-tight">Loading...</h2>
+                            <h2 id="view-bowling" class="text-base font-black uppercase tracking-tight text-crick-textMuted leading-tight">Loading...</h2>
                         </div>
                     </div>
                     
@@ -84,16 +87,14 @@
                                     <span class="text-crick-accentYellow font-bold animate-pulse">*</span>
                                     <span id="live-batsman-1">--</span>
                                 </span>
-                                <span id="live-batsman-1-stats" class="font-mono font-bold text-white">--</span>
+                                <span id="live-batsman-1-stats" class="font-mono font-bold">--</span>
                             </div>
                             <div class="flex justify-between items-center text-crick-textMuted">
                                 <span class="pl-2.5" id="live-batsman-2">--</span>
                                 <span id="live-batsman-2-stats" class="font-mono">--</span>
                             </div>
                         </div>
-
                         <div class="border-t border-crick-border/50 my-1"></div>
-
                         <div class="flex justify-between items-center text-xs">
                             <span class="text-crick-textMuted font-semibold flex items-center gap-1.5">
                                 <span class="w-1.5 h-1.5 rounded-full bg-crick-textMuted/40"></span>
@@ -113,7 +114,7 @@
 
         <div id="view-points-section" class="hidden space-y-4">
             <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
-                <div class="p-4 border-b border-crick-border bg-black/20 flex justify-between items-center">
+                <div class="p-4 border-b border-crick-border bg-black/20">
                     <h3 class="font-black text-xs uppercase tracking-wider text-crick-textMuted">Standings Matrix</h3>
                 </div>
                 <div class="overflow-x-auto">
@@ -134,6 +135,55 @@
             </div>
         </div>
 
+        <div id="view-stats-section" class="hidden space-y-6">
+            
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-4 border-b border-crick-border bg-gradient-to-r from-amber-500/10 to-transparent flex justify-between items-center">
+                    <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentYellow flex items-center gap-1.5">
+                        <span>🍊</span> Orange Cap Leaderboard
+                    </h3>
+                    <span class="text-[9px] font-black bg-crick-accentYellow text-black px-2 py-0.5 rounded tracking-wider uppercase">Top 5 Runs</span>
+                </div>
+                <div class="p-2">
+                    <table class="w-full text-left border-collapse">
+                        <tbody id="leaderboard-runs-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-4 border-b border-crick-border bg-gradient-to-r from-purple-500/10 to-transparent flex justify-between items-center">
+                    <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentPurple flex items-center gap-1.5">
+                        <span>🧢</span> Purple Cap Leaderboard
+                    </h3>
+                    <span class="text-[9px] font-black bg-crick-accentPurple text-white px-2 py-0.5 rounded tracking-wider uppercase">Top 5 Wickets</span>
+                </div>
+                <div class="p-2">
+                    <table class="w-full text-left border-collapse">
+                        <tbody id="leaderboard-wickets-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+                <div class="p-4 border-b border-crick-border bg-gradient-to-r from-sky-500/10 to-transparent flex justify-between items-center">
+                    <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentCyan flex items-center gap-1.5">
+                        <span>⚡</span> Highest Scores
+                    </h3>
+                    <span class="text-[9px] font-black bg-crick-accentCyan text-black px-2 py-0.5 rounded tracking-wider uppercase">Top 5 Max</span>
+                </div>
+                <div class="p-2">
+                    <table class="w-full text-left border-collapse">
+                        <tbody id="leaderboard-high-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
         <div id="view-fixtures-section" class="hidden space-y-4">
             <div id="fixtures-container" class="space-y-3"></div>
         </div>
@@ -143,34 +193,28 @@
     <script>
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
-
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         function switchTab(activeTab) {
-            const tabs = ['live', 'points', 'fixtures'];
-            tabs.forEach(tab => {
+            ['live', 'points', 'stats', 'fixtures'].forEach(tab => {
                 const btn = document.getElementById(`tab-${tab}`);
                 const view = document.getElementById(`view-${tab}-section`);
                 if (tab === activeTab) {
-                    btn.className = "py-2 text-xs font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm";
+                    btn.className = "py-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm";
                     view.classList.remove('hidden');
                 } else {
-                    btn.className = "py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white";
+                    btn.className = "py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white";
                     view.classList.add('hidden');
                 }
             });
             if(activeTab === 'points') fetchPointsTable();
+            if(activeTab === 'stats') fetchGoogleStyleLeaderboards();
             if(activeTab === 'fixtures') fetchFixtures();
         }
 
         async function fetchLiveScore() {
-            try {
-                const { data, error } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
-                if (error) console.error("Fetch Live Error:", error);
-                if (data) updateUI(data);
-            } catch (err) {
-                console.error("Connection caught error:", err);
-            }
+            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+            if (data) updateUI(data);
         }
 
         function updateUI(matchData) {
@@ -181,8 +225,6 @@
             document.getElementById('view-wickets').innerText = matchData.wickets ?? 0;
             document.getElementById('view-overs').innerText = matchData.overs || "0.0";
             document.getElementById('view-commentary').innerText = matchData.commentary || "";
-
-            // Inject the Live Player Fields cleanly
             document.getElementById('live-batsman-1').innerText = matchData.batsman_on_strike || "Striker";
             document.getElementById('live-batsman-1-stats').innerText = matchData.batsman_on_strike_stats || "0 (0b)";
             document.getElementById('live-batsman-2').innerText = matchData.batsman_off_strike || "Non-Striker";
@@ -199,12 +241,60 @@
                 data.forEach(row => {
                     container.innerHTML += `
                         <tr class="hover:bg-crick-card/40 transition">
-                            <td class="py-3.5 px-5 font-black uppercase tracking-wide">${row.house_name}</td>
+                            <td class="py-3.5 px-5 font-black uppercase tracking-wide text-white">${row.house_name}</td>
                             <td class="py-3.5 px-3 text-center text-crick-textMuted">${row.played}</td>
                             <td class="py-3.5 px-3 text-center text-emerald-500 font-bold">${row.won}</td>
                             <td class="py-3.5 px-3 text-center text-rose-500 font-bold">${row.lost}</td>
                             <td class="py-3.5 px-3 text-center text-crick-accentYellow font-black text-sm">${row.points}</td>
                             <td class="py-3.5 px-5 text-right text-crick-textMuted font-mono">${row.nrr}</td>
+                        </tr>`;
+                });
+            }
+        }
+
+        // FETCH ALL 3 LEADERBOARDS (TOP 5 EACH) SIMULTANEOUSLY
+        async function fetchGoogleStyleLeaderboards() {
+            // 1. Fetch Top 5 Runs
+            const runsReq = await supabaseConnection.from('player_stats').select('*').order('total_runs', { ascending: false }).limit(5);
+            if(runsReq.data) {
+                const container = document.getElementById('leaderboard-runs-rows');
+                container.innerHTML = '';
+                runsReq.data.forEach((p, index) => {
+                    container.innerHTML += `
+                        <tr class="hover:bg-black/20 transition">
+                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentYellow text-sm">${p.total_runs}</td>
+                        </tr>`;
+                });
+            }
+
+            // 2. Fetch Top 5 Wickets
+            const wicketsReq = await supabaseConnection.from('player_stats').select('*').order('total_wickets', { ascending: false }).limit(5);
+            if(wicketsReq.data) {
+                const container = document.getElementById('leaderboard-wickets-rows');
+                container.innerHTML = '';
+                wicketsReq.data.forEach((p, index) => {
+                    container.innerHTML += `
+                        <tr class="hover:bg-black/20 transition">
+                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentPurple text-sm">${p.total_wickets}</td>
+                        </tr>`;
+                });
+            }
+
+            // 3. Fetch Top 5 Highest Scores
+            const highReq = await supabaseConnection.from('player_stats').select('*').order('highest_score', { ascending: false }).limit(5);
+            if(highReq.data) {
+                const container = document.getElementById('leaderboard-high-rows');
+                container.innerHTML = '';
+                highReq.data.forEach((p, index) => {
+                    container.innerHTML += `
+                        <tr class="hover:bg-black/20 transition">
+                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentCyan text-sm">${p.highest_score}</td>
                         </tr>`;
                 });
             }
@@ -218,7 +308,7 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-crick-card border ${isLive ? 'border-crick-liveRed shadow-md shadow-crick-liveRed/5' : 'border-crick-border'} p-4 rounded-xl space-y-2 relative">
+                        <div class="bg-crick-card border ${isLive ? 'border-crick-liveRed shadow-md' : 'border-crick-border'} p-4 rounded-xl space-y-2 relative">
                             <div class="flex justify-between items-center">
                                 <span class="text-[10px] font-bold text-crick-textMuted uppercase tracking-wider">Match 0${match.match_num}</span>
                                 <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-crick-liveRed text-white animate-pulse' : 'bg-black/60 text-crick-textMuted border border-crick-border'}">${match.time_status}</span>
@@ -230,7 +320,6 @@
             }
         }
 
-        // Realtime sync channel for updates
         supabaseConnection.channel('public:live_match').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
             if(payload && payload.new) updateUI(payload.new);
         }).subscribe();
