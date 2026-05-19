@@ -12,15 +12,16 @@
                 extend: {
                     colors: {
                         command: {
-                            bgCanvas: '#0A0A0A',     /* Pitch-Black Background */
-                            card: '#16161A',         /* Sleek Container Blocks */
-                            border: '#24242B',       /* Subtle Frame Lines */
-                            accentYellow: '#FACC15', /* Vivid Yellow Header Text */
-                            accentGreen: '#10B981',  /* Emerald Standings Accent */
-                            accentBlue: '#0EA5E9',   /* Electric Fixture Cyan */
-                            textMain: '#F3F4F6',     /* Bright Off-White */
-                            textMuted: '#9CA3AF',    /* Soft Gray */
-                            inputBg: '#0F0F12'       /* Insert Backgrounds */
+                            bgCanvas: '#0A0A0A',     /* Pitch-Black */
+                            card: '#16161A',         /* Container blocks */
+                            border: '#24242B',       /* Frame lines */
+                            accentYellow: '#FACC15', /* Realtime scorecard accent */
+                            accentGreen: '#10B981',  /* Standings emerald accent */
+                            accentPurple: '#A855F7', /* Player Stats Purple Accent */
+                            accentBlue: '#0EA5E9',   /* Fixtures cyan accent */
+                            textMain: '#F3F4F6',     /* White */
+                            textMuted: '#9CA3AF',    /* Gray */
+                            inputBg: '#0F0F12'       /* Inputs background */
                         }
                     }
                 }
@@ -28,7 +29,7 @@
         }
     </script>
 </head>
-<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen antialiased p-4 pb-12">
+<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen antialiased p-4 pb-16">
 
     <main class="max-w-xl mx-auto space-y-8 mt-4">
         
@@ -107,11 +108,21 @@
             <div class="grid grid-cols-2 gap-3 border-t border-command-border/60 pt-4">
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
-                    <input type="text" id="input-batting-team" placeholder="Red Hawks" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                    <select id="input-batting-team" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                        <option value="GREEN HOUSE">GREEN HOUSE</option>
+                        <option value="BLUE HOUSE">BLUE HOUSE</option>
+                        <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                        <option value="RED HOUSE">RED HOUSE</option>
+                    </select>
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
-                    <input type="text" id="input-bowling-team" placeholder="Blue Blasters" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                    <select id="input-bowling-team" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                        <option value="GREEN HOUSE">GREEN HOUSE</option>
+                        <option value="BLUE HOUSE">BLUE HOUSE</option>
+                        <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                        <option value="RED HOUSE">RED HOUSE</option>
+                    </select>
                 </div>
             </div>
 
@@ -119,7 +130,6 @@
                 Broadcast Live Update
             </button>
         </section>
-
 
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5">
             <div class="absolute top-0 right-0 bg-command-accentGreen text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
@@ -133,10 +143,10 @@
             <div class="space-y-1">
                 <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Select Target House Table Row</label>
                 <select id="select-house" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentGreen">
-                    <option value="GREEN HOUSE">Green House</option>
-                    <option value="RED HOUSE">Red House</option>
-                    <option value="YELLOW HOUSE">Yellow House</option>
-                    <option value="BLUE HOUSE">Blue House</option>
+                    <option value="GREEN HOUSE">GREEN HOUSE</option>
+                    <option value="RED HOUSE">RED HOUSE</option>
+                    <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                    <option value="BLUE HOUSE">BLUE HOUSE</option>
                 </select>
             </div>
 
@@ -171,14 +181,58 @@
             </button>
         </section>
 
-
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5">
-            <div class="absolute top-0 right-0 bg-command-accentBlue text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
+            <div class="absolute top-0 right-0 bg-command-accentPurple text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
                 Console 03
             </div>
 
+            <h2 class="text-xs font-black tracking-wider text-command-accentPurple uppercase flex items-center gap-2">
+                3. Player Leaderboard Allocator
+            </h2>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Player Name</label>
+                    <input type="text" id="stat-player-name" placeholder="e.g., Dhrupad Manoj" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentPurple">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">House Stream</label>
+                    <select id="stat-house-name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentPurple">
+                        <option value="GREEN HOUSE">GREEN HOUSE</option>
+                        <option value="BLUE HOUSE">BLUE HOUSE</option>
+                        <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                        <option value="RED HOUSE">RED HOUSE</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Runs</label>
+                    <input type="number" id="stat-total-runs" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentPurple">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Wickets</label>
+                    <input type="number" id="stat-total-wickets" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentPurple">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Highest Score</label>
+                    <input type="number" id="stat-highest-score" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentPurple">
+                </div>
+            </div>
+
+            <button onclick="pushPlayerTally()" class="w-full bg-command-accentPurple text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+                Upsert Player Performance Stats
+            </button>
+        </section>
+
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5">
+            <div class="absolute top-0 right-0 bg-command-accentBlue text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
+                Console 04
+            </div>
+
             <h2 class="text-xs font-black tracking-wider text-command-accentBlue uppercase flex items-center gap-2">
-                3. Fixtures Stream Allocator
+                4. Fixtures Stream Allocator
             </h2>
 
             <div class="grid grid-cols-2 gap-3">
@@ -204,12 +258,12 @@
 
             <div class="space-y-1">
                 <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Lineup Description</label>
-                <input type="text" id="input-lineup" placeholder="RED HAWKS VS BLUE BLASTERS" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue">
+                <input type="text" id="input-lineup" placeholder="GREEN HOUSE VS RED HOUSE" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue">
             </div>
 
             <div class="space-y-1">
                 <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Result Summary Line</label>
-                <input type="text" id="input-summary" placeholder="Match 1 Schedule description line" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentBlue">
+                <input type="text" id="input-summary" placeholder="Match Schedule summary details line" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentBlue">
             </div>
 
             <button onclick="updateFixtureSlot()" class="w-full bg-command-accentBlue text-black py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
@@ -222,10 +276,8 @@
     <script>
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
-
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Fetch Console 01 Initial Data Setup Snapshots
         async function fetchCurrentData() {
             const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
             if (data) {
@@ -233,10 +285,8 @@
                 document.getElementById('input-wickets').value = data.wickets ?? 0;
                 document.getElementById('input-overs').value = data.overs || "0.0";
                 document.getElementById('input-commentary').value = data.commentary || "";
-                document.getElementById('input-batting-team').value = data.batting_team || "";
-                document.getElementById('input-bowling-team').value = data.bowling_team || "";
-                
-                // Live Google Style Player Inputs Mapped
+                document.getElementById('input-batting-team').value = data.batting_team || "GREEN HOUSE";
+                document.getElementById('input-bowling-team').value = data.bowling_team || "RED HOUSE";
                 document.getElementById('input-bat1').value = data.batsman_on_strike || "";
                 document.getElementById('input-bat1-stats').value = data.batsman_on_strike_stats || "";
                 document.getElementById('input-bat2').value = data.batsman_off_strike || "";
@@ -246,7 +296,6 @@
             }
         }
 
-        // Action 1: Broadcast Real-Time Match Data
         async function broadcastData() {
             const updatePayload = {
                 runs: parseInt(document.getElementById('input-runs').value) || 0,
@@ -255,7 +304,6 @@
                 commentary: document.getElementById('input-commentary').value,
                 batting_team: document.getElementById('input-batting-team').value,
                 bowling_team: document.getElementById('input-bowling-team').value,
-                
                 batsman_on_strike: document.getElementById('input-bat1').value,
                 batsman_on_strike_stats: document.getElementById('input-bat1-stats').value,
                 batsman_off_strike: document.getElementById('input-bat2').value,
@@ -263,40 +311,58 @@
                 current_bowler: document.getElementById('input-bowler').value,
                 current_bowler_stats: document.getElementById('input-bowler-stats').value
             };
-
             const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
-            if (error) alert("Error broadcasting scorecard: " + error.message);
-            else alert("Console 01: Scorecard & Crease Matrix Broadcasted!");
+            if (error) alert(error.message); else alert("Console 01: Score & Crease updated!");
         }
 
-        // Action 2: Push Standings Matrix Updates
         async function pushStandingsMatrix() {
-            const houseName = document.getElementById('select-house').value;
-            const standingsPayload = {
+            const house = document.getElementById('select-house').value;
+            const payload = {
                 played: parseInt(document.getElementById('input-played').value) || 0,
                 won: parseInt(document.getElementById('input-won').value) || 0,
                 lost: parseInt(document.getElementById('input-lost').value) || 0,
                 points: parseInt(document.getElementById('input-pts').value) || 0,
                 nrr: document.getElementById('input-nrr').value
             };
-
-            const { error } = await supabaseConnection.from('points_table').update(standingsPayload).eq('house_name', houseName);
-            if (error) alert("Error pushing points data: " + error.message);
-            else alert(`Console 02: Updated ${houseName} Standings!`);
+            const { error } = await supabaseConnection.from('points_table').update(payload).eq('house_name', house);
+            if (error) alert(error.message); else alert(`Console 02: ${house} Standings updated!`);
         }
 
-        // Action 3: Update Fixture Allocator Slot Data Row Info
+        async function pushPlayerTally() {
+            const name = document.getElementById('stat-player-name').value.trim();
+            if(!name) return alert("Please enter player name");
+
+            const payload = {
+                player_name: name,
+                house_name: document.getElementById('stat-house-name').value,
+                total_runs: parseInt(document.getElementById('stat-total-runs').value) || 0,
+                total_wickets: parseInt(document.getElementById('stat-total-wickets').value) || 0,
+                highest_score: parseInt(document.getElementById('stat-highest-score').value) || 0
+            };
+
+            // Upsert mechanism: check if player already exists to update them, or insert fresh row
+            const { data } = await supabaseConnection.from('player_stats').select('id').eq('player_name', name).maybeSingle();
+            
+            let result;
+            if(data) {
+                result = await supabaseConnection.from('player_stats').update(payload).eq('id', data.id);
+            } else {
+                result = await supabaseConnection.from('player_stats').insert(payload);
+            }
+
+            if (result.error) alert(result.error.message);
+            else alert(`Console 03: Performance logged for ${name}!`);
+        }
+
         async function updateFixtureSlot() {
-            const matchNum = parseInt(document.getElementById('select-match').value);
-            const fixturesPayload = {
+            const num = parseInt(document.getElementById('select-match').value);
+            const payload = {
                 time_status: document.getElementById('select-status').value,
                 teams: document.getElementById('input-lineup').value,
                 result_summary: document.getElementById('input-summary').value
             };
-
-            const { error } = await supabaseConnection.from('fixtures').update(fixturesPayload).eq('match_num', matchNum);
-            if (error) alert("Error saving fixture: " + error.message);
-            else alert(`Console 03: Match 0${matchNum} Configuration Upgraded!`);
+            const { error } = await supabaseConnection.from('fixtures').update(payload).eq('match_num', num);
+            if (error) alert(error.message); else alert(`Console 04: Match 0${num} updated!`);
         }
 
         fetchCurrentData();
