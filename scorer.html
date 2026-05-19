@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dunes FM - Scorer Console</title>
+    <title>Dunes FM - Full Control Command Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -15,7 +15,9 @@
                             bgCanvas: '#0A0A0A',     /* Pitch-Black Background */
                             card: '#16161A',         /* Sleek Container Blocks */
                             border: '#24242B',       /* Subtle Frame Lines */
-                            accentGreen: '#10B981',  /* Emerald Broadcast Green Accent */
+                            accentYellow: '#FACC15', /* Vivid Yellow Header Text */
+                            accentGreen: '#10B981',  /* Emerald Standings Accent */
+                            accentBlue: '#0EA5E9',   /* Electric Fixture Cyan */
                             textMain: '#F3F4F6',     /* Bright Off-White */
                             textMuted: '#9CA3AF',    /* Soft Gray */
                             inputBg: '#0F0F12'       /* Insert Backgrounds */
@@ -26,37 +28,37 @@
         }
     </script>
 </head>
-<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen antialiased p-4">
+<body class="bg-command-bgCanvas text-command-textMain font-sans min-h-screen antialiased p-4 pb-12">
 
-    <main class="max-w-xl mx-auto space-y-6 mt-4">
+    <main class="max-w-xl mx-auto space-y-8 mt-4">
         
         <div class="text-center space-y-1">
-            <h1 class="text-xl font-black tracking-wider text-command-accentGreen uppercase">Dunes FM Command Center</h1>
+            <h1 class="text-xl font-black tracking-wider text-command-accentYellow uppercase">Dunes FM Command Center</h1>
             <p class="text-xs font-bold text-command-textMuted uppercase tracking-widest">Tournament Administration Console</p>
         </div>
 
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-6">
-            <div class="absolute top-0 right-0 bg-command-accentGreen text-command-bgCanvas text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
+            <div class="absolute top-0 right-0 bg-command-accentYellow text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
                 Console 01
             </div>
 
-            <h2 class="text-xs font-black tracking-wider text-command-accentGreen uppercase flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-command-accentGreen animate-pulse"></span>
+            <h2 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-command-accentYellow animate-pulse"></span>
                 1. Real-Time Score Engine
             </h2>
 
             <div class="grid grid-cols-3 gap-3">
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Runs</label>
-                    <input type="number" id= "input-runs" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                    <input type="number" id="input-runs" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Wickets</label>
-                    <input type="number" id="input-wickets" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                    <input type="number" id="input-wickets" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Overs</label>
-                    <input type="text" id="input-overs" placeholder="0.0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                    <input type="text" id="input-overs" placeholder="0.0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
             </div>
 
@@ -65,58 +67,156 @@
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-accentGreen uppercase">* Batsman On Strike</label>
-                        <input type="text" id="input-bat1" placeholder="Player Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentGreen">
+                        <label class="text-[9px] font-bold text-command-accentYellow uppercase">* Batsman On Strike</label>
+                        <input type="text" id="input-bat1" placeholder="Player Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Striker Stats</label>
-                        <input type="text" id="input-bat1-stats" placeholder="e.g., 24 (12)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentGreen">
+                        <input type="text" id="input-bat1-stats" placeholder="e.g., 24 (12)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Batsman Off Strike</label>
-                        <input type="text" id="input-bat2" placeholder="Player Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentGreen">
+                        <input type="text" id="input-bat2" placeholder="Player Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Non-Striker Stats</label>
-                        <input type="text" id="input-bat2-stats" placeholder="e.g., 12 (8)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentGreen">
+                        <input type="text" id="input-bat2-stats" placeholder="e.g., 12 (8)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Active Bowler</label>
-                        <input type="text" id="input-bowler" placeholder="Bowler Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentGreen">
+                        <input type="text" id="input-bowler" placeholder="Bowler Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Bowler Stats</label>
-                        <input type="text" id="input-bowler-stats" placeholder="O - M - R - W" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentGreen">
+                        <input type="text" id="input-bowler-stats" placeholder="O - M - R - W" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
                     </div>
                 </div>
             </div>
 
             <div class="space-y-1 border-t border-command-border/60 pt-4">
                 <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Ball Commentary Update</label>
-                <input type="text" id="input-commentary" placeholder="e.g., FOUR! Cracking shot through extra cover." class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-command-accentGreen">
+                <input type="text" id="input-commentary" placeholder="----------------------------------------" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-command-accentYellow">
             </div>
 
             <div class="grid grid-cols-2 gap-3 border-t border-command-border/60 pt-4">
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
-                    <input type="text" id="input-batting-team" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentGreen">
+                    <input type="text" id="input-batting-team" placeholder="Red Hawks" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
                 <div class="space-y-1">
                     <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
-                    <input type="text" id="input-bowling-team" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentGreen">
+                    <input type="text" id="input-bowling-team" placeholder="Blue Blasters" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
             </div>
 
-            <button onclick="broadcastData()" class="w-full bg-command-accentGreen text-command-bgCanvas py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+            <button onclick="broadcastData()" class="w-full bg-command-accentYellow text-black py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
                 Broadcast Live Update
             </button>
         </section>
+
+
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5">
+            <div class="absolute top-0 right-0 bg-command-accentGreen text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
+                Console 02
+            </div>
+
+            <h2 class="text-xs font-black tracking-wider text-command-accentGreen uppercase flex items-center gap-2">
+                2. Standings Matrix Modifier
+            </h2>
+
+            <div class="space-y-1">
+                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Select Target House Table Row</label>
+                <select id="select-house" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentGreen">
+                    <option value="GREEN HOUSE">Green House</option>
+                    <option value="RED HOUSE">Red House</option>
+                    <option value="YELLOW HOUSE">Yellow House</option>
+                    <option value="BLUE HOUSE">Blue House</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Played (P)</label>
+                    <input type="number" id="input-played" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Won (W)</label>
+                    <input type="number" id="input-won" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Lost (L)</label>
+                    <input type="number" id="input-lost" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Points (PTS)</label>
+                    <input type="number" id="input-pts" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentGreen">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Net Run Rate (NRR)</label>
+                    <input type="text" id="input-nrr" value="0.000" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentGreen">
+                </div>
+            </div>
+
+            <button onclick="pushStandingsMatrix()" class="w-full bg-command-accentGreen text-black py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+                Push Standing Matrix Update
+            </button>
+        </section>
+
+
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5">
+            <div class="absolute top-0 right-0 bg-command-accentBlue text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider">
+                Console 03
+            </div>
+
+            <h2 class="text-xs font-black tracking-wider text-command-accentBlue uppercase flex items-center gap-2">
+                3. Fixtures Stream Allocator
+            </h2>
+
+            <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Number</label>
+                    <select id="select-match" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue">
+                        <option value="1">Match 01</option>
+                        <option value="2">Match 02</option>
+                        <option value="3">Match 03</option>
+                        <option value="4">Match 04</option>
+                        <option value="5">Match 05</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Time Status Badge</label>
+                    <select id="select-status" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue">
+                        <option value="UPCOMING">UPCOMING</option>
+                        <option value="LIVE">LIVE</option>
+                        <option value="COMPLETED">COMPLETED</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Lineup Description</label>
+                <input type="text" id="input-lineup" placeholder="RED HAWKS VS BLUE BLASTERS" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Result Summary Line</label>
+                <input type="text" id="input-summary" placeholder="Match 1 Schedule description line" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentBlue">
+            </div>
+
+            <button onclick="updateFixtureSlot()" class="w-full bg-command-accentBlue text-black py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+                Update Fixture Slot Info
+            </button>
+        </section>
+
     </main>
 
     <script>
@@ -125,7 +225,7 @@
 
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Fetch current snapshot to populate dashboard inputs on start
+        // Fetch Console 01 Initial Data Setup Snapshots
         async function fetchCurrentData() {
             const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
             if (data) {
@@ -136,7 +236,7 @@
                 document.getElementById('input-batting-team').value = data.batting_team || "";
                 document.getElementById('input-bowling-team').value = data.bowling_team || "";
                 
-                // Live Player Fields
+                // Live Google Style Player Inputs Mapped
                 document.getElementById('input-bat1').value = data.batsman_on_strike || "";
                 document.getElementById('input-bat1-stats').value = data.batsman_on_strike_stats || "";
                 document.getElementById('input-bat2').value = data.batsman_off_strike || "";
@@ -146,7 +246,7 @@
             }
         }
 
-        // Push everything to Supabase in a single payload write
+        // Action 1: Broadcast Real-Time Match Data
         async function broadcastData() {
             const updatePayload = {
                 runs: parseInt(document.getElementById('input-runs').value) || 0,
@@ -156,7 +256,6 @@
                 batting_team: document.getElementById('input-batting-team').value,
                 bowling_team: document.getElementById('input-bowling-team').value,
                 
-                // Mapping the new tracking columns
                 batsman_on_strike: document.getElementById('input-bat1').value,
                 batsman_on_strike_stats: document.getElementById('input-bat1-stats').value,
                 batsman_off_strike: document.getElementById('input-bat2').value,
@@ -166,11 +265,38 @@
             };
 
             const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
-            if (error) {
-                alert("Error broadcasting: " + error.message);
-            } else {
-                console.log("Broadcast successful!");
-            }
+            if (error) alert("Error broadcasting scorecard: " + error.message);
+            else alert("Console 01: Scorecard & Crease Matrix Broadcasted!");
+        }
+
+        // Action 2: Push Standings Matrix Updates
+        async function pushStandingsMatrix() {
+            const houseName = document.getElementById('select-house').value;
+            const standingsPayload = {
+                played: parseInt(document.getElementById('input-played').value) || 0,
+                won: parseInt(document.getElementById('input-won').value) || 0,
+                lost: parseInt(document.getElementById('input-lost').value) || 0,
+                points: parseInt(document.getElementById('input-pts').value) || 0,
+                nrr: document.getElementById('input-nrr').value
+            };
+
+            const { error } = await supabaseConnection.from('points_table').update(standingsPayload).eq('house_name', houseName);
+            if (error) alert("Error pushing points data: " + error.message);
+            else alert(`Console 02: Updated ${houseName} Standings!`);
+        }
+
+        // Action 3: Update Fixture Allocator Slot Data Row Info
+        async function updateFixtureSlot() {
+            const matchNum = parseInt(document.getElementById('select-match').value);
+            const fixturesPayload = {
+                time_status: document.getElementById('select-status').value,
+                teams: document.getElementById('input-lineup').value,
+                result_summary: document.getElementById('input-summary').value
+            };
+
+            const { error } = await supabaseConnection.from('fixtures').update(fixturesPayload).eq('match_num', matchNum);
+            if (error) alert("Error saving fixture: " + error.message);
+            else alert(`Console 03: Match 0${matchNum} Configuration Upgraded!`);
         }
 
         fetchCurrentData();
