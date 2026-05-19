@@ -14,7 +14,7 @@
                         crick: {
                             bgCanvas: '#0D0D0E',     /* Pitch Black/Deep Charcoal background */
                             card: '#131316',         /* Card body gray background */
-                            border: '#1F1F23',       /* Subtle card boarder gray */
+                            border: '#1F1F23',       /* Subtle card border gray */
                             textMain: '#FFFFFF',     /* Pure white title text */
                             textMuted: '#71717A',    /* Dimmed gray text */
                             accentYellow: '#FACC15', /* Tactical Yellow label tags */
@@ -54,7 +54,7 @@
             <section class="bg-crick-card border border-crick-border rounded-2xl p-6 relative overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                 
-                <div class="relative z-10 space-y-8">
+                <div class="relative z-10 space-y-6">
                     <div class="grid grid-cols-7 items-center justify-between">
                         <div class="col-span-3 space-y-0.5">
                             <span class="text-[10px] font-bold tracking-wider text-crick-accentYellow uppercase">Batting</span>
@@ -74,6 +74,32 @@
                         <div class="text-right">
                             <div class="text-crick-textMuted text-[10px] font-bold uppercase tracking-wider">Overs</div>
                             <div id="view-overs" class="text-3xl font-black tracking-tight text-white mt-0.5">0.0</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2.5 bg-black/30 border border-crick-border/60 rounded-xl p-3.5">
+                        <div class="space-y-1.5 text-xs font-semibold">
+                            <div class="flex justify-between items-center text-white">
+                                <span class="flex items-center gap-1">
+                                    <span class="text-crick-accentYellow font-bold animate-pulse">*</span>
+                                    <span id="live-batsman-1">--</span>
+                                </span>
+                                <span id="live-batsman-1-stats" class="font-mono font-bold text-white">--</span>
+                            </div>
+                            <div class="flex justify-between items-center text-crick-textMuted">
+                                <span class="pl-2.5" id="live-batsman-2">--</span>
+                                <span id="live-batsman-2-stats" class="font-mono">--</span>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-crick-border/50 my-1"></div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-crick-textMuted font-semibold flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-crick-textMuted/40"></span>
+                                <span id="live-bowler">--</span>
+                            </span>
+                            <span id="live-bowler-stats" class="font-mono font-bold text-white">--</span>
                         </div>
                     </div>
                     
@@ -155,6 +181,14 @@
             document.getElementById('view-wickets').innerText = matchData.wickets ?? 0;
             document.getElementById('view-overs').innerText = matchData.overs || "0.0";
             document.getElementById('view-commentary').innerText = matchData.commentary || "";
+
+            // Inject the Live Player Fields cleanly
+            document.getElementById('live-batsman-1').innerText = matchData.batsman_on_strike || "Striker";
+            document.getElementById('live-batsman-1-stats').innerText = matchData.batsman_on_strike_stats || "0 (0b)";
+            document.getElementById('live-batsman-2').innerText = matchData.batsman_off_strike || "Non-Striker";
+            document.getElementById('live-batsman-2-stats').innerText = matchData.batsman_off_strike_stats || "0 (0b)";
+            document.getElementById('live-bowler').innerText = matchData.current_bowler || "Bowler";
+            document.getElementById('live-bowler-stats').innerText = matchData.current_bowler_stats || "0-0-0-0";
         }
 
         async function fetchPointsTable() {
@@ -196,6 +230,7 @@
             }
         }
 
+        // Realtime sync channel for updates
         supabaseConnection.channel('public:live_match').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
             if(payload && payload.new) updateUI(payload.new);
         }).subscribe();
