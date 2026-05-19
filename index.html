@@ -30,58 +30,66 @@
 </head>
 <body class="bg-crick-bgCanvas text-crick-textMain font-sans min-h-screen selection:bg-white selection:text-black antialiased">
 
-    <header class="px-4 py-5 max-w-md mx-auto mt-2">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2.5">
-                <div class="w-2.5 h-2.5 rounded-full bg-crick-liveRed animate-pulse"></div>
-                <h1 class="font-black text-lg uppercase tracking-wider">Cricket Live Score</h1>
+    <header class="px-4 py-5 max-w-7xl mx-auto mt-2 border-b border-crick-border/40 mb-2">
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-white/5 p-1.5 rounded-xl border border-crick-border">
+                    <img src="DIS_Logo.png" alt="School Logo" class="h-10 w-auto object-contain fallback-logo" onerror="this.style.display='none'">
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-crick-liveRed animate-pulse"></div>
+                        <h1 class="font-black text-xl uppercase tracking-wider">Cricket Live Score</h1>
+                    </div>
+                    <p class="text-[11px] text-crick-textMuted font-medium mt-0.5">Dunes International School</p>
+                </div>
             </div>
-            <span class="text-[10px] font-bold px-2.5 py-1 bg-crick-card border border-crick-border text-crick-textMuted rounded-full tracking-wider uppercase">
+            <span class="text-[10px] font-bold px-3 py-1.5 bg-crick-card border border-crick-border text-crick-textMuted rounded-full tracking-wider uppercase">
                 Interhouse 2026
             </span>
         </div>
     </header>
 
-    <nav class="max-w-md mx-auto px-4 mt-2">
-        <div class="grid grid-cols-4 bg-crick-card/60 border border-crick-border p-1 rounded-xl gap-0.5">
-            <button id="tab-live" onclick="switchTab('live')" class="py-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm">Live Hub</button>
-            <button id="tab-points" onclick="switchTab('points')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Standings</button>
-            <button id="tab-stats" onclick="switchTab('stats')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Player Stats</button>
-            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Fixtures</button>
+    <nav class="max-w-7xl mx-auto px-4 mt-4">
+        <div class="grid grid-cols-4 bg-crick-card/60 border border-crick-border p-1 rounded-xl gap-1 max-w-xl mx-auto sm:mx-0">
+            <button id="tab-live" onclick="switchTab('live')" class="py-2.5 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black shadow-sm">Live Hub</button>
+            <button id="tab-points" onclick="switchTab('points')" class="py-2.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Standings</button>
+            <button id="tab-stats" onclick="switchTab('stats')" class="py-2.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Player Stats</button>
+            <button id="tab-fixtures" onclick="switchTab('fixtures')" class="py-2.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white">Fixtures</button>
         </div>
     </nav>
 
-    <main class="max-w-md mx-auto px-4 py-4 space-y-6">
+    <main class="max-w-7xl mx-auto px-4 py-6">
 
-        <div id="view-live-section" class="space-y-4">
-            <section class="bg-crick-card border border-crick-border rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+        <div id="view-live-section" class="space-y-4 max-w-3xl mx-auto">
+            <section class="bg-crick-card border border-crick-border rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-2xl">
                 <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                 
                 <div class="relative z-10 space-y-6">
                     <div class="grid grid-cols-7 items-center justify-between">
                         <div class="col-span-3 space-y-0.5">
                             <span class="text-[10px] font-bold tracking-wider text-crick-accentYellow uppercase">Batting</span>
-                            <h2 id="view-batting" class="text-base font-black uppercase tracking-tight leading-tight">Loading...</h2>
+                            <h2 id="view-batting" class="text-lg font-black uppercase tracking-tight leading-tight sm:text-xl">Loading...</h2>
                         </div>
-                        <div class="col-span-1 text-center font-bold text-crick-textMuted text-xs bg-crick-bgCanvas py-1 border border-crick-border rounded-md shadow-inner">vs</div>
+                        <div class="col-span-1 text-center font-bold text-crick-textMuted text-xs bg-crick-bgCanvas py-1.5 border border-crick-border rounded-md shadow-inner select-none">vs</div>
                         <div class="col-span-3 text-right space-y-0.5">
                             <span class="text-[10px] font-bold tracking-wider text-crick-textMuted uppercase">Bowling</span>
-                            <h2 id="view-bowling" class="text-base font-black uppercase tracking-tight text-crick-textMuted leading-tight">Loading...</h2>
+                            <h2 id="view-bowling" class="text-lg font-black uppercase tracking-tight text-crick-textMuted leading-tight sm:text-xl">Loading...</h2>
                         </div>
                     </div>
                     
-                    <div class="flex justify-between items-baseline pt-2">
-                        <div class="text-6xl font-black tracking-tight select-none">
-                            <span id="view-runs">0</span><span class="text-crick-textMuted/40 font-light mx-0.5">/</span><span id="view-wickets" class="text-crick-liveRed">0</span>
+                    <div class="flex justify-between items-baseline pt-4 border-t border-crick-border/20">
+                        <div class="text-6xl sm:text-7xl font-black tracking-tight select-none">
+                            <span id="view-runs">0</span><span class="text-crick-textMuted/40 font-light mx-1">/</span><span id="view-wickets" class="text-crick-liveRed">0</span>
                         </div>
                         <div class="text-right">
                             <div class="text-crick-textMuted text-[10px] font-bold uppercase tracking-wider">Overs</div>
-                            <div id="view-overs" class="text-3xl font-black tracking-tight text-white mt-0.5">0.0</div>
+                            <div id="view-overs" class="text-4xl font-black tracking-tight text-white mt-1">0.0</div>
                         </div>
                     </div>
 
-                    <div class="space-y-2.5 bg-black/30 border border-crick-border/60 rounded-xl p-3.5">
-                        <div class="space-y-1.5 text-xs font-semibold">
+                    <div class="space-y-3 bg-black/30 border border-crick-border/60 rounded-xl p-4 sm:p-5">
+                        <div class="space-y-2 text-xs sm:text-sm font-semibold">
                             <div class="flex justify-between items-center text-white">
                                 <span class="flex items-center gap-1">
                                     <span class="text-crick-accentYellow font-bold animate-pulse">*</span>
@@ -94,8 +102,8 @@
                                 <span id="live-batsman-2-stats" class="font-mono">--</span>
                             </div>
                         </div>
-                        <div class="border-t border-crick-border/50 my-1"></div>
-                        <div class="flex justify-between items-center text-xs">
+                        <div class="border-t border-crick-border/50 my-2"></div>
+                        <div class="flex justify-between items-center text-xs sm:text-sm">
                             <span class="text-crick-textMuted font-semibold flex items-center gap-1.5">
                                 <span class="w-1.5 h-1.5 rounded-full bg-crick-textMuted/40"></span>
                                 <span id="live-bowler">--</span>
@@ -104,70 +112,67 @@
                         </div>
                     </div>
                     
-                    <div class="bg-black/40 border border-crick-border/80 rounded-xl p-3 flex gap-3 items-center shadow-inner">
-                        <span class="text-[9px] font-black bg-crick-accentYellow text-black px-2 py-1 rounded font-bold tracking-wider uppercase shrink-0">LATEST</span>
-                        <p id="view-commentary" class="text-xs font-semibold text-crick-textMuted truncate">Connecting live data feeds...</p>
+                    <div class="bg-black/40 border border-crick-border/80 rounded-xl p-4 flex gap-3 items-center shadow-inner">
+                        <span class="text-[9px] font-black bg-crick-accentYellow text-black px-2.5 py-1 rounded font-bold tracking-wider uppercase shrink-0">LATEST</span>
+                        <p id="view-commentary" class="text-xs sm:text-sm font-semibold text-crick-textMuted truncate">Connecting live data feeds...</p>
                     </div>
                 </div>
             </section>
         </div>
 
-        <div id="view-points-section" class="hidden space-y-4">
+        <div id="view-points-section" class="hidden space-y-4 max-w-5xl mx-auto">
             <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
-                <div class="p-4 border-b border-crick-border bg-black/20">
+                <div class="p-4 sm:p-5 border-b border-crick-border bg-black/20">
                     <h3 class="font-black text-xs uppercase tracking-wider text-crick-textMuted">Standings Matrix</h3>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-black/40 text-crick-textMuted text-[10px] font-black uppercase tracking-wider border-b border-crick-border">
-                                <th class="py-3 px-5">House</th>
-                                <th class="py-3 px-3 text-center">P</th>
-                                <th class="py-3 px-3 text-center">W</th>
-                                <th class="py-3 px-3 text-center">L</th>
-                                <th class="py-3 px-3 text-center text-crick-accentYellow">Pts</th>
-                                <th class="py-3 px-5 text-right">NRR</th>
+                            <tr class="bg-black/40 text-crick-textMuted text-[10px] sm:text-xs font-black uppercase tracking-wider border-b border-crick-border">
+                                <th class="py-4 px-6">House</th>
+                                <th class="py-4 px-4 text-center w-20">P</th>
+                                <th class="py-4 px-4 text-center w-20">W</th>
+                                <th class="py-4 px-4 text-center w-20">L</th>
+                                <th class="py-4 px-6 text-right w-24 text-crick-accentYellow">Pts</th>
                             </tr>
                         </thead>
-                        <tbody id="points-table-rows" class="divide-y divide-crick-border/40 font-semibold text-xs text-white"></tbody>
+                        <tbody id="points-table-rows" class="divide-y divide-crick-border/40 font-semibold text-xs sm:text-sm text-white"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <div id="view-stats-section" class="hidden space-y-6">
+        <div id="view-stats-section" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl h-full">
                 <div class="p-4 border-b border-crick-border bg-gradient-to-r from-amber-500/10 to-transparent flex justify-between items-center">
                     <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentYellow flex items-center gap-1.5">
-                        <span>🔶</span> Orange Cap Leaderboard
+                        <span>🍊</span> Orange Cap Leaderboard
                     </h3>
                     <span class="text-[9px] font-black bg-crick-accentYellow text-black px-2 py-0.5 rounded tracking-wider uppercase">Top 5 Runs</span>
                 </div>
                 <div class="p-2">
                     <table class="w-full text-left border-collapse">
-                        <tbody id="leaderboard-runs-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
-                            </tbody>
+                        <tbody id="leaderboard-runs-rows" class="divide-y divide-crick-border/30 text-xs sm:text-sm font-semibold"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl h-full">
                 <div class="p-4 border-b border-crick-border bg-gradient-to-r from-purple-500/10 to-transparent flex justify-between items-center">
                     <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentPurple flex items-center gap-1.5">
-                        <span>🟪</span> Purple Cap Leaderboard
+                        <span>🧢</span> Purple Cap Leaderboard
                     </h3>
                     <span class="text-[9px] font-black bg-crick-accentPurple text-white px-2 py-0.5 rounded tracking-wider uppercase">Top 5 Wickets</span>
                 </div>
                 <div class="p-2">
                     <table class="w-full text-left border-collapse">
-                        <tbody id="leaderboard-wickets-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
-                            </tbody>
+                        <tbody id="leaderboard-wickets-rows" class="divide-y divide-crick-border/30 text-xs sm:text-sm font-semibold"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl">
+            <div class="bg-crick-card border border-crick-border rounded-2xl overflow-hidden shadow-xl h-full">
                 <div class="p-4 border-b border-crick-border bg-gradient-to-r from-sky-500/10 to-transparent flex justify-between items-center">
                     <h3 class="font-black text-xs uppercase tracking-wider text-crick-accentCyan flex items-center gap-1.5">
                         <span>⚡</span> Highest Scores
@@ -176,16 +181,15 @@
                 </div>
                 <div class="p-2">
                     <table class="w-full text-left border-collapse">
-                        <tbody id="leaderboard-high-rows" class="divide-y divide-crick-border/30 text-xs font-semibold">
-                            </tbody>
+                        <tbody id="leaderboard-high-rows" class="divide-y divide-crick-border/30 text-xs sm:text-sm font-semibold"></tbody>
                     </table>
                 </div>
             </div>
 
         </div>
 
-        <div id="view-fixtures-section" class="hidden space-y-4">
-            <div id="fixtures-container" class="space-y-3"></div>
+        <div id="view-fixtures-section" class="hidden">
+            <div id="fixtures-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </div>
 
     </main>
@@ -200,11 +204,15 @@
                 const btn = document.getElementById(`tab-${tab}`);
                 const view = document.getElementById(`view-${tab}-section`);
                 if (tab === activeTab) {
-                    btn.className = "py-2 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm";
-                    view.classList.remove('hidden');
+                    btn.className = "py-2.5 text-[10px] font-black uppercase tracking-wider rounded-lg transition bg-white text-black font-bold shadow-sm";
+                    if (tab === 'stats') {
+                        view.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
+                    } else {
+                        view.classList.remove('hidden');
+                    }
                 } else {
-                    btn.className = "py-2 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white";
-                    view.classList.add('hidden');
+                    btn.className = "py-2.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition text-crick-textMuted hover:text-white";
+                    view.className = "hidden";
                 }
             });
             if(activeTab === 'points') fetchPointsTable();
@@ -240,21 +248,18 @@
                 container.innerHTML = '';
                 data.forEach(row => {
                     container.innerHTML += `
-                        <tr class="hover:bg-crick-card/40 transition">
-                            <td class="py-3.5 px-5 font-black uppercase tracking-wide text-white">${row.house_name}</td>
-                            <td class="py-3.5 px-3 text-center text-crick-textMuted">${row.played}</td>
-                            <td class="py-3.5 px-3 text-center text-emerald-500 font-bold">${row.won}</td>
-                            <td class="py-3.5 px-3 text-center text-rose-500 font-bold">${row.lost}</td>
-                            <td class="py-3.5 px-3 text-center text-crick-accentYellow font-black text-sm">${row.points}</td>
-                            <td class="py-3.5 px-5 text-right text-crick-textMuted font-mono">${row.nrr}</td>
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-4 px-6 font-black uppercase tracking-wide text-white text-sm sm:text-base">${row.house_name}</td>
+                            <td class="py-4 px-3 text-center text-crick-textMuted font-bold">${row.played}</td>
+                            <td class="py-4 px-3 text-center text-emerald-500 font-extrabold">${row.won}</td>
+                            <td class="py-4 px-3 text-center text-rose-500 font-extrabold">${row.lost}</td>
+                            <td class="py-4 px-6 text-right text-crick-accentYellow font-black text-sm sm:text-base bg-white/[0.01]">${row.points}</td>
                         </tr>`;
                 });
             }
         }
 
-        // FETCH ALL 3 LEADERBOARDS (TOP 5 EACH) SIMULTANEOUSLY
         async function fetchGoogleStyleLeaderboards() {
-            // 1. Fetch Top 5 Runs
             const runsReq = await supabaseConnection.from('player_stats').select('*').order('total_runs', { ascending: false }).limit(5);
             if(runsReq.data) {
                 const container = document.getElementById('leaderboard-runs-rows');
@@ -262,14 +267,13 @@
                 runsReq.data.forEach((p, index) => {
                     container.innerHTML += `
                         <tr class="hover:bg-black/20 transition">
-                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
-                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
-                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentYellow text-sm">${p.total_runs}</td>
+                            <td class="py-3.5 px-4 font-black text-white text-xs sm:text-sm"><span class="text-crick-textMuted mr-1.5">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3.5 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3.5 px-4 text-right font-mono font-black text-crick-accentYellow text-sm sm:text-base">${p.total_runs}</td>
                         </tr>`;
                 });
             }
 
-            // 2. Fetch Top 5 Wickets
             const wicketsReq = await supabaseConnection.from('player_stats').select('*').order('total_wickets', { ascending: false }).limit(5);
             if(wicketsReq.data) {
                 const container = document.getElementById('leaderboard-wickets-rows');
@@ -277,14 +281,13 @@
                 wicketsReq.data.forEach((p, index) => {
                     container.innerHTML += `
                         <tr class="hover:bg-black/20 transition">
-                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
-                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
-                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentPurple text-sm">${p.total_wickets}</td>
+                            <td class="py-3.5 px-4 font-black text-white text-xs sm:text-sm"><span class="text-crick-textMuted mr-1.5">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3.5 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3.5 px-4 text-right font-mono font-black text-crick-accentPurple text-sm sm:text-base">${p.total_wickets}</td>
                         </tr>`;
                 });
             }
 
-            // 3. Fetch Top 5 Highest Scores
             const highReq = await supabaseConnection.from('player_stats').select('*').order('highest_score', { ascending: false }).limit(5);
             if(highReq.data) {
                 const container = document.getElementById('leaderboard-high-rows');
@@ -292,9 +295,9 @@
                 highReq.data.forEach((p, index) => {
                     container.innerHTML += `
                         <tr class="hover:bg-black/20 transition">
-                            <td class="py-3 px-4 font-black text-white text-xs"><span class="text-crick-textMuted mr-1">#${index+1}</span> ${p.player_name}</td>
-                            <td class="py-3 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
-                            <td class="py-3 px-4 text-right font-mono font-black text-crick-accentCyan text-sm">${p.highest_score}</td>
+                            <td class="py-3.5 px-4 font-black text-white text-xs sm:text-sm"><span class="text-crick-textMuted mr-1.5">#${index+1}</span> ${p.player_name}</td>
+                            <td class="py-3.5 px-2 text-[10px] font-bold text-crick-textMuted uppercase">${p.house_name}</td>
+                            <td class="py-3.5 px-4 text-right font-mono font-black text-crick-accentCyan text-sm sm:text-base">${p.highest_score}</td>
                         </tr>`;
                 });
             }
@@ -308,13 +311,15 @@
                 data.forEach(match => {
                     const isLive = match.time_status.toUpperCase() === 'LIVE';
                     container.innerHTML += `
-                        <div class="bg-crick-card border ${isLive ? 'border-crick-liveRed shadow-md' : 'border-crick-border'} p-4 rounded-xl space-y-2 relative">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[10px] font-bold text-crick-textMuted uppercase tracking-wider">Match 0${match.match_num}</span>
-                                <span class="text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${isLive ? 'bg-crick-liveRed text-white animate-pulse' : 'bg-black/60 text-crick-textMuted border border-crick-border'}">${match.time_status}</span>
+                        <div class="bg-crick-card border ${isLive ? 'border-crick-liveRed shadow-md scale-[1.01]' : 'border-crick-border'} p-5 rounded-xl space-y-3 relative flex flex-col justify-between transition-all">
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] font-bold text-crick-textMuted uppercase tracking-wider">Match 0${match.match_num}</span>
+                                    <span class="text-[9px] font-black px-2.5 py-1 rounded uppercase tracking-widest ${isLive ? 'bg-crick-liveRed text-white animate-pulse' : 'bg-black/60 text-crick-textMuted border border-crick-border'}">${match.time_status}</span>
+                                </div>
+                                <h4 class="font-black text-base uppercase text-white tracking-tight">${match.teams}</h4>
                             </div>
-                            <h4 class="font-black text-sm uppercase text-white tracking-tight">${match.teams}</h4>
-                            <p class="text-xs font-semibold text-crick-textMuted border-t border-crick-border/60 pt-2">${match.result_summary}</p>
+                            <p class="text-xs font-semibold text-crick-textMuted border-t border-crick-border/60 pt-3 mt-1">${match.result_summary}</p>
                         </div>`;
                 });
             }
