@@ -66,65 +66,59 @@
 
     <main class="max-w-6xl mx-auto">
         
-        <section id="section-live" class="tab-content space-y-4">
-            
-            <div class="glass-panel bg-black/40 rounded-2xl p-5 shadow-neon-amber border border-white/10 relative overflow-hidden">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    
-                    <div class="flex items-center gap-4 w-full sm:w-auto">
-                        <div class="w-2.5 h-10 bg-glowYellow rounded-full"></div> 
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h2 id="live-batting-team" class="text-xl font-extrabold tracking-tight text-white uppercase">TEAM A</h2>
-                                <span class="text-[9px] font-black text-glowYellow bg-glowYellow/10 px-2 py-0.5 rounded border border-glowYellow/20 uppercase tracking-widest animate-pulse">LIVE</span>
-                            </div>
-                            <div class="flex items-baseline gap-2 mt-1">
-                                <span id="live-runs" class="text-4xl font-black tracking-tight text-white font-mono">0</span>
-                                <span class="text-2xl font-light text-gray-600">/</span>
-                                <span id="live-wickets" class="text-3xl font-extrabold text-gray-300 font-mono">0</span>
-                                <span id="live-overs-top" class="text-xs font-semibold text-gray-400 font-mono ml-2">(0.0 ov)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="w-full sm:w-auto text-left sm:text-right border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Bowling Opposition</p>
-                        <h3 id="live-bowling-team" class="text-base font-bold text-gray-200 uppercase tracking-wide mt-0.5">-</h3>
-                    </div>
-
+        <section id="section-live" class="tab-content space-y-6">
+            <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-amber relative overflow-hidden border-l-4 border-l-glowYellow">
+                
+                <div class="flex justify-between items-center mb-6">
+                    <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-3 py-1.5 rounded-full border border-glowYellow/20">
+                        <span class="w-2 h-2 rounded-full bg-glowYellow animate-ping"></span>
+                        Live Match
+                    </span>
+                    <span id="live-overs-top" class="text-xs font-extrabold text-white bg-black/40 px-3 py-1 rounded-lg border border-white/5 font-mono">Overs: 0.0</span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 border-t border-white/10 pt-4 mt-4 text-xs">
-                    
-                    <div class="flex justify-between items-center bg-white/[0.02] border border-white/5 px-3 py-2 rounded-xl">
-                        <div class="flex items-center gap-1.5 min-w-0">
-                            <span class="text-glowYellow text-[10px]">🏏</span>
-                            <p id="live-bat1" class="font-bold text-white truncate">-</p>
-                        </div>
-                        <span id="live-bat1-stats" class="font-mono text-gray-400 font-bold bg-black/40 px-2 py-0.5 rounded border border-white/5 text-[11px]">-</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-white uppercase">TEAM A</h2>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Currently Batting</p>
                     </div>
-
-                    <div class="flex justify-between items-center bg-white/[0.02] border border-white/5 px-3 py-2 rounded-xl">
-                        <p id="live-bat2" class="font-semibold text-gray-300 truncate pl-4">-</p>
-                        <span id="live-bat2-stats" class="font-mono text-gray-400 font-bold bg-black/40 px-2 py-0.5 rounded border border-white/5 text-[11px]">-</span>
+                    <div class="flex md:justify-end items-baseline gap-1">
+                        <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono">0</span>
+                        <span class="text-4xl font-light text-gray-600">/</span>
+                        <span id="live-wickets" class="text-5xl font-bold text-white font-mono">0</span>
                     </div>
+                </div>
 
-                    <div class="flex justify-between items-center bg-white/[0.02] border border-white/5 px-3 py-2 rounded-xl">
-                        <div class="flex items-center gap-1.5 min-w-0">
-                            <span class="text-gray-400 text-[10px]">⚡</span>
-                            <p id="live-bowler" class="font-bold text-white truncate">-</p>
-                        </div>
-                        <span id="live-bowler-stats" class="font-mono text-gray-400 font-bold bg-black/40 px-2 py-0.5 rounded border border-white/5 text-[11px]">-</span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-8">
+                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                        <p class="text-[9px] font-bold text-glowYellow uppercase tracking-wider mb-1">🏏 Batsman 1 (Striker)</p>
+                        <p id="live-bat1" class="text-sm font-bold text-white truncate">-</p>
+                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
                     </div>
+                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Batsman 2</p>
+                        <p id="live-bat2" class="text-sm font-bold text-white truncate">-</p>
+                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                    </div>
+                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
+                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">⚡ Bowler</p>
+                        <p id="live-bowler" class="text-sm font-bold text-white truncate">-</p>
+                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                    </div>
+                </div>
 
+                <div class="border-t border-white/10 pt-4 mt-6 flex justify-between items-center text-xs text-gray-400">
+                    <span class="uppercase tracking-wider font-semibold text-[10px]">Bowling Team:</span>
+                    <span id="live-bowling-team" class="font-extrabold text-white uppercase tracking-wide">-</span>
                 </div>
             </div>
 
-            <div class="glass-panel bg-black/20 rounded-xl p-4 border border-white/5 flex items-center gap-3">
-                <span class="text-xs font-black tracking-widest text-gray-400 uppercase bg-white/5 px-2.5 py-1 rounded border border-white/5 shrink-0">Info</span>
-                <p id="live-commentary" class="text-xs font-semibold tracking-wide text-gray-300 truncate">Awaiting live metrics stream...</p>
+            <div class="glass-panel bg-cardBg rounded-2xl p-5 shadow-lg border-l-4 border-l-white/10">
+                <h4 class="text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2">Live Timeline Commentary</h4>
+                <div class="bg-black/30 rounded-xl p-4 border border-white/5 shadow-inner">
+                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-white leading-relaxed">Awaiting live metrics stream...</p>
+                </div>
             </div>
-
         </section>
 
         <section id="section-standings" class="tab-content space-y-4 hidden">
@@ -154,7 +148,7 @@
                 <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🟠 Orange Cap Holder</h3>
+                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">👑 Orange Cap Holder</h3>
                             <span class="text-[9px] bg-orange-400/10 text-orange-400 border border-orange-400/20 font-extrabold px-2 py-0.5 rounded">Most Runs</span>
                         </div>
                         <div class="space-y-1">
@@ -171,7 +165,7 @@
                 <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-purple-400 uppercase">🟣 Purple Cap Holder</h3>
+                            <h3 class="text-xs font-black tracking-widest text-purple-400 uppercase">👑 Purple Cap Holder</h3>
                             <span class="text-[9px] bg-purple-400/10 text-purple-400 border border-purple-400/20 font-extrabold px-2 py-0.5 rounded">Most Wickets</span>
                         </div>
                         <div class="space-y-1">
@@ -254,7 +248,7 @@
         function renderLiveScore(row) {
             document.getElementById('live-runs').textContent = row.runs ?? 0;
             document.getElementById('live-wickets').textContent = row.wickets ?? 0;
-            document.getElementById('live-overs-top').textContent = `(${row.overs || '0.0'} ov)`;
+            document.getElementById('live-overs-top').textContent = `Overs: ${row.overs || '0.0'}`;
             document.getElementById('live-batting-team').textContent = row.batting_team || "TEAM A";
             document.getElementById('live-bowling-team').textContent = row.bowling_team || "-";
             document.getElementById('live-commentary').textContent = row.commentary || "Awaiting live metrics stream...";
