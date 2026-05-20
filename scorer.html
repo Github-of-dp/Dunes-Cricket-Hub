@@ -106,31 +106,52 @@
             </div>
 
             <div class="border-t border-command-border/60 pt-4 space-y-4">
-                <h3 class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Live Crease Matrix Allocator</h3>
+                <h3 class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Live Crease Matrix Allocator & Click-Scorer</h3>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-accentYellow uppercase">* Batsman On Strike</label>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-white/5 p-3 rounded-xl border border-command-border">
+                    <div class="md:col-span-4 space-y-1">
+                        <label class="text-[9px] font-bold text-command-accentYellow uppercase">* Striker (On Strike)</label>
                         <select id="input-bat1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
                     </div>
-                    <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Striker Stats</label>
-                        <input type="text" id="input-bat1-stats" placeholder="e.g., 24 (12)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                    <div class="md:col-span-3 space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Striker Stats (R, B, 4s, 6s)</label>
+                        <input type="text" id="input-bat1-stats" placeholder="0 (0) - 0x4, 0x6" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                    </div>
+                    <div class="md:col-span-5 flex flex-wrap gap-1">
+                        <button type="button" onclick="addRunsToStriker(1, 1)" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] py-1.5 rounded transition">+1</button>
+                        <button type="button" onclick="addRunsToStriker(2, 1)" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] py-1.5 rounded transition">+2</button>
+                        <button type="button" onclick="addRunsToStriker(4, 1, true)" class="flex-1 bg-command-accentBlue/20 hover:bg-command-accentBlue/30 text-command-accentBlue border border-command-accentBlue/30 font-bold text-[10px] py-1.5 rounded transition">4️⃣</button>
+                        <button type="button" onclick="addRunsToStriker(6, 1, false, true)" class="flex-1 bg-command-accentYellow/20 hover:bg-command-accentYellow/30 text-command-accentYellow border border-command-accentYellow/30 font-bold text-[10px] py-1.5 rounded transition">6️⃣</button>
+                        <button type="button" onclick="addDotBall(1)" class="flex-1 bg-white/5 hover:bg-white/10 text-command-textMuted text-[10px] py-1.5 rounded transition">Dot</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Batsman Off Strike</label>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end bg-white/5 p-3 rounded-xl border border-command-border">
+                    <div class="md:col-span-4 space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Non-Striker (Off Strike)</label>
                         <select id="input-bat2" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
                     </div>
-                    <div class="space-y-1">
+                    <div class="md:col-span-3 space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Non-Striker Stats</label>
-                        <input type="text" id="input-bat2-stats" placeholder="e.g., 12 (8)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                        <input type="text" id="input-bat2-stats" placeholder="0 (0) - 0x4, 0x6" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                    </div>
+                    <div class="md:col-span-5 flex flex-wrap gap-1">
+                        <button type="button" onclick="addRunsToStriker(1, 2)" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] py-1.5 rounded transition">+1</button>
+                        <button type="button" onclick="addRunsToStriker(2, 2)" class="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] py-1.5 rounded transition">+2</button>
+                        <button type="button" onclick="addRunsToStriker(4, 2, true)" class="flex-1 bg-command-accentBlue/20 hover:bg-command-accentBlue/30 text-command-accentBlue border border-command-accentBlue/30 font-bold text-[10px] py-1.5 rounded transition">4️⃣</button>
+                        <button type="button" onclick="addRunsToStriker(6, 2, false, true)" class="flex-1 bg-command-accentYellow/20 hover:bg-command-accentYellow/30 text-command-accentYellow border border-command-accentYellow/30 font-bold text-[10px] py-1.5 rounded transition">6️⃣</button>
+                        <button type="button" onclick="addDotBall(2)" class="flex-1 bg-white/5 hover:bg-white/10 text-command-textMuted text-[10px] py-1.5 rounded transition">Dot</button>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white/5 p-3 rounded-xl border border-command-border">
+                    <div class="space-y-1 sm:col-span-1">
+                        <label class="text-[9px] font-bold text-command-accentRed uppercase">Extras Trigger</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="addExtra('WD')" class="bg-command-accentRed/10 hover:bg-command-accentRed/20 text-command-accentRed border border-command-accentRed/20 text-xs font-black py-2 rounded transition">WIDE (+1)</button>
+                            <button type="button" onclick="addExtra('NB')" class="bg-command-accentRed/10 hover:bg-command-accentRed/20 text-command-accentRed border border-command-accentRed/20 text-xs font-black py-2 rounded transition">NO BALL (+1)</button>
+                        </div>
+                    </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Active Bowler</label>
                         <select id="input-bowler" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
@@ -163,6 +184,7 @@
                     Console 02
                 </div>
                 <h2 class="text-xs font-black tracking-wider text-command-accentGreen uppercase flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-command-accentGreen animate-pulse"></span>
                     2. Standings Matrix Modifier
                 </h2>
                 <div class="space-y-1">
@@ -206,6 +228,7 @@
                     Console 03
                 </div>
                 <h2 class="text-xs font-black tracking-wider text-command-accentPurple uppercase flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-command-accentPurple animate-pulse"></span>
                     3. Player Leaderboard Allocator
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -249,6 +272,7 @@
             </div>
 
             <h2 class="text-xs font-black tracking-wider text-command-accentBlue uppercase flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-command-accentBlue animate-pulse"></span>
                 4. Fixtures Stream Allocator
             </h2>
 
@@ -319,7 +343,6 @@
             const el = document.getElementById(selectId);
             el.innerHTML = "";
             
-            // Generate a default empty choice for pre-match/offline rosters
             const placeholderOpt = document.createElement("option");
             placeholderOpt.value = "";
             placeholderOpt.textContent = "-- NO PLAYER ASSIGNED --";
@@ -351,6 +374,77 @@
             const players = rosterDatabase[selectedHouse] || [];
             populateSelectOptions('stat-player-name', players);
         }
+
+        // --- AUTOMATION AND SCORE PARSING ENGINES ---
+        function parseBatsmanStatsString(statsStr) {
+            let runs = 0, balls = 0, fours = 0, sixes = 0;
+            if (!statsStr || !statsStr.trim()) return { runs, balls, fours, sixes };
+
+            try {
+                const basicMatch = statsStr.match(/^(\d+)\s*\((\d+)\)/);
+                if (basicMatch) {
+                    runs = parseInt(basicMatch[1]) || 0;
+                    balls = parseInt(basicMatch[2]) || 0;
+                }
+                const foursMatch = statsStr.match(/(\d+)x4/);
+                if (foursMatch) fours = parseInt(foursMatch[1]) || 0;
+
+                const sixesMatch = statsStr.match(/(\d+)x6/);
+                if (sixesMatch) sixes = parseInt(sixesMatch[1]) || 0;
+            } catch(e) {
+                console.log("Parsing mismatch fallback triggered", e);
+            }
+            return { runs, balls, fours, sixes };
+        }
+
+        function addRunsToStriker(amount, targetIndex, isFour = false, isSix = false) {
+            const totalRunsInput = document.getElementById('input-runs');
+            let currentTotalRuns = parseInt(totalRunsInput.value) || 0;
+            totalRunsInput.value = currentTotalRuns + amount;
+
+            const statsInput = document.getElementById(`input-bat${targetIndex}-stats`);
+            const currentStats = parseBatsmanStatsString(statsInput.value);
+
+            const newRuns = currentStats.runs + amount;
+            const newBalls = currentStats.balls + 1;
+            const newFours = isFour ? currentStats.fours + 1 : currentStats.fours;
+            const newSixes = isSix ? currentStats.sixes + 1 : currentStats.sixes;
+
+            statsInput.value = `${newRuns} (${newBalls}) - ${newFours}x4, ${newSixes}x6`;
+            incrementBallCount();
+        }
+
+        function addDotBall(targetIndex) {
+            const statsInput = document.getElementById(`input-bat${targetIndex}-stats`);
+            const currentStats = parseBatsmanStatsString(statsInput.value);
+            statsInput.value = `${currentStats.runs} (${currentStats.balls + 1}) - ${currentStats.fours}x4, ${currentStats.sixes}x6`;
+            incrementBallCount();
+        }
+
+        function addExtra(type) {
+            const totalRunsInput = document.getElementById('input-runs');
+            let currentTotalRuns = parseInt(totalRunsInput.value) || 0;
+            totalRunsInput.value = currentTotalRuns + 1;
+
+            const commentaryInput = document.getElementById('input-commentary');
+            commentaryInput.value = `${type}!! +1 Run added to total scoreboard line.`;
+        }
+
+        function incrementBallCount() {
+            const oversInput = document.getElementById('input-overs');
+            let currentOvers = parseFloat(oversInput.value) || 0.0;
+            
+            let completedOvers = Math.floor(currentOvers);
+            let currentBalls = Math.round((currentOvers - completedOvers) * 10);
+            
+            currentBalls += 1;
+            if (currentBalls >= 6) {
+                completedOvers += 1;
+                currentBalls = 0;
+            }
+            oversInput.value = `${completedOvers}.${currentBalls}`;
+        }
+        // --------------------------------------------
 
         async function fetchCurrentData() {
             const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
@@ -416,7 +510,7 @@
                 alert(error.message);
             } else {
                 alert("Console 01 Engine: Reset signal successfully updated! Live view cleared.");
-                fetchCurrentData(); // Soft reloading fields state safely
+                fetchCurrentData();
             }
         }
 
