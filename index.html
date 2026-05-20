@@ -3,209 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dunes CrickHub - Live Tournament Dashboard</title>
+    <title>Dunes FM Live - Inter-House Tournament Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
                     colors: {
-                        crickBg: '#050507',       
-                        cardBg: 'rgba(22, 22, 26, 0.45)', 
-                        glowYellow: '#FACC15',
-                        glowGreen: '#10B981',
-                        glowPurple: '#A855F7',
-                        glowBlue: '#0EA5E9'
+                        hub: {
+                            bgCanvas: '#050507',     /* Ultra-premium pitch black canvas */
+                            card: '#0F0F13',         /* Sleek obsidian blocks */
+                            border: '#1C1C22',       /* High-fidelity panel frame lines */
+                            accentYellow: '#FACC15', /* Cyber Gold neon glow */
+                            accentGreen: '#10B981',  /* Emerald scoreboard glow */
+                            accentPurple: '#A855F7', /* Deep Electric Violet */
+                            accentBlue: '#0EA5E9',   /* Pure Cyan match vibe */
+                            textMain: '#FAFAFA',     /* Crisp high-contrast text */
+                            textMuted: '#9CA3AF'     /* Informational gray stats text */
+                        }
                     },
                     boxShadow: {
-                        'neon-amber': '0 0 20px -3px rgba(250, 204, 21, 0.25), 0 0 10px -2px rgba(250, 204, 21, 0.15)',
-                        'neon-emerald': '0 0 20px -3px rgba(16, 185, 129, 0.25), 0 0 10px -2px rgba(16, 185, 129, 0.15)',
-                        'neon-purple': '0 0 20px -3px rgba(168, 85, 247, 0.25), 0 0 10px -2px rgba(168, 85, 247, 0.15)',
-                        'neon-cyan': '0 0 20px -3px rgba(14, 165, 233, 0.25), 0 0 10px -2px rgba(14, 165, 233, 0.15)',
+                        'glow-yellow': '0 0 20px -3px rgba(250, 204, 21, 0.2), 0 4px 6px -2px rgba(250, 204, 21, 0.05)',
+                        'glow-green': '0 0 20px -3px rgba(16, 185, 129, 0.2), 0 4px 6px -2px rgba(16, 185, 129, 0.05)',
+                        'glow-purple': '0 0 20px -3px rgba(168, 85, 247, 0.2), 0 4px 6px -2px rgba(168, 85, 247, 0.05)',
+                        'glow-blue': '0 0 20px -3px rgba(14, 165, 233, 0.2), 0 4px 6px -2px rgba(14, 165, 233, 0.05)',
                     }
                 }
             }
         }
     </script>
-    <style>
-        .glass-panel {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-    </style>
 </head>
-<body class="bg-crickBg text-gray-100 font-sans min-h-screen antialiased bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-yellow-950/20 via-crickBg to-crickBg p-4 sm:p-6 pb-20">
+<body class="bg-hub-bgCanvas text-hub-textMain font-sans min-h-screen antialiased p-4 pb-12 selection:bg-hub-accentYellow/30 selection:text-white">
 
-    <header class="max-w-6xl mx-auto mb-10 flex flex-col sm:flex-row justify-between items-center gap-6 glass-panel bg-black/30 rounded-2xl p-4 shadow-xl">
+    <div class="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-hub-accentYellow/50 to-transparent blur-md pointer-events-none z-50"></div>
+
+    <header class="max-w-6xl mx-auto mb-8 border-b border-hub-border/50 pb-5 mt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-4">
-            <div class="bg-gradient-to-br from-glowYellow to-amber-600 p-2 rounded-xl shadow-lg shadow-glowYellow/10">
-                <span class="text-black font-black text-lg tracking-tighter">CH</span>
+            <div class="bg-gradient-to-b from-white/[0.06] to-transparent p-2 rounded-xl border border-hub-border/80 backdrop-blur-md shadow-inner">
+                <img src="your-school-logo.png" alt="School Logo" class="h-10 w-auto object-contain fallback-logo" onerror="this.style.display='none'">
             </div>
             <div class="text-center sm:text-left">
-                <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2 justify-center sm:justify-start">
-                    DUNES CRICKHUB
-                    <span class="text-[9px] bg-glowYellow/10 text-glowYellow font-black px-2 py-0.5 rounded-md tracking-widest uppercase border border-glowYellow/20">v2.0 LIVE</span>
-                </h1>
-                <p class="text-[11px] font-semibold text-gray-400 tracking-wider uppercase mt-0.5">Inter-House Cricket Broadcasting Grid</p>
+                <h1 class="text-xl font-black tracking-wider text-hub-accentYellow uppercase drop-shadow-[0_0_8px_rgba(250,204,21,0.35)]">Dunes FM Sports Hub</h1>
+                <p class="text-xs font-bold text-hub-textMuted uppercase tracking-widest mt-0.5">Live Inter-House Tournament Broadcast</p>
             </div>
         </div>
         
-        <nav class="flex bg-black/40 p-1.5 rounded-xl border border-white/5 space-x-1">
-            <button onclick="switchTab('live')" id="tab-btn-live" class="text-xs font-bold px-4 py-2 rounded-lg transition dynamic-tab-active">Live Match</button>
-            <button onclick="switchTab('standings')" id="tab-btn-standings" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Standings</button>
-            <button onclick="switchTab('stats')" id="tab-btn-stats" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Player Stats</button>
-            <button onclick="switchTab('fixtures')" id="tab-btn-fixtures" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Schedule</button>
-        </nav>
+        <div class="flex bg-hub-card/90 p-1 rounded-xl border border-hub-border/80 backdrop-blur-md shadow-inner">
+            <button id="tab-live" onclick="switchActiveViewTab('live')" class="px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider transition-all duration-300 bg-hub-accentYellow text-black shadow-md">
+                Live Match
+            </button>
+            <button id="tab-standings" onclick="switchActiveViewTab('standings')" class="px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider text-hub-textMuted hover:text-white transition-all duration-300">
+                Standings
+            </button>
+            <button id="tab-leaders" onclick="switchActiveViewTab('leaders')" class="px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider text-hub-textMuted hover:text-white transition-all duration-300">
+                Leaderboards
+            </button>
+            <button id="tab-fixtures" onclick="switchActiveViewTab('fixtures')" class="px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider text-hub-textMuted hover:text-white transition-all duration-300">
+                Schedule
+            </button>
+        </div>
     </header>
 
     <main class="max-w-6xl mx-auto">
         
-        <section id="section-live" class="tab-content space-y-6">
-            <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-amber relative overflow-hidden border-l-4 border-l-glowYellow">
-                
-                <div class="flex justify-between items-center mb-6">
-                    <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-3 py-1.5 rounded-full border border-glowYellow/20">
-                        <span class="w-2 h-2 rounded-full bg-glowYellow animate-ping"></span>
-                        Live Match
-                    </span>
-                    <span id="live-overs-top" class="text-xs font-extrabold text-white bg-black/40 px-3 py-1 rounded-lg border border-white/5 font-mono">Overs: -</span>
+        <div id="panel-live" class="space-y-6 block">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-yellow relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentYellow/20">
+                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentYellow/5 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="flex justify-between items-center border-b border-hub-border/40 pb-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#EF4444] animate-pulse"></span>
+                        <span class="text-[10px] font-black tracking-widest text-red-500 uppercase">Live Broadcast</span>
+                    </div>
+                    <span id="display-overs-ticker" class="text-xs font-mono font-bold bg-white/5 border border-hub-border px-3 py-1 rounded-md text-hub-textMuted">Overs: 0.0</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <div>
-                        <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-gray-400 italic uppercase">Awaiting Toss</h2>
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Currently Batting</p>
+                        <div class="flex items-baseline gap-2">
+                            <h2 id="display-score-line" class="text-5xl font-black tracking-tighter text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.05)]">0 <span class="text-hub-textMuted text-3xl font-light">/</span> 0</h2>
+                            <span id="display-batting-house-badge" class="text-xs font-black tracking-widest text-hub-accentYellow border border-hub-accentYellow/30 bg-hub-accentYellow/5 px-2.5 py-1 rounded uppercase">Awaiting Game</span>
+                        </div>
+                        <p id="display-bowling-house-line" class="text-xs font-bold text-hub-textMuted tracking-wider uppercase mt-2">Bowling Side: Not Configured</p>
                     </div>
-                    <div class="flex md:justify-end items-baseline gap-1">
-                        <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono">-</span>
-                        <span class="text-4xl font-light text-gray-600">/</span>
-                        <span id="live-wickets" class="text-5xl font-bold text-white font-mono">-</span>
+
+                    <div class="bg-hub-inputBg/80 border border-hub-border rounded-xl p-4 shadow-inner backdrop-blur-sm min-h-[76px] flex flex-col justify-center border-l-2 border-l-hub-accentYellow">
+                        <span class="text-[8px] font-black tracking-widest text-hub-accentYellow uppercase mb-1 block">Live Commentary</span>
+                        <p id="display-commentary-ticker" class="text-xs font-medium text-hub-textMain italic">Waiting for toss confirmation from official school scorer match center line...</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-8">
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                        <p class="text-[9px] font-bold text-glowYellow uppercase tracking-wider mb-1">🏏 Batsman 1 (Striker)</p>
-                        <p id="live-bat1" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
-                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-hub-border/40 pt-6 mt-6">
+                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                        <span class="text-[9px] font-bold text-hub-accentYellow uppercase tracking-wider block mb-1">🏏 Striker</span>
+                        <div class="flex justify-between items-baseline">
+                            <span id="display-striker-name" class="text-xs font-bold truncate pr-2">---</span>
+                            <span id="display-striker-stats" class="text-xs font-mono font-bold text-hub-textMuted shrink-0">0(0)</span>
+                        </div>
                     </div>
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Batsman 2</p>
-                        <p id="live-bat2" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
-                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                        <span class="text-[9px] font-bold text-hub-textMuted uppercase tracking-wider block mb-1">🏏 Non-Striker</span>
+                        <div class="flex justify-between items-baseline">
+                            <span id="display-nonstriker-name" class="text-xs font-bold text-hub-textMuted truncate pr-2">---</span>
+                            <span id="display-nonstriker-stats" class="text-xs font-mono font-bold text-hub-textMuted shrink-0">0(0)</span>
+                        </div>
                     </div>
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                        <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">⚡ Bowler</p>
-                        <p id="live-bowler" class="text-sm font-bold text-gray-400 italic truncate">No Active Bowler</p>
-                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                        <span class="text-[9px] font-bold text-hub-textMuted uppercase tracking-wider block mb-1">🎯 Active Bowler</span>
+                        <div class="flex justify-between items-baseline">
+                            <span id="display-bowler-name" class="text-xs font-bold text-hub-textMuted truncate pr-2">---</span>
+                            <span id="display-bowler-stats" class="text-xs font-mono font-bold text-hub-textMuted shrink-0">0-0-0-0</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="border-t border-white/10 pt-4 mt-6 flex justify-between items-center text-xs text-gray-400">
-                    <span class="uppercase tracking-wider font-semibold text-[10px]">Bowling Team:</span>
-                    <span id="live-bowling-team" class="font-extrabold text-gray-400 uppercase tracking-wide italic">Awaiting Toss</span>
-                </div>
-            </div>
-
-            <div class="glass-panel bg-cardBg rounded-2xl p-5 shadow-lg border-l-4 border-l-white/10">
-                <h4 class="text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2">Live Timeline Commentary</h4>
-                <div class="bg-black/30 rounded-xl p-4 border border-white/5 shadow-inner">
-                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-gray-400 leading-relaxed">Broadcast offline. Tune in when the next match starts!</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="section-standings" class="tab-content space-y-4 hidden">
-            <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-emerald relative overflow-hidden border-l-4 border-l-glowGreen">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowGreen/5 rounded-full blur-3xl pointer-events-none"></div>
-                <h3 class="text-xs font-black tracking-widest text-glowGreen uppercase mb-4">House Rankings & Standings Matrix</h3>
+        <div id="panel-standings" class="space-y-4 hidden">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-green relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentGreen/20">
+                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentGreen/5 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <h2 class="text-xs font-black tracking-wider text-hub-accentGreen uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(16,185,129,0.25)]">
+                    <span class="w-2 h-2 rounded-full bg-hub-accentGreen shadow-[0_0_8px_#10B981]"></span>
+                    Inter-House Point Matrix Rankings
+                </h2>
+                
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="border-b border-white/10 text-[10px] font-black text-gray-400 tracking-wider uppercase">
-                                <th class="pb-3 pl-2">House Team Name</th>
-                                <th class="pb-3 text-center">Played</th>
-                                <th class="pb-3 text-center">Won</th>
-                                <th class="pb-3 text-center">Lost</th>
-                                <th class="pb-3 text-center text-glowGreen">Points</th>
+                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[10px] font-black tracking-wider">
+                                <th class="py-3 px-4">House Group Stream</th>
+                                <th class="py-3 px-3 text-center">Played</th>
+                                <th class="py-3 px-3 text-center">Won</th>
+                                <th class="py-3 px-3 text-center">Lost</th>
+                                <th class="py-3 px-4 text-right text-hub-accentGreen">Total Points</th>
                             </tr>
                         </thead>
-                        <tbody id="standings-tbody" class="text-xs font-bold divide-y divide-white/5"></tbody>
+                        <tbody id="render-standings-rows" class="divide-y divide-hub-border/40 font-semibold uppercase">
+                            </tbody>
                     </table>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section id="section-stats" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="panel-leaders" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentPurple/20">
+                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentPurple/5 rounded-full blur-2xl pointer-events-none"></div>
+                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(168,85,247,0.25)]">
+                    🔶 Orange Cap Stream (Most Runs Overall)
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
+                                <th class="py-2.5 px-3">Player Name</th>
+                                <th class="py-2.5 px-3">House</th>
+                                <th class="py-2.5 px-3 text-center">High</th>
+                                <th class="py-2.5 px-3 text-right text-hub-accentPurple">Total Runs</th>
+                            </tr>
+                        </thead>
+                        <tbody id="render-orange-cap-rows" class="divide-y divide-hub-border/30 font-semibold uppercase"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentPurple/20">
+                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentPurple/5 rounded-full blur-2xl pointer-events-none"></div>
+                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(168,85,247,0.25)]">
+                    🔷 Purple Cap Stream (Most Wickets Haul)
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
+                                <th class="py-2.5 px-3">Player Name</th>
+                                <th class="py-2.5 px-3">House</th>
+                                <th class="py-2.5 px-3 text-right text-hub-accentPurple">Wickets Tally</th>
+                            </tr>
+                        </thead>
+                        <tbody id="render-purple-cap-rows" class="divide-y divide-hub-border/30 font-semibold uppercase"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="panel-fixtures" class="space-y-4 hidden">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-blue relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentBlue/20">
+                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentBlue/5 rounded-full blur-2xl pointer-events-none"></div>
                 
-                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">👑 Orange Cap Holder</h3>
-                            <span class="text-[9px] bg-orange-400/10 text-orange-400 border border-orange-400/20 font-extrabold px-2 py-0.5 rounded">Most Runs</span>
-                        </div>
-                        <div class="space-y-1">
-                            <p id="orange-cap-name" class="text-xl font-extrabold text-white">-</p>
-                            <p id="orange-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
-                        </div>
+                <h2 class="text-xs font-black tracking-wider text-hub-accentBlue uppercase flex items-center gap-2 mb-6 drop-shadow-[0_0_6px_rgba(14,165,233,0.25)]">
+                    <span class="w-2 h-2 rounded-full bg-hub-accentBlue shadow-[0_0_8px_#0EA5E9]"></span>
+                    Official Inter-House Fixture Schedule Streams
+                </h2>
+                
+                <div id="render-fixtures-cards" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     </div>
-                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Match Runs</span>
-                        <span id="orange-cap-runs" class="text-xl font-black text-glowPurple font-mono">-</span>
-                    </div>
-                </div>
-
-                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-purple-400 uppercase">👑 Purple Cap Holder</h3>
-                            <span class="text-[9px] bg-purple-400/10 text-purple-400 border border-purple-400/20 font-extrabold px-2 py-0.5 rounded">Most Wickets</span>
-                        </div>
-                        <div class="space-y-1">
-                            <p id="purple-cap-name" class="text-xl font-extrabold text-white">-</p>
-                            <p id="purple-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
-                        </div>
-                    </div>
-                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Scale Wickets</span>
-                        <span id="purple-cap-wickets" class="text-xl font-black text-glowPurple font-mono">-</span>
-                    </div>
-                </div>
-
-                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-pink-400 uppercase">⚡ Tournament MVP High</h3>
-                            <span class="text-[9px] bg-pink-400/10 text-pink-400 border border-pink-400/20 font-extrabold px-2 py-0.5 rounded">Top Score</span>
-                        </div>
-                        <div class="space-y-1">
-                            <p id="mvp-name" class="text-xl font-extrabold text-white">-</p>
-                            <p id="mvp-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
-                        </div>
-                    </div>
-                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Highest Innings Score</span>
-                        <span id="mvp-score" class="text-xl font-black text-glowPurple font-mono">-</span>
-                    </div>
-                </div>
-
             </div>
-        </section>
-
-        <section id="section-fixtures" class="tab-content space-y-4 hidden">
-            <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-cyan relative overflow-hidden border-l-4 border-l-glowBlue">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowBlue/5 rounded-full blur-3xl pointer-events-none"></div>
-                <h3 class="text-xs font-black tracking-widest text-glowBlue uppercase mb-4">Official Tournament Timeline Match Streams</h3>
-                <div id="fixtures-container" class="space-y-3"></div>
-            </div>
-        </section>
+        </div>
 
     </main>
 
@@ -214,159 +209,165 @@
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        function switchTab(targetId) {
-            document.querySelectorAll('.tab-content').forEach(element => element.classList.add('hidden'));
-            document.getElementById(`section-${targetId}`).classList.remove('hidden');
-
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.classList.remove('text-white', 'bg-white/10', 'border', 'border-white/10', 'shadow-sm');
-                btn.classList.add('text-gray-400');
-            });
-
-            const activeBtn = document.getElementById(`tab-btn-${targetId}`);
-            activeBtn.classList.remove('text-gray-400');
-            activeBtn.classList.add('text-white', 'bg-white/10', 'border', 'border-white/10', 'shadow-sm');
-
-            if(targetId === 'standings') streamPointsTable();
-            if(targetId === 'stats') streamPlayerLeaderboardCards();
-            if(targetId === 'fixtures') streamFixturesList();
-        }
-
-        function initializeRealtimeScoreboard() {
-            supabaseConnection
-                .channel('score-channel')
-                .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
-                    renderLiveScore(payload.new);
-                })
-                .subscribe();
-
-            supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle().then(({data}) => {
-                if(data) renderLiveScore(data);
+        // Client Tab Switching Logic Matrix Block
+        function switchActiveViewTab(targetTab) {
+            const tabs = ['live', 'standings', 'leaders', 'fixtures'];
+            tabs.forEach(t => {
+                const button = document.getElementById(`tab-${t}`);
+                const panel = document.getElementById(`panel-${t}`);
+                
+                if(t === targetTab) {
+                    button.className = "px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider transition-all duration-300 bg-hub-accentYellow text-black shadow-md";
+                    panel.classList.remove('hidden');
+                    panel.classList.add('block');
+                } else {
+                    button.className = "px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider text-hub-textMuted hover:text-white transition-all duration-300";
+                    panel.classList.remove('block');
+                    panel.classList.add('hidden');
+                }
             });
         }
 
-        function renderLiveScore(row) {
-            document.getElementById('live-runs').textContent = row.runs !== null && row.runs !== undefined ? row.runs : "-";
-            document.getElementById('live-wickets').textContent = row.wickets !== null && row.wickets !== undefined ? row.wickets : "-";
-            document.getElementById('live-overs-top').textContent = row.overs ? `Overs: ${row.overs}` : "Overs: -";
-            document.getElementById('live-commentary').textContent = row.commentary || "Broadcast offline. Tune in when the next match starts!";
-            
-            // Batting Team Filler Logic
-            const batTeamEl = document.getElementById('live-batting-team');
-            batTeamEl.textContent = row.batting_team || "Awaiting Toss";
-            if(!row.batting_team) {
-                batTeamEl.classList.add('text-gray-400', 'italic', 'font-medium');
-                batTeamEl.classList.remove('text-white', 'font-black');
-            } else {
-                batTeamEl.classList.remove('text-gray-400', 'italic', 'font-medium');
-                batTeamEl.classList.add('text-white', 'font-black');
+        // 1. Live Public Broadcast Score Real-Time Stream Syncing Call Lines
+        async function fetchLiveScoreEngineStream() {
+            const { data, error } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+            if(data) {
+                const scoreField = document.getElementById('display-score-line');
+                const oversField = document.getElementById('display-overs-ticker');
+                const commentaryField = document.getElementById('display-commentary-ticker');
+                const battingBadge = document.getElementById('display-batting-house-badge');
+                const bowlingLine = document.getElementById('display-bowling-house-line');
+
+                if(data.runs === null || data.wickets === null) {
+                    scoreField.innerHTML = `MATCH <span class="text-hub-accentYellow font-light">OFFLINE</span>`;
+                    battingBadge.innerText = "Awaiting Game";
+                    bowlingLine.innerText = "Check schedule info for next house lineup clash";
+                    oversField.innerText = "Overs: --";
+                    commentaryField.innerText = data.commentary || "Broadcast channel matches are currently static.";
+                    
+                    document.getElementById('display-striker-name').innerText = "---";
+                    document.getElementById('display-striker-stats').innerText = "0(0)";
+                    document.getElementById('display-nonstriker-name').innerText = "---";
+                    document.getElementById('display-nonstriker-stats').innerText = "0(0)";
+                    document.getElementById('display-bowler-name').innerText = "---";
+                    document.getElementById('display-bowler-stats').innerText = "0-0-0-0";
+                    return;
+                }
+
+                scoreField.innerHTML = `${data.runs} <span class="text-hub-textMuted font-light text-2xl">/</span> ${data.wickets}`;
+                oversField.innerText = `Overs: ${data.overs || '0.0'}`;
+                commentaryField.innerText = data.commentary || "Ball-by-ball logging stream processing natively...";
+                battingBadge.innerText = data.batting_team || "BATTING";
+                bowlingLine.innerText = `Bowling Side: ${data.bowling_team || 'Not Configured'}`;
+
+                document.getElementById('display-striker-name').innerText = data.batsman_on_strike || "---";
+                document.getElementById('display-striker-stats').innerText = data.batsman_on_strike_stats || "0(0)";
+                document.getElementById('display-nonstriker-name').innerText = data.batsman_off_strike || "---";
+                document.getElementById('display-nonstriker-stats').innerText = data.batsman_off_strike_stats || "0(0)";
+                document.getElementById('display-bowler-name').innerText = data.current_bowler || "---";
+                document.getElementById('display-bowler-stats').innerText = data.current_bowler_stats || "0-0-0-0";
             }
-
-            // Bowling Team Filler Logic
-            const bowlTeamEl = document.getElementById('live-bowling-team');
-            bowlTeamEl.textContent = row.bowling_team || "Awaiting Toss";
-            if(!row.bowling_team) {
-                bowlTeamEl.classList.add('text-gray-400', 'italic');
-                bowlTeamEl.classList.remove('text-white');
-            } else {
-                bowlTeamEl.classList.remove('text-gray-400', 'italic');
-                bowlTeamEl.classList.add('text-white');
-            }
-
-            // Player field fillers
-            const bat1El = document.getElementById('live-bat1');
-            bat1El.textContent = row.batsman_on_strike || "No Active Batsman";
-            if(!row.batsman_on_strike) { bat1El.classList.add('text-gray-400', 'italic'); } else { bat1El.classList.remove('text-gray-400', 'italic'); }
-
-            const bat2El = document.getElementById('live-bat2');
-            bat2El.textContent = row.batsman_off_strike || "No Active Batsman";
-            if(!row.batsman_off_strike) { bat2El.classList.add('text-gray-400', 'italic'); } else { bat2El.classList.remove('text-gray-400', 'italic'); }
-
-            const bowlEl = document.getElementById('live-bowler');
-            bowlEl.textContent = row.current_bowler || "No Active Bowler";
-            if(!row.current_bowler) { bowlEl.classList.add('text-gray-400', 'italic'); } else { bowlEl.classList.remove('text-gray-400', 'italic'); }
-
-            document.getElementById('live-bat1-stats').textContent = row.batsman_on_strike_stats || "-";
-            document.getElementById('live-bat2-stats').textContent = row.batsman_off_strike_stats || "-";
-            document.getElementById('live-bowler-stats').textContent = row.current_bowler_stats || "-";
         }
 
-        async function streamPointsTable() {
+        // 2. Points Matrix Standings Compilation Function
+        async function fetchStandingsMatrixView() {
             const { data } = await supabaseConnection.from('points_table').select('*').order('points', { ascending: false });
-            const tbody = document.getElementById('standings-tbody');
-            tbody.innerHTML = "";
+            const container = document.getElementById('render-standings-rows');
+            container.innerHTML = "";
+
             if(data) {
                 data.forEach(row => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/[0.02] transition";
+                    tr.className = "hover:bg-white/[0.01] transition-all duration-150 border-b border-hub-border/20";
                     tr.innerHTML = `
-                        <td class="py-3.5 pl-2 text-white">${row.house_name}</td>
-                        <td class="py-3.5 text-center">${row.played}</td>
-                        <td class="py-3.5 text-center text-emerald-400">${row.won}</td>
-                        <td class="py-3.5 text-center text-rose-400">${row.lost}</td>
-                        <td class="py-3.5 text-center text-glowGreen font-extrabold text-sm">${row.points}</td>
+                        <td class="py-3.5 px-4 font-black tracking-wide text-white">${row.house_name}</td>
+                        <td class="py-3.5 px-3 text-center text-hub-textMuted">${row.played}</td>
+                        <td class="py-3.5 px-3 text-center text-green-400">${row.won}</td>
+                        <td class="py-3.5 px-3 text-center text-red-400">${row.lost}</td>
+                        <td class="py-3.5 px-4 text-right font-black text-hub-accentGreen drop-shadow-[0_0_6px_rgba(16,185,129,0.2)]">${row.points} PTS</td>
                     `;
-                    tbody.appendChild(tr);
+                    container.appendChild(tr);
                 });
             }
         }
 
-        async function streamPlayerLeaderboardCards() {
-            const { data } = await supabaseConnection.from('player_stats').select('*');
-            if (!data || data.length === 0) return;
+        // 3. Player Caps Individual Leaderboards Aggregation Function
+        async function fetchLeaderboardsStreamView() {
+            const { data: runsData } = await supabaseConnection.from('player_stats').select('*').order('total_runs', { ascending: false }).limit(5);
+            const { data: wicketsData } = await supabaseConnection.from('player_stats').select('*').order('total_wickets', { ascending: false }).limit(5);
 
-            const orangeLeader = [...data].sort((a, b) => b.total_runs - a.total_runs)[0];
-            const purpleLeader = [...data].sort((a, b) => b.total_wickets - a.total_wickets)[0];
-            const mvpLeader = [...data].sort((a, b) => b.highest_score - a.highest_score)[0];
+            const runsContainer = document.getElementById('render-orange-cap-rows');
+            const wicketsContainer = document.getElementById('render-purple-cap-rows');
+            
+            runsContainer.innerHTML = "";
+            wicketsContainer.innerHTML = "";
 
-            if(orangeLeader) {
-                document.getElementById('orange-cap-name').textContent = orangeLeader.player_name;
-                document.getElementById('orange-cap-house').textContent = orangeLeader.house_name;
-                document.getElementById('orange-cap-runs').textContent = orangeLeader.total_runs;
+            if(runsData) {
+                runsData.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-white/[0.01] transition-all border-b border-hub-border/10";
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-bold text-white">${p.player_name}</td>
+                        <td class="py-3 px-3 text-[10px] text-hub-textMuted font-black tracking-wider">${p.house_name}</td>
+                        <td class="py-3 px-3 text-center text-hub-textMuted">${p.highest_score}</td>
+                        <td class="py-3 px-3 text-right font-black text-hub-accentPurple">${p.total_runs}</td>
+                    `;
+                    runsContainer.appendChild(tr);
+                });
             }
-            if(purpleLeader) {
-                document.getElementById('purple-cap-name').textContent = purpleLeader.player_name;
-                document.getElementById('purple-cap-house').textContent = purpleLeader.house_name;
-                document.getElementById('purple-cap-wickets').textContent = purpleLeader.total_wickets;
-            }
-            if(mvpLeader) {
-                document.getElementById('mvp-name').textContent = mvpLeader.player_name;
-                document.getElementById('mvp-house').textContent = mvpLeader.house_name;
-                document.getElementById('mvp-score').textContent = mvpLeader.highest_score;
+
+            if(wicketsData) {
+                wicketsData.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-white/[0.01] transition-all border-b border-hub-border/10";
+                    tr.innerHTML = `
+                        <td class="py-3 px-3 font-bold text-white">${p.player_name}</td>
+                        <td class="py-3 px-3 text-[10px] text-hub-textMuted font-black tracking-wider">${p.house_name}</td>
+                        <td class="py-3 px-3 text-right font-black text-hub-accentPurple">${p.total_wickets} Wkts</td>
+                    `;
+                    wicketsContainer.appendChild(tr);
+                });
             }
         }
 
-        async function streamFixturesList() {
+        // 4. Tournament Fixtures Slot Schedule Rendering Core Card Block
+        async function fetchFixturesSlotScheduleView() {
             const { data } = await supabaseConnection.from('fixtures').select('*').order('match_num', { ascending: true });
-            const container = document.getElementById('fixtures-container');
+            const container = document.getElementById('render-fixtures-cards');
             container.innerHTML = "";
-            if(data) {
-                data.forEach(match => {
-                    let badgeStyles = "bg-gray-500/10 text-gray-400 border-gray-500/20";
-                    if(match.time_status === 'LIVE') badgeStyles = "bg-glowYellow/10 text-glowYellow border-glowYellow/20 animate-pulse";
-                    if(match.time_status === 'COMPLETED') badgeStyles = "bg-glowGreen/10 text-glowGreen border-glowGreen/20";
 
-                    const div = document.createElement('div');
-                    div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-black/20 border border-white/5 rounded-xl gap-3 hover:border-white/10 transition";
-                    div.innerHTML = `
-                        <div>
-                            <div class="flex items-center gap-2.5">
-                                <span class="text-xs font-black text-white">Match 0${match.match_num}</span>
-                                <span class="text-[9px] font-bold px-2 py-0.5 rounded-md border uppercase ${badgeStyles}">${match.time_status}</span>
-                            </div>
-                            <p class="text-sm font-extrabold text-gray-200 mt-1 uppercase tracking-wide">${match.teams || 'TBD VS TBD'}</p>
+            if(data) {
+                data.forEach(f => {
+                    let statusStyle = "bg-hub-border text-hub-textMuted border-hub-border";
+                    if(f.time_status === "LIVE") statusStyle = "bg-red-500/10 text-red-400 border-red-500/30 shadow-[0_0_8px_rgba(239,68,68,0.1)]";
+                    if(f.time_status === "COMPLETED") statusStyle = "bg-hub-accentGreen/10 text-hub-accentGreen border-hub-accentGreen/20";
+
+                    const card = document.createElement('div');
+                    card.className = "bg-hub-inputBg/40 border border-hub-border/70 rounded-xl p-4 flex flex-col justify-between transition-all hover:bg-hub-inputBg/80";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] font-black tracking-widest text-hub-textMuted uppercase">Match 0${f.match_num}</span>
+                            <span class="text-[9px] font-black tracking-widest border px-2 py-0.5 rounded uppercase ${statusStyle}">${f.time_status}</span>
                         </div>
-                        <p class="text-xs font-medium text-gray-400 italic bg-black/40 px-3 py-1.5 rounded-lg border border-white/5 w-full sm:w-auto text-left sm:text-right">${match.result_summary || 'No summary registered yet'}</p>
+                        <h3 class="text-sm font-black text-white tracking-wide uppercase mb-1">${f.teams}</h3>
+                        <p class="text-xs font-semibold text-hub-textMuted normal-case italic border-t border-hub-border/30 pt-2 mt-2">${f.result_summary || 'No overview notes logged yet.'}</p>
                     `;
-                    container.appendChild(div);
+                    container.appendChild(card);
                 });
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            switchTab('live');
-            initializeRealtimeScoreboard();
-        });
+        // Live Dynamic Real-Time Ticker Inversion Trigger Sets Loop
+        function executeGlobalRealTimeRefreshLoop() {
+            fetchLiveScoreEngineStream();
+            fetchStandingsMatrixView();
+            fetchLeaderboardsStreamView();
+            fetchFixturesSlotScheduleView();
+        }
+
+        // Interval execution configurations mapping directly for production live monitoring
+        executeGlobalRealTimeRefreshLoop();
+        setInterval(executeGlobalRealTimeRefreshLoop, 4000); // Poll every 4 seconds for immediate action tracking updates
     </script>
 </body>
 </html>
