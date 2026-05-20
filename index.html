@@ -74,49 +74,49 @@
                         <span class="w-2 h-2 rounded-full bg-glowYellow animate-ping"></span>
                         Live Match
                     </span>
-                    <span id="live-overs-top" class="text-xs font-extrabold text-white bg-black/40 px-3 py-1 rounded-lg border border-white/5 font-mono">Overs: 0.0</span>
+                    <span id="live-overs-top" class="text-xs font-extrabold text-white bg-black/40 px-3 py-1 rounded-lg border border-white/5 font-mono">Overs: -</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <div>
-                        <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-white uppercase">TEAM A</h2>
+                        <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-gray-400 italic uppercase">Awaiting Toss</h2>
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Currently Batting</p>
                     </div>
                     <div class="flex md:justify-end items-baseline gap-1">
-                        <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono">0</span>
+                        <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono">-</span>
                         <span class="text-4xl font-light text-gray-600">/</span>
-                        <span id="live-wickets" class="text-5xl font-bold text-white font-mono">0</span>
+                        <span id="live-wickets" class="text-5xl font-bold text-white font-mono">-</span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-8">
                     <div class="bg-black/20 p-4 rounded-xl border border-white/5">
                         <p class="text-[9px] font-bold text-glowYellow uppercase tracking-wider mb-1">🏏 Batsman 1 (Striker)</p>
-                        <p id="live-bat1" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bat1" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
+                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
                     </div>
                     <div class="bg-black/20 p-4 rounded-xl border border-white/5">
                         <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Batsman 2</p>
-                        <p id="live-bat2" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bat2" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
+                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
                     </div>
                     <div class="bg-black/20 p-4 rounded-xl border border-white/5">
                         <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">⚡ Bowler</p>
-                        <p id="live-bowler" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bowler" class="text-sm font-bold text-gray-400 italic truncate">No Active Bowler</p>
+                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
                     </div>
                 </div>
 
                 <div class="border-t border-white/10 pt-4 mt-6 flex justify-between items-center text-xs text-gray-400">
                     <span class="uppercase tracking-wider font-semibold text-[10px]">Bowling Team:</span>
-                    <span id="live-bowling-team" class="font-extrabold text-white uppercase tracking-wide">-</span>
+                    <span id="live-bowling-team" class="font-extrabold text-gray-400 uppercase tracking-wide italic">Awaiting Toss</span>
                 </div>
             </div>
 
             <div class="glass-panel bg-cardBg rounded-2xl p-5 shadow-lg border-l-4 border-l-white/10">
                 <h4 class="text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2">Live Timeline Commentary</h4>
                 <div class="bg-black/30 rounded-xl p-4 border border-white/5 shadow-inner">
-                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-white leading-relaxed">Awaiting live metrics stream...</p>
+                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-gray-400 leading-relaxed">Broadcast offline. Tune in when the next match starts!</p>
                 </div>
             </div>
         </section>
@@ -124,7 +124,7 @@
         <section id="section-standings" class="tab-content space-y-4 hidden">
             <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-emerald relative overflow-hidden border-l-4 border-l-glowGreen">
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowGreen/5 rounded-full blur-3xl pointer-events-none"></div>
-                <h3 class="text-xs font-black tracking-widest text-glowGreen uppercase mb-4">House Rankings & Standings Matrix</h3>
+                h3 class="text-xs font-black tracking-widest text-glowGreen uppercase mb-4">House Rankings & Standings Matrix</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -246,18 +246,48 @@
         }
 
         function renderLiveScore(row) {
-            document.getElementById('live-runs').textContent = row.runs ?? 0;
-            document.getElementById('live-wickets').textContent = row.wickets ?? 0;
-            document.getElementById('live-overs-top').textContent = `Overs: ${row.overs || '0.0'}`;
-            document.getElementById('live-batting-team').textContent = row.batting_team || "TEAM A";
-            document.getElementById('live-bowling-team').textContent = row.bowling_team || "-";
-            document.getElementById('live-commentary').textContent = row.commentary || "Awaiting live metrics stream...";
+            document.getElementById('live-runs').textContent = row.runs !== null && row.runs !== undefined ? row.runs : "-";
+            document.getElementById('live-wickets').textContent = row.wickets !== null && row.wickets !== undefined ? row.wickets : "-";
+            document.getElementById('live-overs-top').textContent = row.overs ? `Overs: ${row.overs}` : "Overs: -";
+            document.getElementById('live-commentary').textContent = row.commentary || "Broadcast offline. Tune in when the next match starts!";
             
-            document.getElementById('live-bat1').textContent = row.batsman_on_strike || "-";
+            // Batting Team Filler Logic
+            const batTeamEl = document.getElementById('live-batting-team');
+            batTeamEl.textContent = row.batting_team || "Awaiting Toss";
+            if(!row.batting_team) {
+                batTeamEl.classList.add('text-gray-400', 'italic', 'font-medium');
+                batTeamEl.classList.remove('text-white', 'font-black');
+            } else {
+                batTeamEl.classList.remove('text-gray-400', 'italic', 'font-medium');
+                batTeamEl.classList.add('text-white', 'font-black');
+            }
+
+            // Bowling Team Filler Logic
+            const bowlTeamEl = document.getElementById('live-bowling-team');
+            bowlTeamEl.textContent = row.bowling_team || "Awaiting Toss";
+            if(!row.bowling_team) {
+                bowlTeamEl.classList.add('text-gray-400', 'italic');
+                bowlTeamEl.classList.remove('text-white');
+            } else {
+                bowlTeamEl.classList.remove('text-gray-400', 'italic');
+                bowlTeamEl.classList.add('text-white');
+            }
+
+            // Player field fillers
+            const bat1El = document.getElementById('live-bat1');
+            bat1El.textContent = row.batsman_on_strike || "No Active Batsman";
+            if(!row.batsman_on_strike) { bat1El.classList.add('text-gray-400', 'italic'); } else { bat1El.classList.remove('text-gray-400', 'italic'); }
+
+            const bat2El = document.getElementById('live-bat2');
+            bat2El.textContent = row.batsman_off_strike || "No Active Batsman";
+            if(!row.batsman_off_strike) { bat2El.classList.add('text-gray-400', 'italic'); } else { bat2El.classList.remove('text-gray-400', 'italic'); }
+
+            const bowlEl = document.getElementById('live-bowler');
+            bowlEl.textContent = row.current_bowler || "No Active Bowler";
+            if(!row.current_bowler) { bowlEl.classList.add('text-gray-400', 'italic'); } else { bowlEl.classList.remove('text-gray-400', 'italic'); }
+
             document.getElementById('live-bat1-stats').textContent = row.batsman_on_strike_stats || "-";
-            document.getElementById('live-bat2').textContent = row.batsman_off_strike || "-";
             document.getElementById('live-bat2-stats').textContent = row.batsman_off_strike_stats || "-";
-            document.getElementById('live-bowler').textContent = row.current_bowler || "-";
             document.getElementById('live-bowler-stats').textContent = row.current_bowler_stats || "-";
         }
 
