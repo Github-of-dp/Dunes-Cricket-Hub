@@ -15,18 +15,17 @@
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
-                        crickBg: '#030305',       
-                        cardBg: 'rgba(15, 15, 20, 0.4)', 
+                        crickBg: '#020204',       
                         glowYellow: '#FACC15',
                         glowGreen: '#10B981',
                         glowPurple: '#A855F7',
                         glowBlue: '#0EA5E9'
                     },
                     boxShadow: {
-                        'neon-amber': '0 0 30px -5px rgba(250, 204, 21, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
-                        'neon-emerald': '0 0 30px -5px rgba(16, 185, 129, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
-                        'neon-purple': '0 0 30px -5px rgba(168, 85, 247, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
-                        'neon-cyan': '0 0 30px -5px rgba(14, 165, 233, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                        'neon-amber': '0 20px 40px -15px rgba(250, 204, 21, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+                        'neon-emerald': '0 20px 40px -15px rgba(16, 185, 129, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+                        'neon-purple': '0 20px 40px -15px rgba(168, 85, 247, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+                        'neon-cyan': '0 20px 40px -15px rgba(14, 165, 233, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
                     }
                 }
             }
@@ -34,36 +33,42 @@
     </script>
     <style>
         .glass-panel {
-            backdrop-filter: blur(20px) saturate(190%);
-            -webkit-backdrop-filter: blur(20px) saturate(190%);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px) saturate(210%);
+            -webkit-backdrop-filter: blur(24px) saturate(210%);
+            background: linear-gradient(145deg, rgba(20, 20, 25, 0.6) 0%, rgba(10, 10, 12, 0.45) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
         }
         .glass-subcard {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
 </head>
-<body class="bg-crickBg text-gray-100 font-sans min-h-screen antialiased bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-950/15 via-crickBg to-crickBg p-4 sm:p-6 pb-20">
+<body class="bg-crickBg text-gray-100 font-sans min-h-screen antialiased bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-950/25 via-purple-950/10 to-crickBg p-4 sm:p-6 pb-20 relative overflow-x-hidden">
 
-    <header class="max-w-6xl mx-auto mb-10 flex flex-col sm:flex-row justify-between items-center gap-6 glass-panel rounded-2xl p-4 shadow-2xl">
-        <div class="flex items-center gap-4">
-            <div class="bg-gradient-to-br from-glowYellow to-amber-600 p-2 rounded-xl shadow-lg shadow-glowYellow/10">
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-1/4 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+
+    <header class="max-w-6xl mx-auto mb-10 flex flex-col sm:flex-row justify-between items-center gap-6 glass-panel rounded-2xl p-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-white/[0.02] to-transparent pointer-events-none"></div>
+        <div class="flex items-center gap-4 relative z-10">
+            <div class="bg-gradient-to-br from-glowYellow to-amber-600 p-2 rounded-xl shadow-lg shadow-glowYellow/20">
                 <span class="text-black font-black text-lg tracking-tighter">CH</span>
             </div>
             <div class="text-center sm:text-left">
                 <h1 class="text-xl font-extrabold tracking-tight text-white flex items-center gap-2 justify-center sm:justify-start">
                     DUNES CRICKHUB
-                    <span class="text-[9px] bg-glowYellow/10 text-glowYellow font-black px-2 py-0.5 rounded-md tracking-widest uppercase border border-glowYellow/20">v2.0 LIVE</span>
+                    <span class="text-[9px] bg-glowYellow/10 text-glowYellow font-black px-2 py-0.5 rounded-md tracking-widest uppercase border border-glowYellow/30 backdrop-blur-md">v2.0 LIVE</span>
                 </h1>
                 <p class="text-[11px] font-semibold text-gray-400 tracking-wider uppercase mt-0.5">Inter-House Cricket Broadcasting Grid</p>
             </div>
         </div>
         
-        <nav class="flex bg-black/40 p-1.5 rounded-xl border border-white/5 space-x-1">
+        <nav class="flex bg-black/50 p-1.5 rounded-xl border border-white/5 space-x-1 relative z-10">
             <button onclick="switchTab('live')" id="tab-btn-live" class="text-xs font-bold px-4 py-2 rounded-lg transition dynamic-tab-active">Live Match</button>
             <button onclick="switchTab('standings')" id="tab-btn-standings" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Standings</button>
             <button onclick="switchTab('stats')" id="tab-btn-stats" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Player Stats</button>
@@ -75,13 +80,14 @@
         
         <section id="section-live" class="tab-content space-y-6">
             <div class="glass-panel rounded-3xl p-6 shadow-neon-amber relative overflow-hidden border-l-4 border-l-glowYellow">
+                <div class="absolute top-0 right-0 w-80 h-80 bg-glowYellow/[0.02] rounded-full blur-3xl pointer-events-none"></div>
                 
                 <div class="flex justify-between items-center mb-6">
-                    <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-3 py-1.5 rounded-full border border-glowYellow/20">
+                    <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-3 py-1.5 rounded-full border border-glowYellow/20 backdrop-blur-md">
                         <span class="w-2 h-2 rounded-full bg-glowYellow animate-ping"></span>
                         Live Match
                     </span>
-                    <span id="live-overs-top" class="text-xs font-extrabold text-white glass-subcard bg-black/20 px-3 py-1 rounded-lg font-mono">Overs: -</span>
+                    <span id="live-overs-top" class="hidden"></span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
@@ -89,28 +95,34 @@
                         <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-gray-400 italic uppercase">Awaiting Toss</h2>
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Currently Batting</p>
                     </div>
-                    <div class="flex md:justify-end items-baseline gap-1">
-                        <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono drop-shadow-[0_0_15px_rgba(250,204,21,0.3)]">-</span>
-                        <span class="text-4xl font-light text-gray-700">/</span>
-                        <span id="live-wickets" class="text-5xl font-bold text-white font-mono">-</span>
+                    
+                    <div class="flex flex-col md:items-end justify-center gap-1">
+                        <div class="glass-subcard px-3 py-1 rounded-lg border border-white/10 mb-1 w-max">
+                            <span id="live-overs-display" class="text-xs font-black tracking-wider text-amber-400 uppercase font-mono">Overs: -</span>
+                        </div>
+                        <div class="flex items-baseline gap-1">
+                            <span id="live-runs" class="text-6xl font-extrabold tracking-tighter text-glowYellow font-mono drop-shadow-[0_0_20px_rgba(250,204,21,0.35)]">-</span>
+                            <span class="text-4xl font-light text-gray-700">/</span>
+                            <span id="live-wickets" class="text-5xl font-bold text-white font-mono drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">-</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/5 pt-6 mt-8">
-                    <div class="glass-subcard p-4 rounded-xl">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-8">
+                    <div class="glass-subcard p-4 rounded-xl shadow-md">
                         <p class="text-[9px] font-bold text-glowYellow uppercase tracking-wider mb-1">🏏 Batsman 1 (Striker)</p>
-                        <p id="live-bat1" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
-                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bat1" class="text-sm font-bold text-gray-300 italic truncate">No Active Batsman</p>
+                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-400 mt-1.5 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5 shadow-inner">-</p>
                     </div>
-                    <div class="glass-subcard p-4 rounded-xl">
+                    <div class="glass-subcard p-4 rounded-xl shadow-md">
                         <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">Batsman 2</p>
-                        <p id="live-bat2" class="text-sm font-bold text-gray-400 italic truncate">No Active Batsman</p>
-                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bat2" class="text-sm font-bold text-gray-300 italic truncate">No Active Batsman</p>
+                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-400 mt-1.5 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5 shadow-inner">-</p>
                     </div>
-                    <div class="glass-subcard p-4 rounded-xl">
+                    <div class="glass-subcard p-4 rounded-xl shadow-md">
                         <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-1">⚡ Bowler</p>
-                        <p id="live-bowler" class="text-sm font-bold text-gray-400 italic truncate">No Active Bowler</p>
-                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-500 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                        <p id="live-bowler" class="text-sm font-bold text-gray-300 italic truncate">No Active Bowler</p>
+                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-400 mt-1.5 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5 shadow-inner">-</p>
                     </div>
                 </div>
 
@@ -123,14 +135,14 @@
             <div class="glass-panel rounded-2xl p-5 shadow-lg border-l-4 border-l-white/10">
                 <h4 class="text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2">Live Timeline Commentary</h4>
                 <div class="glass-subcard rounded-xl p-4 shadow-inner">
-                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-gray-400 leading-relaxed">Broadcast offline. Tune in when the next match starts!</p>
+                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-gray-300 leading-relaxed">Broadcast offline. Tune in when the next match starts!</p>
                 </div>
             </div>
         </section>
 
         <section id="section-standings" class="tab-content space-y-4 hidden">
             <div class="glass-panel rounded-3xl p-6 shadow-neon-emerald relative overflow-hidden border-l-4 border-l-glowGreen">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowGreen/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowGreen/10 rounded-full blur-3xl pointer-events-none"></div>
                 <h3 class="text-xs font-black tracking-widest text-glowGreen uppercase mb-4">House Rankings & Standings Matrix</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -156,16 +168,16 @@
                     <div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
                             <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">👑 Orange Cap Holder</h3>
-                            <span class="text-[9px] bg-orange-400/10 text-orange-400 border border-orange-400/20 font-extrabold px-2 py-0.5 rounded">Most Runs</span>
+                            <span class="text-[9px] bg-orange-400/10 text-orange-400 border border-orange-400/20 font-extrabold px-2 py-0.5 rounded backdrop-blur-md">Most Runs</span>
                         </div>
                         <div class="space-y-1">
                             <p id="orange-cap-name" class="text-xl font-extrabold text-white">-</p>
                             <p id="orange-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
                         </div>
                     </div>
-                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center">
+                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center shadow-md">
                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Match Runs</span>
-                        <span id="orange-cap-runs" class="text-xl font-black text-glowPurple font-mono">-</span>
+                        <span id="orange-cap-runs" class="text-xl font-black text-glowPurple font-mono drop-shadow-[0_0_10px_rgba(168,85,247,0.3)]">-</span>
                     </div>
                 </div>
 
@@ -173,16 +185,16 @@
                     <div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
                             <h3 class="text-xs font-black tracking-widest text-purple-400 uppercase">👑 Purple Cap Holder</h3>
-                            <span class="text-[9px] bg-purple-400/10 text-purple-400 border border-purple-400/20 font-extrabold px-2 py-0.5 rounded">Most Wickets</span>
+                            <span class="text-[9px] bg-purple-400/10 text-purple-400 border border-purple-400/20 font-extrabold px-2 py-0.5 rounded backdrop-blur-md">Most Wickets</span>
                         </div>
                         <div class="space-y-1">
                             <p id="purple-cap-name" class="text-xl font-extrabold text-white">-</p>
                             <p id="purple-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
                         </div>
                     </div>
-                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center">
+                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center shadow-md">
                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Scale Wickets</span>
-                        <span id="purple-cap-wickets" class="text-xl font-black text-glowPurple font-mono">-</span>
+                        <span id="purple-cap-wickets" class="text-xl font-black text-glowPurple font-mono drop-shadow-[0_0_10px_rgba(168,85,247,0.3)]">-</span>
                     </div>
                 </div>
 
@@ -190,16 +202,16 @@
                     <div>
                         <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
                             <h3 class="text-xs font-black tracking-widest text-pink-400 uppercase">⚡ Tournament MVP High</h3>
-                            <span class="text-[9px] bg-pink-400/10 text-pink-400 border border-pink-400/20 font-extrabold px-2 py-0.5 rounded">Top Score</span>
+                            <span class="text-[9px] bg-pink-400/10 text-pink-400 border border-pink-400/20 font-extrabold px-2 py-0.5 rounded backdrop-blur-md">Top Score</span>
                         </div>
                         <div class="space-y-1">
                             <p id="mvp-name" class="text-xl font-extrabold text-white">-</p>
                             <p id="mvp-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
                         </div>
                     </div>
-                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center">
+                    <div class="mt-6 glass-subcard p-3 rounded-xl flex justify-between items-center shadow-md">
                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Highest Innings Score</span>
-                        <span id="mvp-score" class="text-xl font-black text-glowPurple font-mono">-</span>
+                        <span id="mvp-score" class="text-xl font-black text-glowPurple font-mono drop-shadow-[0_0_10px_rgba(168,85,247,0.3)]">-</span>
                     </div>
                 </div>
 
@@ -208,7 +220,7 @@
 
         <section id="section-fixtures" class="tab-content space-y-4 hidden">
             <div class="glass-panel rounded-3xl p-6 shadow-neon-cyan relative overflow-hidden border-l-4 border-l-glowBlue">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowBlue/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowBlue/10 rounded-full blur-3xl pointer-events-none"></div>
                 <h3 class="text-xs font-black tracking-widest text-glowBlue uppercase mb-4">Official Tournament Timeline Match Streams</h3>
                 <div id="fixtures-container" class="space-y-3"></div>
             </div>
@@ -255,7 +267,12 @@
         function renderLiveScore(row) {
             document.getElementById('live-runs').textContent = row.runs !== null && row.runs !== undefined ? row.runs : "-";
             document.getElementById('live-wickets').textContent = row.wickets !== null && row.wickets !== undefined ? row.wickets : "-";
-            document.getElementById('live-overs-top').textContent = row.overs ? `Overs: ${row.overs}` : "Overs: -";
+            
+            // Sync both the old structural node and the bright new visual label safely
+            const textOvers = row.overs ? `Overs: ${row.overs}` : "Overs: -";
+            document.getElementById('live-overs-top').textContent = textOvers;
+            document.getElementById('live-overs-display').textContent = textOvers;
+            
             document.getElementById('live-commentary').textContent = row.commentary || "Broadcast offline. Tune in when the next match starts!";
             
             // Batting Team Filler Logic
@@ -354,7 +371,7 @@
                     if(match.time_status === 'COMPLETED') badgeStyles = "bg-glowGreen/10 text-glowGreen border-glowGreen/20";
 
                     const div = document.createElement('div');
-                    div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 glass-subcard rounded-xl gap-3 hover:border-white/10 transition";
+                    div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 glass-subcard rounded-xl gap-3 hover:border-white/10 transition shadow-md";
                     div.innerHTML = `
                         <div>
                             <div class="flex items-center gap-2.5">
