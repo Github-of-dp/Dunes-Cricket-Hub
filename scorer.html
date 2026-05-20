@@ -21,7 +21,8 @@
                             accentBlue: '#0EA5E9',   /* Fixtures cyan accent */
                             textMain: '#F3F4F6',     /* White */
                             textMuted: '#9CA3AF',    /* Gray */
-                            inputBg: '#0F0F12'       /* Inputs background */
+                            inputBg: '#0F0F12',      /* Inputs background */
+                            accentRed: '#EF4444'     /* Reset Action Accent */
                         }
                     }
                 }
@@ -62,8 +63,12 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-command-border/40 pb-4">
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
+                        <span class="text-[8px] text-command-accentYellow font-bold">Set empty for pre-match</span>
+                    </div>
                     <select id="input-batting-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                        <option value="">-- NO BATTING TEAM (AWAITING TOSS) --</option>
                         <option value="GREEN HOUSE">GREEN HOUSE</option>
                         <option value="BLUE HOUSE">BLUE HOUSE</option>
                         <option value="YELLOW HOUSE">YELLOW HOUSE</option>
@@ -71,9 +76,13 @@
                     </select>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
+                    <div class="flex justify-between items-center">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
+                        <span class="text-[8px] text-command-accentYellow font-bold">Set empty for pre-match</span>
+                    </div>
                     <select id="input-bowling-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
-                        <option value="GREEN HOUSE" selected>GREEN HOUSE</option>
+                        <option value="">-- NO BOWLING TEAM (AWAITING TOSS) --</option>
+                        <option value="GREEN HOUSE">GREEN HOUSE</option>
                         <option value="BLUE HOUSE">BLUE HOUSE</option>
                         <option value="YELLOW HOUSE">YELLOW HOUSE</option>
                         <option value="RED HOUSE">RED HOUSE</option>
@@ -138,9 +147,14 @@
                 <input type="text" id="input-commentary" placeholder="---------------" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-command-accentYellow">
             </div>
 
-            <button onclick="broadcastData()" class="w-full bg-command-accentYellow text-black py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
-                Broadcast Live Update
-            </button>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                <button onclick="broadcastData()" class="sm:col-span-2 bg-command-accentYellow text-black py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
+                    Broadcast Live Update ⚡
+                </button>
+                <button onclick="resetLiveBroadcast()" class="bg-transparent hover:bg-red-600/10 border border-command-accentRed/40 text-command-accentRed py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition">
+                    Reset & Clear Ticker 🛑
+                </button>
+            </div>
         </section>
 
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-xl relative space-y-5 h-full flex flex-col justify-between">
@@ -304,6 +318,13 @@
         function populateSelectOptions(selectId, playerArray, selectedValue = "") {
             const el = document.getElementById(selectId);
             el.innerHTML = "";
+            
+            // Generate a default empty choice for pre-match/offline rosters
+            const placeholderOpt = document.createElement("option");
+            placeholderOpt.value = "";
+            placeholderOpt.textContent = "-- NO PLAYER ASSIGNED --";
+            el.appendChild(placeholderOpt);
+
             playerArray.forEach(player => {
                 const opt = document.createElement("option");
                 opt.value = player;
@@ -334,36 +355,69 @@
         async function fetchCurrentData() {
             const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
             if (data) {
-                document.getElementById('input-runs').value = data.runs ?? 0;
-                document.getElementById('input-wickets').value = data.wickets ?? 0;
-                document.getElementById('input-overs').value = data.overs || "0.0";
+                document.getElementById('input-runs').value = data.runs ?? "";
+                document.getElementById('input-wickets').value = data.wickets ?? "";
+                document.getElementById('input-overs').value = data.overs || "";
                 document.getElementById('input-commentary').value = data.commentary || "";
-                document.getElementById('input-batting-team').value = data.batting_team || "GREEN HOUSE";
-                document.getElementById('input-bowling-team').value = data.bowling_team || "BLUE HOUSE";
+                document.getElementById('input-batting-team').value = data.batting_team || "";
+                document.getElementById('input-bowling-team').value = data.bowling_team || "";
                 
-                // Update dropdown fields with active database strings
+                document.getElementById('input-bat1-stats').value = data.batsman_on_strike_stats || "";
+                document.getElementById('input-bat2-stats').value = data.batsman_off_strike_stats || "";
+                document.getElementById('input-bowler-stats').value = data.current_bowler_stats || "";
+
                 updateMatchPlayerDropdowns(data);
                 updateLeaderboardPlayerDropdown();
             }
         }
 
         async function broadcastData() {
+            const runsValue = document.getElementById('input-runs').value;
+            const wicketsValue = document.getElementById('input-wickets').value;
+
             const updatePayload = {
-                runs: parseInt(document.getElementById('input-runs').value) || 0,
-                wickets: parseInt(document.getElementById('input-wickets').value) || 0,
-                overs: document.getElementById('input-overs').value,
-                commentary: document.getElementById('input-commentary').value,
-                batting_team: document.getElementById('input-batting-team').value,
-                bowling_team: document.getElementById('input-bowling-team').value,
-                batsman_on_strike: document.getElementById('input-bat1').value,
-                batsman_on_strike_stats: document.getElementById('input-bat1-stats').value,
-                batsman_off_strike: document.getElementById('input-bat2').value,
-                batsman_off_strike_stats: document.getElementById('input-bat2-stats').value,
-                current_bowler: document.getElementById('input-bowler').value,
-                current_bowler_stats: document.getElementById('input-bowler-stats').value
+                runs: runsValue !== "" ? parseInt(runsValue) : null,
+                wickets: wicketsValue !== "" ? parseInt(wicketsValue) : null,
+                overs: document.getElementById('input-overs').value || null,
+                commentary: document.getElementById('input-commentary').value || null,
+                batting_team: document.getElementById('input-batting-team').value || null,
+                bowling_team: document.getElementById('input-bowling-team').value || null,
+                batsman_on_strike: document.getElementById('input-bat1').value || null,
+                batsman_on_strike_stats: document.getElementById('input-bat1-stats').value || null,
+                batsman_off_strike: document.getElementById('input-bat2').value || null,
+                batsman_off_strike_stats: document.getElementById('input-bat2-stats').value || null,
+                current_bowler: document.getElementById('input-bowler').value || null,
+                current_bowler_stats: document.getElementById('input-bowler-stats').value || null
             };
             const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
-            if (error) alert(error.message); else alert("Console 01: Score & Crease updated!");
+            if (error) alert(error.message); else alert("Console 01: Score & Crease updated successfully Hub side!");
+        }
+
+        async function resetLiveBroadcast() {
+            if(!confirm("Are you sure you want to end this match profile? This clears all database parameters to trigger public placeholder layers.")) return;
+
+            const resetPayload = {
+                runs: null,
+                wickets: null,
+                overs: null,
+                batting_team: null,
+                bowling_team: null,
+                batsman_on_strike: null,
+                batsman_on_strike_stats: null,
+                batsman_off_strike: null,
+                batsman_off_strike_stats: null,
+                current_bowler: null,
+                current_bowler_stats: null,
+                commentary: "Broadcast offline. Tune in when the next match starts!"
+            };
+
+            const { error } = await supabaseConnection.from('live_match').update(resetPayload).eq('id', 1);
+            if(error) {
+                alert(error.message);
+            } else {
+                alert("Console 01 Engine: Reset signal successfully updated! Live view cleared.");
+                fetchCurrentData(); // Soft reloading fields state safely
+            }
         }
 
         async function pushStandingsMatrix() {
