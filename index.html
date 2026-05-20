@@ -15,8 +15,8 @@
                         sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
-                        crickBg: '#050507',       /* Absolute Deep Space Black */
-                        cardBg: 'rgba(22, 22, 26, 0.45)', /* Ultra-translucent glass */
+                        crickBg: '#050507',       
+                        cardBg: 'rgba(22, 22, 26, 0.45)', 
                         glowYellow: '#FACC15',
                         glowGreen: '#10B981',
                         glowPurple: '#A855F7',
@@ -67,65 +67,67 @@
     <main class="max-w-6xl mx-auto">
         
         <section id="section-live" class="tab-content space-y-6">
-            <div class="glass-panel bg-cardBg rounded-3xl p-6 sm:p-8 shadow-neon-amber relative overflow-hidden transition-all duration-500 border-l-4 border-l-glowYellow">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowYellow/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
-                <div class="flex justify-between items-center mb-6">
-                    <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-3 py-1.5 rounded-full border border-glowYellow/20">
-                        <span class="w-2 h-2 rounded-full bg-glowYellow animate-ping"></span>
-                        Live Broadcast
-                    </span>
-                    <div class="text-right">
-                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Dunes FM Audio Stream</p>
-                        <p id="live-overs-top" class="text-xs font-extrabold text-white mt-0.5">Overs: 0.0</p>
+                <div class="md:col-span-2 glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-amber relative overflow-hidden border-l-4 border-l-glowYellow flex flex-col justify-between min-h-[220px]">
+                    <div class="flex justify-between items-center">
+                        <span class="flex items-center gap-2 text-[10px] font-black text-glowYellow uppercase tracking-widest bg-glowYellow/10 px-2.5 py-1 rounded-full border border-glowYellow/20">
+                            <span class="w-1.5 h-1.5 rounded-full bg-glowYellow animate-ping"></span>Live Innings
+                        </span>
+                        <span id="live-overs-top" class="text-xs font-extrabold text-white bg-black/40 px-3 py-1 rounded-lg border border-white/5 font-mono">Overs: 0.0</span>
                     </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center text-center md:text-left">
-                    <div class="md:col-span-5 space-y-1">
-                        <h2 id="live-batting-team" class="text-2xl font-black tracking-tight text-white uppercase">BATTING TEAM</h2>
-                        <p class="text-xs font-semibold text-gray-400 tracking-wider uppercase">Current Innings</p>
-                    </div>
-                    <div class="md:col-span-4 flex flex-col justify-center items-center md:items-start">
-                        <div class="flex items-baseline gap-1 bg-black/30 px-6 py-3 rounded-2xl border border-white/5 shadow-inner">
-                            <span id="live-runs" class="text-5xl font-extrabold tracking-tighter text-glowYellow">0</span>
-                            <span class="text-3xl font-light text-gray-500">/</span>
-                            <span id="live-wickets" class="text-4xl font-bold text-white">0</span>
+                    
+                    <div class="my-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div>
+                            <h2 id="live-batting-team" class="text-3xl font-black tracking-tight text-white uppercase">TEAM A</h2>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Currently Batting</p>
+                        </div>
+                        <div class="flex items-baseline gap-1 bg-black/40 px-6 py-3 rounded-2xl border border-white/5 shadow-inner">
+                            <span id="live-runs" class="text-5xl font-extrabold tracking-tighter text-glowYellow font-mono">0</span>
+                            <span class="text-3xl font-light text-gray-600">/</span>
+                            <span id="live-wickets" class="text-4xl font-bold text-white font-mono">0</span>
                         </div>
                     </div>
-                    <div class="md:col-span-3 text-center md:text-right border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-6 space-y-1">
-                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Target Opposition</p>
-                        <h3 id="live-bowling-team" class="text-sm font-extrabold text-white tracking-wide uppercase">BOWLING TEAM</h3>
+
+                    <div class="border-t border-white/5 pt-3 flex justify-between items-center text-xs text-gray-400">
+                        <span class="uppercase tracking-wider font-semibold text-[10px]">Bowling Opposition:</span>
+                        <span id="live-bowling-team" class="font-extrabold text-white uppercase tracking-wide">-</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6 mt-8">
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5 shadow-sm">
-                        <p class="text-[9px] font-black text-glowYellow uppercase tracking-widest mb-1 flex items-center gap-1.5">
-                            <span class="text-xs">🏏</span> Striker
-                        </p>
-                        <p id="live-bat1" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bat1-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5 shadow-sm">
-                        <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Non-Striker</p>
-                        <p id="live-bat2" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bat2-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
-                    </div>
-                    <div class="bg-black/20 p-4 rounded-xl border border-white/5 shadow-sm">
-                        <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
-                            <span class="text-xs">⚡</span> Active Bowler
-                        </p>
-                        <p id="live-bowler" class="text-sm font-bold text-white truncate">-</p>
-                        <p id="live-bowler-stats" class="text-xs font-mono text-gray-400 mt-1 bg-black/40 px-2 py-0.5 rounded w-max border border-white/5">-</p>
+                <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-amber border-l-4 border-l-glowYellow space-y-4">
+                    <h3 class="text-[10px] font-black tracking-widest text-gray-400 uppercase border-b border-white/5 pb-2">Active Crease Matchup</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-black/20 p-2.5 rounded-xl border border-white/5">
+                            <p class="text-[9px] font-bold text-glowYellow uppercase tracking-wider mb-0.5">🏏 Striker</p>
+                            <div class="flex justify-between items-center">
+                                <p id="live-bat1" class="text-sm font-bold text-white truncate">-</p>
+                                <span id="live-bat1-stats" class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-0.5 rounded border border-white/5">-</span>
+                            </div>
+                        </div>
+                        <div class="bg-black/20 p-2.5 rounded-xl border border-white/5">
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Non-Striker</p>
+                            <div class="flex justify-between items-center">
+                                <p id="live-bat2" class="text-sm font-bold text-white truncate">-</p>
+                                <span id="live-bat2-stats" class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-0.5 rounded border border-white/5">-</span>
+                            </div>
+                        </div>
+                        <div class="bg-black/20 p-2.5 rounded-xl border border-white/5">
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">⚡ Active Bowler</p>
+                            <div class="flex justify-between items-center">
+                                <p id="live-bowler" class="text-sm font-bold text-white truncate">-</p>
+                                <span id="live-bowler-stats" class="text-xs font-mono bg-black/40 text-gray-300 px-2 py-0.5 rounded border border-white/5">-</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="glass-panel bg-cardBg rounded-2xl p-5 shadow-lg border-l-4 border-l-white/20 relative overflow-hidden">
+            <div class="glass-panel bg-cardBg rounded-2xl p-5 shadow-lg border-l-4 border-l-white/10">
                 <h4 class="text-[10px] font-black tracking-widest text-gray-400 uppercase mb-2">Live Timeline Commentary</h4>
                 <div class="bg-black/30 rounded-xl p-4 border border-white/5 shadow-inner">
-                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-white leading-relaxed">Awaiting live updates from the pitch...</p>
+                    <p id="live-commentary" class="text-sm font-semibold tracking-wide text-white leading-relaxed">Awaiting live metrics stream...</p>
                 </div>
             </div>
         </section>
@@ -145,32 +147,66 @@
                                 <th class="pb-3 text-center text-glowGreen">Points</th>
                             </tr>
                         </thead>
-                        <tbody id="standings-tbody" class="text-xs font-bold divide-y divide-white/5">
-                            </tbody>
+                        <tbody id="standings-tbody" class="text-xs font-bold divide-y divide-white/5"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <section id="section-stats" class="tab-content space-y-4 hidden">
-            <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-purple relative overflow-hidden border-l-4 border-l-glowPurple">
-                <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowPurple/5 rounded-full blur-3xl pointer-events-none"></div>
-                <h3 class="text-xs font-black tracking-widest text-glowPurple uppercase mb-4">Tournament Cap Leaderboard Matrix</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-white/10 text-[10px] font-black text-gray-400 tracking-wider uppercase">
-                                <th class="pb-3 pl-2">Player Profile</th>
-                                <th class="pb-3">House Alignment</th>
-                                <th class="pb-3 text-center text-purple-400">Total Runs</th>
-                                <th class="pb-3 text-center text-emerald-400">Wickets</th>
-                                <th class="pb-3 text-center">Highest Score</th>
-                            </tr>
-                        </thead>
-                        <tbody id="stats-tbody" class="text-xs font-bold divide-y divide-white/5">
-                            </tbody>
-                    </table>
+        <section id="section-stats" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🟠 Orange Cap Holder</h3>
+                            <span class="text-[9px] bg-orange-400/10 text-orange-400 border border-orange-400/20 font-extrabold px-2 py-0.5 rounded">Most Runs</span>
+                        </div>
+                        <div class="space-y-1">
+                            <p id="orange-cap-name" class="text-xl font-extrabold text-white">-</p>
+                            <p id="orange-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Match Runs</span>
+                        <span id="orange-cap-runs" class="text-xl font-black text-glowPurple font-mono">-</span>
+                    </div>
                 </div>
+
+                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+                            <h3 class="text-xs font-black tracking-widest text-purple-400 uppercase">🟣 Purple Cap Holder</h3>
+                            <span class="text-[9px] bg-purple-400/10 text-purple-400 border border-purple-400/20 font-extrabold px-2 py-0.5 rounded">Most Wickets</span>
+                        </div>
+                        <div class="space-y-1">
+                            <p id="purple-cap-name" class="text-xl font-extrabold text-white">-</p>
+                            <p id="purple-cap-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Scale Wickets</span>
+                        <span id="purple-cap-wickets" class="text-xl font-black text-glowPurple font-mono">-</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel bg-cardBg rounded-3xl p-5 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-white/5 pb-3 mb-4">
+                            <h3 class="text-xs font-black tracking-widest text-pink-400 uppercase">⚡ Tournament MVP High</h3>
+                            <span class="text-[9px] bg-pink-400/10 text-pink-400 border border-pink-400/20 font-extrabold px-2 py-0.5 rounded">Top Score</span>
+                        </div>
+                        <div class="space-y-1">
+                            <p id="mvp-name" class="text-xl font-extrabold text-white">-</p>
+                            <p id="mvp-house" class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">-</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-black/40 p-3 rounded-xl border border-white/5 flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Highest Innings Score</span>
+                        <span id="mvp-score" class="text-xl font-black text-glowPurple font-mono">-</span>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -178,8 +214,7 @@
             <div class="glass-panel bg-cardBg rounded-3xl p-6 shadow-neon-cyan relative overflow-hidden border-l-4 border-l-glowBlue">
                 <div class="absolute -top-24 -right-24 w-48 h-48 bg-glowBlue/5 rounded-full blur-3xl pointer-events-none"></div>
                 <h3 class="text-xs font-black tracking-widest text-glowBlue uppercase mb-4">Official Tournament Timeline Match Streams</h3>
-                <div id="fixtures-container" class="space-y-3">
-                    </div>
+                <div id="fixtures-container" class="space-y-3"></div>
             </div>
         </section>
 
@@ -204,11 +239,10 @@
             activeBtn.classList.add('text-white', 'bg-white/10', 'border', 'border-white/10', 'shadow-sm');
 
             if(targetId === 'standings') streamPointsTable();
-            if(targetId === 'stats') streamPlayerStats();
+            if(targetId === 'stats') streamPlayerLeaderboardCards();
             if(targetId === 'fixtures') streamFixturesList();
         }
 
-        // Realtime Data Streaming Integration Subscriptions
         function initializeRealtimeScoreboard() {
             supabaseConnection
                 .channel('score-channel')
@@ -217,7 +251,6 @@
                 })
                 .subscribe();
 
-            // Initial immediate layout fetch
             supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle().then(({data}) => {
                 if(data) renderLiveScore(data);
             });
@@ -227,8 +260,8 @@
             document.getElementById('live-runs').textContent = row.runs ?? 0;
             document.getElementById('live-wickets').textContent = row.wickets ?? 0;
             document.getElementById('live-overs-top').textContent = `Overs: ${row.overs || '0.0'}`;
-            document.getElementById('live-batting-team').textContent = row.batting_team || "BATTING TEAM";
-            document.getElementById('live-bowling-team').textContent = row.bowling_team || "BOWLING TEAM";
+            document.getElementById('live-batting-team').textContent = row.batting_team || "TEAM A";
+            document.getElementById('live-bowling-team').textContent = row.bowling_team || "TEAM B";
             document.getElementById('live-commentary').textContent = row.commentary || "Awaiting live metrics stream...";
             
             document.getElementById('live-bat1').textContent = row.batsman_on_strike || "-";
@@ -259,23 +292,33 @@
             }
         }
 
-        async function streamPlayerStats() {
-            const { data } = await supabaseConnection.from('player_stats').select('*').order('total_runs', { ascending: false });
-            const tbody = document.getElementById('stats-tbody');
-            tbody.innerHTML = "";
-            if(data) {
-                data.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/[0.02] transition";
-                    tr.innerHTML = `
-                        <td class="py-3.5 pl-2 text-white">${row.player_name}</td>
-                        <td class="py-3.5 text-gray-400 uppercase text-[11px]">${row.house_name}</td>
-                        <td class="py-3.5 text-center text-purple-300 font-mono">${row.total_runs}</td>
-                        <td class="py-3.5 text-center text-emerald-400 font-mono">${row.total_wickets}</td>
-                        <td class="py-3.5 text-center text-gray-300 font-mono">${row.highest_score}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
+        async function streamPlayerLeaderboardCards() {
+            // Fetch records from player_stats table
+            const { data } = await supabaseConnection.from('player_stats').select('*');
+            if (!data || data.length === 0) return;
+
+            // Sort data arrays to find peak stats holders
+            const orangeLeader = [...data].sort((a, b) => b.total_runs - a.total_runs)[0];
+            const purpleLeader = [...data].sort((a, b) => b.total_wickets - a.total_wickets)[0];
+            const mvpLeader = [...data].sort((a, b) => b.highest_score - a.highest_score)[0];
+
+            // Render Orange Cap Card
+            if(orangeLeader) {
+                document.getElementById('orange-cap-name').textContent = orangeLeader.player_name;
+                document.getElementById('orange-cap-house').textContent = orangeLeader.house_name;
+                document.getElementById('orange-cap-runs').textContent = orangeLeader.total_runs;
+            }
+            // Render Purple Cap Card
+            if(purpleLeader) {
+                document.getElementById('purple-cap-name').textContent = purpleLeader.player_name;
+                document.getElementById('purple-cap-house').textContent = purpleLeader.house_name;
+                document.getElementById('purple-cap-wickets').textContent = purpleLeader.total_wickets;
+            }
+            // Render MVP Card
+            if(mvpLeader) {
+                document.getElementById('mvp-name').textContent = mvpLeader.player_name;
+                document.getElementById('mvp-house').textContent = mvpLeader.house_name;
+                document.getElementById('mvp-score').textContent = mvpLeader.highest_score;
             }
         }
 
@@ -306,7 +349,6 @@
             }
         }
 
-        // Initialize script logic configurations
         document.addEventListener("DOMContentLoaded", () => {
             switchTab('live');
             initializeRealtimeScoreboard();
