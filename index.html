@@ -12,10 +12,10 @@
                 extend: {
                     colors: {
                         hub: {
-                            bgCanvas: '#050507',     /* Ultra-premium pitch black canvas */
-                            card: '#0F0F13',         /* Sleek obsidian blocks */
-                            border: '#1C1C22',       /* High-fidelity panel frame lines */
-                            accentYellow: '#FACC15', /* Cyber Gold neon glow */
+                            bgCanvas: '#030305',     /* Pure OLED Pitch Black canvas */
+                            card: 'rgba(20, 20, 25, 0.4)', /* Ultra-translucent iOS base layer */
+                            border: 'rgba(255, 255, 255, 0.08)', /* Crystal micro-border edge reflection */
+                            accentYellow: '#FACC15', /* Cyber Gold neon */
                             accentGreen: '#10B981',  /* Emerald scoreboard glow */
                             accentPurple: '#A855F7', /* Deep Electric Violet */
                             accentBlue: '#0EA5E9',   /* Pure Cyan match vibe */
@@ -24,32 +24,34 @@
                         }
                     },
                     boxShadow: {
-                        'glow-yellow': '0 0 20px -3px rgba(250, 204, 21, 0.2), 0 4px 6px -2px rgba(250, 204, 21, 0.05)',
-                        'glow-green': '0 0 20px -3px rgba(16, 185, 129, 0.2), 0 4px 6px -2px rgba(16, 185, 129, 0.05)',
-                        'glow-purple': '0 0 20px -3px rgba(168, 85, 247, 0.2), 0 4px 6px -2px rgba(168, 85, 247, 0.05)',
-                        'glow-blue': '0 0 20px -3px rgba(14, 165, 233, 0.2), 0 4px 6px -2px rgba(14, 165, 233, 0.05)',
+                        'glow-yellow': '0 0 35px -5px rgba(250, 204, 21, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                        'glow-green': '0 0 35px -5px rgba(16, 185, 129, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                        'glow-purple': '0 0 35px -5px rgba(168, 85, 247, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                        'glow-blue': '0 0 35px -5px rgba(14, 165, 233, 0.12), inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+                        'glass-inner': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 0 rgba(0, 0, 0, 0.5)'
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-hub-bgCanvas text-hub-textMain font-sans min-h-screen antialiased p-4 pb-12 selection:bg-hub-accentYellow/30 selection:text-white">
+<body class="bg-hub-bgCanvas text-hub-textMain font-sans min-h-screen antialiased p-4 pb-12 selection:bg-hub-accentYellow/30 selection:text-white relative">
 
-    <div class="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-hub-accentYellow/50 to-transparent blur-md pointer-events-none z-50"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-hub-accentYellow/5 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] bg-hub-accentPurple/5 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
-    <header class="max-w-6xl mx-auto mb-8 border-b border-hub-border/50 pb-5 mt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <header class="max-w-6xl mx-auto mb-8 border-b border-hub-border/50 pb-5 mt-2 flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10">
         <div class="flex items-center gap-4">
-            <div class="bg-gradient-to-b from-white/[0.06] to-transparent p-2 rounded-xl border border-hub-border/80 backdrop-blur-md shadow-inner">
+            <div class="bg-white/[0.04] p-2 rounded-xl border border-white/[0.08] backdrop-blur-xl shadow-glass-inner">
                 <img src="your-school-logo.png" alt="School Logo" class="h-10 w-auto object-contain fallback-logo" onerror="this.style.display='none'">
             </div>
             <div class="text-center sm:text-left">
-                <h1 class="text-xl font-black tracking-wider text-hub-accentYellow uppercase drop-shadow-[0_0_8px_rgba(250,204,21,0.35)]">Dunes FM Sports Hub</h1>
+                <h1 class="text-xl font-black tracking-wider text-hub-accentYellow uppercase drop-shadow-[0_0_10px_rgba(250,204,21,0.4)]">Dunes FM Sports Hub</h1>
                 <p class="text-xs font-bold text-hub-textMuted uppercase tracking-widest mt-0.5">Live Inter-House Tournament Broadcast</p>
             </div>
         </div>
         
-        <div class="flex bg-hub-card/90 p-1 rounded-xl border border-hub-border/80 backdrop-blur-md shadow-inner">
+        <div class="flex bg-white/[0.02] p-1 rounded-xl border border-white/[0.06] backdrop-blur-xl shadow-glass-inner">
             <button id="tab-live" onclick="switchActiveViewTab('live')" class="px-5 py-2 rounded-lg font-black text-xs uppercase tracking-wider transition-all duration-300 bg-hub-accentYellow text-black shadow-md">
                 Live Match
             </button>
@@ -65,51 +67,50 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto">
+    <main class="max-w-6xl mx-auto relative z-10">
         
         <div id="panel-live" class="space-y-6 block">
-            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-yellow relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentYellow/20">
-                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentYellow/5 rounded-full blur-2xl pointer-events-none"></div>
-
-                <div class="flex justify-between items-center border-b border-hub-border/40 pb-4 mb-6">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-yellow backdrop-blur-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] transition-all duration-500 hover:border-hub-accentYellow/30">
+                
+                <div class="flex justify-between items-center border-b border-white/[0.06] pb-4 mb-6">
                     <div class="flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#EF4444] animate-pulse"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_#EF4444] animate-pulse"></span>
                         <span class="text-[10px] font-black tracking-widest text-red-500 uppercase">Live Broadcast</span>
                     </div>
-                    <span id="display-overs-ticker" class="text-xs font-mono font-bold bg-white/5 border border-hub-border px-3 py-1 rounded-md text-hub-textMuted">Overs: 0.0</span>
+                    <span id="display-overs-ticker" class="text-xs font-mono font-bold bg-white/[0.04] border border-white/[0.06] px-3 py-1 rounded-md text-hub-textMuted shadow-sm">Overs: 0.0</span>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                     <div>
                         <div class="flex items-baseline gap-2">
-                            <h2 id="display-score-line" class="text-5xl font-black tracking-tighter text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.05)]">0 <span class="text-hub-textMuted text-3xl font-light">/</span> 0</h2>
-                            <span id="display-batting-house-badge" class="text-xs font-black tracking-widest text-hub-accentYellow border border-hub-accentYellow/30 bg-hub-accentYellow/5 px-2.5 py-1 rounded uppercase">Awaiting Game</span>
+                            <h2 id="display-score-line" class="text-5xl font-black tracking-tighter text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.08)]">0 <span class="text-hub-textMuted text-3xl font-light">/</span> 0</h2>
+                            <span id="display-batting-house-badge" class="text-xs font-black tracking-widest text-hub-accentYellow border border-hub-accentYellow/30 bg-hub-accentYellow/5 px-2.5 py-1 rounded uppercase backdrop-blur-md">Awaiting Game</span>
                         </div>
                         <p id="display-bowling-house-line" class="text-xs font-bold text-hub-textMuted tracking-wider uppercase mt-2">Bowling Side: Not Configured</p>
                     </div>
 
-                    <div class="bg-hub-inputBg/80 border border-hub-border rounded-xl p-4 shadow-inner backdrop-blur-sm min-h-[76px] flex flex-col justify-center border-l-2 border-l-hub-accentYellow">
-                        <span class="text-[8px] font-black tracking-widest text-hub-accentYellow uppercase mb-1 block">Live Commentary</span>
+                    <div class="bg-black/20 border border-white/[0.05] rounded-xl p-4 shadow-inner backdrop-blur-md min-h-[76px] flex flex-col justify-center border-l-2 border-l-hub-accentYellow">
+                        <span class="text-[8px] font-black tracking-widest text-hub-accentYellow uppercase mb-1 block tracking-widest">Live Commentary</span>
                         <p id="display-commentary-ticker" class="text-xs font-medium text-hub-textMain italic">Waiting for toss confirmation from official school scorer match center line...</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-hub-border/40 pt-6 mt-6">
-                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/[0.06] pt-6 mt-6">
+                    <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 shadow-glass-inner backdrop-blur-md">
                         <span class="text-[9px] font-bold text-hub-accentYellow uppercase tracking-wider block mb-1">🏏 Striker</span>
                         <div class="flex justify-between items-baseline">
                             <span id="display-striker-name" class="text-xs font-bold truncate pr-2">---</span>
                             <span id="display-striker-stats" class="text-xs font-mono font-bold text-hub-textMuted shrink-0">0(0)</span>
                         </div>
                     </div>
-                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                    <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 shadow-glass-inner backdrop-blur-md">
                         <span class="text-[9px] font-bold text-hub-textMuted uppercase tracking-wider block mb-1">🏏 Non-Striker</span>
                         <div class="flex justify-between items-baseline">
                             <span id="display-nonstriker-name" class="text-xs font-bold text-hub-textMuted truncate pr-2">---</span>
                             <span id="display-nonstriker-stats" class="text-xs font-mono font-bold text-hub-textMuted shrink-0">0(0)</span>
                         </div>
                     </div>
-                    <div class="bg-white/[0.02] border border-hub-border/60 rounded-xl p-3 shadow-sm backdrop-blur-sm">
+                    <div class="bg-white/[0.02] border border-white/[0.04] rounded-xl p-3 shadow-glass-inner backdrop-blur-md">
                         <span class="text-[9px] font-bold text-hub-textMuted uppercase tracking-wider block mb-1">🎯 Active Bowler</span>
                         <div class="flex justify-between items-baseline">
                             <span id="display-bowler-name" class="text-xs font-bold text-hub-textMuted truncate pr-2">---</span>
@@ -121,10 +122,9 @@
         </div>
 
         <div id="panel-standings" class="space-y-4 hidden">
-            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-green relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentGreen/20">
-                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentGreen/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-green backdrop-blur-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] transition-all duration-500 hover:border-hub-accentGreen/30">
                 
-                <h2 class="text-xs font-black tracking-wider text-hub-accentGreen uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(16,185,129,0.25)]">
+                <h2 class="text-xs font-black tracking-wider text-hub-accentGreen uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">
                     <span class="w-2 h-2 rounded-full bg-hub-accentGreen shadow-[0_0_8px_#10B981]"></span>
                     Inter-House Point Matrix Rankings
                 </h2>
@@ -132,7 +132,7 @@
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[10px] font-black tracking-wider">
+                            <tr class="border-b border-white/[0.06] text-hub-textMuted uppercase text-[10px] font-black tracking-wider">
                                 <th class="py-3 px-4">House Group Stream</th>
                                 <th class="py-3 px-3 text-center">Played</th>
                                 <th class="py-3 px-3 text-center">Won</th>
@@ -140,7 +140,7 @@
                                 <th class="py-3 px-4 text-right text-hub-accentGreen">Total Points</th>
                             </tr>
                         </thead>
-                        <tbody id="render-standings-rows" class="divide-y divide-hub-border/40 font-semibold uppercase">
+                        <tbody id="render-standings-rows" class="divide-y divide-white/[0.04] font-semibold uppercase">
                             </tbody>
                     </table>
                 </div>
@@ -148,51 +148,48 @@
         </div>
 
         <div id="panel-leaders" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
-            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentPurple/20">
-                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentPurple/5 rounded-full blur-2xl pointer-events-none"></div>
-                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(168,85,247,0.25)]">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple backdrop-blur-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] transition-all duration-500 hover:border-hub-accentPurple/30">
+                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]">
                     🔶 Orange Cap Stream (Most Runs Overall)
                 </h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
+                            <tr class="border-b border-white/[0.06] text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
                                 <th class="py-2.5 px-3">Player Name</th>
                                 <th class="py-2.5 px-3">House</th>
                                 <th class="py-2.5 px-3 text-center">High</th>
                                 <th class="py-2.5 px-3 text-right text-hub-accentPurple">Total Runs</th>
                             </tr>
                         </thead>
-                        <tbody id="render-orange-cap-rows" class="divide-y divide-hub-border/30 font-semibold uppercase"></tbody>
+                        <tbody id="render-orange-cap-rows" class="divide-y divide-white/[0.04] font-semibold uppercase"></tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentPurple/20">
-                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentPurple/5 rounded-full blur-2xl pointer-events-none"></div>
-                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_6px_rgba(168,85,247,0.25)]">
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-purple backdrop-blur-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] transition-all duration-500 hover:border-hub-accentPurple/30">
+                <h2 class="text-xs font-black tracking-wider text-hub-accentPurple uppercase flex items-center gap-2 mb-4 drop-shadow-[0_0_8px_rgba(168,85,247,0.3)]">
                     🔷 Purple Cap Stream (Most Wickets Haul)
                 </h2>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="border-b border-hub-border text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
+                            <tr class="border-b border-white/[0.06] text-hub-textMuted uppercase text-[9px] font-black tracking-wider">
                                 <th class="py-2.5 px-3">Player Name</th>
                                 <th class="py-2.5 px-3">House</th>
                                 <th class="py-2.5 px-3 text-right text-hub-accentPurple">Wickets Tally</th>
                             </tr>
                         </thead>
-                        <tbody id="render-purple-cap-rows" class="divide-y divide-hub-border/30 font-semibold uppercase"></tbody>
+                        <tbody id="render-purple-cap-rows" class="divide-y divide-white/[0.04] font-semibold uppercase"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
         <div id="panel-fixtures" class="space-y-4 hidden">
-            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-blue relative overflow-hidden backdrop-blur-md bg-gradient-to-b from-hub-card to-hub-card/95 transition-all duration-300 hover:border-hub-accentBlue/20">
-                <div class="absolute -top-12 -right-12 w-24 h-24 bg-hub-accentBlue/5 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="bg-hub-card border border-hub-border rounded-2xl p-6 shadow-glow-blue backdrop-blur-xl bg-gradient-to-b from-white/[0.04] to-white/[0.01] transition-all duration-500 hover:border-hub-accentBlue/30">
                 
-                <h2 class="text-xs font-black tracking-wider text-hub-accentBlue uppercase flex items-center gap-2 mb-6 drop-shadow-[0_0_6px_rgba(14,165,233,0.25)]">
+                <h2 class="text-xs font-black tracking-wider text-hub-accentBlue uppercase flex items-center gap-2 mb-6 drop-shadow-[0_0_8px_rgba(14,165,233,0.3)]">
                     <span class="w-2 h-2 rounded-full bg-hub-accentBlue shadow-[0_0_8px_#0EA5E9]"></span>
                     Official Inter-House Fixture Schedule Streams
                 </h2>
@@ -278,13 +275,13 @@
             if(data) {
                 data.forEach(row => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/[0.01] transition-all duration-150 border-b border-hub-border/20";
+                    tr.className = "hover:bg-white/[0.02] transition-all duration-150 border-b border-white/[0.04]";
                     tr.innerHTML = `
                         <td class="py-3.5 px-4 font-black tracking-wide text-white">${row.house_name}</td>
                         <td class="py-3.5 px-3 text-center text-hub-textMuted">${row.played}</td>
                         <td class="py-3.5 px-3 text-center text-green-400">${row.won}</td>
                         <td class="py-3.5 px-3 text-center text-red-400">${row.lost}</td>
-                        <td class="py-3.5 px-4 text-right font-black text-hub-accentGreen drop-shadow-[0_0_6px_rgba(16,185,129,0.2)]">${row.points} PTS</td>
+                        <td class="py-3.5 px-4 text-right font-black text-hub-accentGreen drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]">${row.points} PTS</td>
                     `;
                     container.appendChild(tr);
                 });
@@ -305,7 +302,7 @@
             if(runsData) {
                 runsData.forEach(p => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/[0.01] transition-all border-b border-hub-border/10";
+                    tr.className = "hover:bg-white/[0.02] transition-all border-b border-white/[0.04]";
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-bold text-white">${p.player_name}</td>
                         <td class="py-3 px-3 text-[10px] text-hub-textMuted font-black tracking-wider">${p.house_name}</td>
@@ -319,7 +316,7 @@
             if(wicketsData) {
                 wicketsData.forEach(p => {
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/[0.01] transition-all border-b border-hub-border/10";
+                    tr.className = "hover:bg-white/[0.02] transition-all border-b border-white/[0.04]";
                     tr.innerHTML = `
                         <td class="py-3 px-3 font-bold text-white">${p.player_name}</td>
                         <td class="py-3 px-3 text-[10px] text-hub-textMuted font-black tracking-wider">${p.house_name}</td>
@@ -338,19 +335,19 @@
 
             if(data) {
                 data.forEach(f => {
-                    let statusStyle = "bg-hub-border text-hub-textMuted border-hub-border";
-                    if(f.time_status === "LIVE") statusStyle = "bg-red-500/10 text-red-400 border-red-500/30 shadow-[0_0_8px_rgba(239,68,68,0.1)]";
+                    let statusStyle = "bg-white/[0.04] text-hub-textMuted border-white/[0.08]";
+                    if(f.time_status === "LIVE") statusStyle = "bg-red-500/10 text-red-400 border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.2)]";
                     if(f.time_status === "COMPLETED") statusStyle = "bg-hub-accentGreen/10 text-hub-accentGreen border-hub-accentGreen/20";
 
                     const card = document.createElement('div');
-                    card.className = "bg-hub-inputBg/40 border border-hub-border/70 rounded-xl p-4 flex flex-col justify-between transition-all hover:bg-hub-inputBg/80";
+                    card.className = "bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 flex flex-col justify-between shadow-glass-inner backdrop-blur-md transition-all hover:bg-white/[0.04] hover:border-white/[0.1]";
                     card.innerHTML = `
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[10px] font-black tracking-widest text-hub-textMuted uppercase">Match 0${f.match_num}</span>
                             <span class="text-[9px] font-black tracking-widest border px-2 py-0.5 rounded uppercase ${statusStyle}">${f.time_status}</span>
                         </div>
                         <h3 class="text-sm font-black text-white tracking-wide uppercase mb-1">${f.teams}</h3>
-                        <p class="text-xs font-semibold text-hub-textMuted normal-case italic border-t border-hub-border/30 pt-2 mt-2">${f.result_summary || 'No overview notes logged yet.'}</p>
+                        <p class="text-xs font-semibold text-hub-textMuted normal-case italic border-t border-white/[0.04] pt-2 mt-2">${f.result_summary || 'No overview notes logged yet.'}</p>
                     `;
                     container.appendChild(card);
                 });
