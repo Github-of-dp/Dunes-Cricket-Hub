@@ -36,7 +36,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="bg-white/5 p-1.5 rounded-xl border border-command-border">
-                    <img src="your-school-logo.png" alt="School Logo" class="h-10 w-auto object-contain fallback-logo" onerror="this.style.display='none'">
+                    <div class="h-10 w-10 rounded-lg bg-command-accentYellow/10 border border-command-accentYellow/20 flex items-center justify-center font-black text-command-accentYellow text-sm">DFM</div>
                 </div>
                 <div class="text-center sm:text-left">
                     <h1 class="text-xl font-black tracking-wider text-command-accentYellow uppercase">Dunes FM Command Center</h1>
@@ -58,17 +58,14 @@
 
             <h2 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-command-accentYellow animate-pulse"></span>
-                1. Real-Time Score Engine
+                1. Automated Live Score & Match Scorecard Engine
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-command-border/40 pb-4">
                 <div class="space-y-1">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
-                        <span class="text-[8px] text-command-accentYellow font-bold">Set empty for pre-match</span>
-                    </div>
-                    <select id="input-batting-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
-                        <option value="">-- NO BATTING TEAM (AWAITING TOSS) --</option>
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
+                    <select id="input-batting-team" onchange="handleTeamChange()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                        <option value="">-- SELECT BATTING HOUSE --</option>
                         <option value="GREEN HOUSE">GREEN HOUSE</option>
                         <option value="BLUE HOUSE">BLUE HOUSE</option>
                         <option value="YELLOW HOUSE">YELLOW HOUSE</option>
@@ -76,12 +73,9 @@
                     </select>
                 </div>
                 <div class="space-y-1">
-                    <div class="flex justify-between items-center">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
-                        <span class="text-[8px] text-command-accentYellow font-bold">Set empty for pre-match</span>
-                    </div>
-                    <select id="input-bowling-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
-                        <option value="">-- NO BOWLING TEAM (AWAITING TOSS) --</option>
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
+                    <select id="input-bowling-team" onchange="handleTeamChange()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow">
+                        <option value="">-- SELECT BOWLING HOUSE --</option>
                         <option value="GREEN HOUSE">GREEN HOUSE</option>
                         <option value="BLUE HOUSE">BLUE HOUSE</option>
                         <option value="YELLOW HOUSE">YELLOW HOUSE</option>
@@ -90,69 +84,90 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-3">
+            <div class="grid grid-cols-4 gap-3 bg-command-inputBg/50 p-4 rounded-xl border border-command-border/40">
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Runs</label>
-                    <input type="number" id="input-runs" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
+                    <label class="text-[9px] font-black tracking-wider text-command-textMuted uppercase">Team Total Runs</label>
+                    <input type="number" id="input-runs" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Wickets</label>
-                    <input type="number" id="input-wickets" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
+                    <label class="text-[9px] font-black tracking-wider text-command-textMuted uppercase">Wickets</label>
+                    <input type="number" id="input-wickets" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Overs</label>
-                    <input type="text" id="input-overs" placeholder="0.0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
+                    <label class="text-[9px] font-black tracking-wider text-command-textMuted uppercase">Overs Completed</label>
+                    <input type="text" id="input-overs" placeholder="0.0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[9px] font-black tracking-wider text-command-textMuted uppercase">Balls in Over</label>
+                    <input type="number" id="input-ball-counter" value="0" min="0" max="5" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-command-accentYellow">
                 </div>
             </div>
 
             <div class="border-t border-command-border/60 pt-4 space-y-4">
-                <h3 class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Live Crease Matrix Allocator</h3>
+                <div class="flex justify-between items-center">
+                    <h3 class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Live Crease Management Matrix</h3>
+                    <button onclick="syncCreaseLineup()" class="text-[9px] font-bold text-command-accentYellow border border-command-accentYellow/30 px-2 py-1 rounded bg-command-accentYellow/5 hover:bg-command-accentYellow/10 transition">Set / Swap Active Players</button>
+                </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-command-card border border-command-border/80 p-4 rounded-xl">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-accentYellow uppercase">* Batsman On Strike</label>
+                        <label class="text-[9px] font-bold text-command-accentYellow uppercase">⚡ Batsman On Strike (Striker)</label>
                         <select id="input-bat1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Striker Stats</label>
-                        <input type="text" id="input-bat1-stats" placeholder="e.g., 24 (12)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Striker Dashboard String View</label>
+                        <input type="text" id="input-bat1-stats" readonly placeholder="Calculates auto..." class="w-full bg-command-inputBg border border-command-border text-command-textMuted rounded-lg px-3 py-2 text-xs font-mono focus:outline-none">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-command-card border border-command-border/80 p-4 rounded-xl">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Batsman Off Strike</label>
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Batsman Off Strike (Non-Striker)</label>
                         <select id="input-bat2" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Non-Striker Stats</label>
-                        <input type="text" id="input-bat2-stats" placeholder="e.g., 12 (8)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Non-Striker Dashboard String View</label>
+                        <input type="text" id="input-bat2-stats" readonly placeholder="Calculates auto..." class="w-full bg-command-inputBg border border-command-border text-command-textMuted rounded-lg px-3 py-2 text-xs font-mono focus:outline-none">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-command-card border border-command-border/80 p-4 rounded-xl">
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Active Bowler</label>
-                        <select id="input-bowler" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentYellow"></select>
+                        <label class="text-[9px] font-bold text-command-accentBlue uppercase">🎯 Active Bowler</label>
+                        <select id="input-bowler" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-none focus:border-command-accentBlue"></select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Bowler Stats</label>
-                        <input type="text" id="input-bowler-stats" placeholder="O - M - R - W" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Bowler Dashboard String View</label>
+                        <input type="text" id="input-bowler-stats" readonly placeholder="Calculates auto..." class="w-full bg-command-inputBg border border-command-border text-command-textMuted rounded-lg px-3 py-2 text-xs font-mono focus:outline-none">
                     </div>
                 </div>
             </div>
 
-            <div class="space-y-1 border-t border-command-border/60 pt-4">
-                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Ball Commentary Update</label>
-                <input type="text" id="input-commentary" placeholder="---------------" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-command-accentYellow">
+            <div class="border-t border-command-border/60 pt-4 space-y-2">
+                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase block">Ball-by-Ball Automated Event Engine</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onclick="executeBallEvent(0)" class="bg-command-inputBg hover:bg-white/5 border border-command-border text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider">0 (Dot Ball)</button>
+                    <button onclick="executeBallEvent(1)" class="bg-command-inputBg hover:bg-white/5 border border-command-border text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider">1 Run</button>
+                    <button onclick="executeBallEvent(2)" class="bg-command-inputBg hover:bg-white/5 border border-command-border text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider">2 Runs</button>
+                    <button onclick="executeBallEvent(3)" class="bg-command-inputBg hover:bg-white/5 border border-command-border text-white text-xs font-bold py-3 rounded-lg transition uppercase tracking-wider">3 Runs</button>
+                    <button onclick="executeBallEvent(4)" class="bg-command-accentGreen/10 border border-command-accentGreen/30 hover:bg-command-accentGreen/20 text-command-accentGreen text-xs font-black py-3 rounded-lg transition uppercase tracking-wider">4 (Four)</button>
+                    <button onclick="executeBallEvent(6)" class="bg-command-accentPurple/10 border border-command-accentPurple/30 hover:bg-command-accentPurple/20 text-command-accentPurple text-xs font-black py-3 rounded-lg transition uppercase tracking-wider">6 (Six)</button>
+                    <button onclick="executeWicketEvent()" class="bg-command-accentRed/10 border border-command-accentRed/30 hover:bg-command-accentRed/20 text-command-accentRed text-xs font-black py-3 rounded-lg transition uppercase tracking-wider">🚨 Wicket</button>
+                    <button onclick="executeExtraEvent()" class="bg-command-accentYellow/10 border border-command-accentYellow/30 hover:bg-command-accentYellow/20 text-command-accentYellow text-xs font-black py-3 rounded-lg transition uppercase tracking-wider">+1 Extra (Wd/Nb)</button>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Ball Commentary Ticker Text</label>
+                <input type="text" id="input-commentary" placeholder="Describe the boundary or dismissal details..." class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-command-accentYellow">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                 <button onclick="broadcastData()" class="sm:col-span-2 bg-command-accentYellow text-black py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition shadow-lg">
-                    Broadcast Live Update ⚡
+                    Broadcast Update State ⚡
                 </button>
                 <button onclick="resetLiveBroadcast()" class="bg-transparent hover:bg-red-600/10 border border-command-accentRed/40 text-command-accentRed py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition">
-                    Reset & Clear Ticker 🛑
+                    Reset Live Ticker 🛑
                 </button>
             </div>
         </section>
@@ -206,7 +221,7 @@
                     Console 03
                 </div>
                 <h2 class="text-xs font-black tracking-wider text-command-accentPurple uppercase flex items-center gap-2">
-                    3. Player Leaderboard Allocator
+                    3. Tournament Leaderboard Allocator (Overall)
                 </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
@@ -295,36 +310,20 @@
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Complete Team Rosters Database
         const rosterDatabase = {
-            "GREEN HOUSE": [
-                "Shajan", "Aksha", "Raouth", "Rayan", "Srijith", "Zahid", "Keerthana", "Neha", "Adil", "Saahisht", "Jashmitha", "Ayman",
-                "Gaveshna", "Hrithik", "Burhanuddin", "Zaara", "Karthikay", "Venkata", "Manadev", "Ved", "Kavishna", "Kunal", "Joshit", "Vihaan"
-            ],
-            "BLUE HOUSE": [
-                "Kaushik", "Aswin", "Prajith", "Nimesh", "Rishika", "Alishba", "Atharv", "Faizan", "Rayan", "Vedika",
-                "Sriram", "Jashmita", "Aadya", "Sricharan", "Tanip", "Aprumya", "Asiv", "Rajveer", "Jones"
-            ],
-            "YELLOW HOUSE": [
-                "Kasinath", "Amaan.M", "Noel", "Haris", "Astitva", "Deepthi", "Muzaffar", "Zayan", "Zidane", "Gowri", "Sayed Umar", "Rishit",
-                "Jadon", "Spruha", "Avisha", "Nived", "Issac", "Het Utsavkumar", "Sharvesh", "Yashwini", "Abinandhan", "Niya", "Atharva"
-            ],
-            "RED HOUSE": [
-                "Vikas", "Ayaan", "Jeffery", "Ishaan", "Aniruth", "Sinan", "Sara", "Renisha",
-                "Satya", "Johann", "Ayaansh", "Bardha", "Tom", "Abiram", "Arjun", "Saanvi", "Sanjeev", "Rohit"
-            ]
+            "GREEN HOUSE": ["Shajan", "Aksha", "Raouth", "Rayan", "Srijith", "Zahid", "Keerthana", "Neha", "Adil", "Saahisht", "Jashmitha", "Ayman", "Gaveshna", "Hrithik", "Burhanuddin", "Zaara", "Karthikay", "Venkata", "Manadev", "Ved", "Kavishna", "Kunal", "Joshit", "Vihaan"],
+            "BLUE HOUSE": ["Kaushik", "Aswin", "Prajith", "Nimesh", "Rishika", "Alishba", "Atharv", "Faizan", "Rayan", "Vedika", "Sriram", "Jashmita", "Aadya", "Sricharan", "Tanip", "Aprumya", "Asiv", "Rajveer", "Jones"],
+            "YELLOW HOUSE": ["Kasinath", "Amaan.M", "Noel", "Haris", "Astitva", "Deepthi", "Muzaffar", "Zayan", "Zidane", "Gowri", "Sayed Umar", "Rishit", "Jadon", "Spruha", "Avisha", "Nived", "Issac", "Het Utsavkumar", "Sharvesh", "Yashwini", "Abinandhan", "Niya", "Atharva"],
+            "RED HOUSE": ["Vikas", "Ayaan", "Jeffery", "Ishaan", "Aniruth", "Sinan", "Sara", "Renisha", "Satya", "Johann", "Ayaansh", "Bardha", "Tom", "Abiram", "Arjun", "Saanvi", "Sanjeev", "Rohit"]
         };
+
+        // Local Memory State to calculate scores instantly on click
+        let activeMatchState = {};
+        let scorecardMemory = [];
 
         function populateSelectOptions(selectId, playerArray, selectedValue = "") {
             const el = document.getElementById(selectId);
-            el.innerHTML = "";
-            
-            // Generate a default empty choice for pre-match/offline rosters
-            const placeholderOpt = document.createElement("option");
-            placeholderOpt.value = "";
-            placeholderOpt.textContent = "-- NO PLAYER ASSIGNED --";
-            el.appendChild(placeholderOpt);
-
+            el.innerHTML = `<option value="">-- CHOOSE PLAYER --</option>`;
             playerArray.forEach(player => {
                 const opt = document.createElement("option");
                 opt.value = player;
@@ -334,6 +333,10 @@
             });
         }
 
+        function handleTeamChange() {
+            updateMatchPlayerDropdowns();
+        }
+
         function updateMatchPlayerDropdowns(savedValues = {}) {
             const battingTeam = document.getElementById('input-batting-team').value;
             const bowlingTeam = document.getElementById('input-bowling-team').value;
@@ -341,9 +344,9 @@
             const batters = rosterDatabase[battingTeam] || [];
             const bowlers = rosterDatabase[bowlingTeam] || [];
 
-            populateSelectOptions('input-bat1', batters, savedValues.batsman_on_strike);
-            populateSelectOptions('input-bat2', batters, savedValues.batsman_off_strike);
-            populateSelectOptions('input-bowler', bowlers, savedValues.current_bowler);
+            populateSelectOptions('input-bat1', batters, savedValues.batsman_on_strike || activeMatchState.batsman_on_strike);
+            populateSelectOptions('input-bat2', batters, savedValues.batsman_off_strike || activeMatchState.batsman_off_strike);
+            populateSelectOptions('input-bowler', bowlers, savedValues.current_bowler || activeMatchState.current_bowler);
         }
 
         function updateLeaderboardPlayerDropdown() {
@@ -353,73 +356,261 @@
         }
 
         async function fetchCurrentData() {
-            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
-            if (data) {
-                document.getElementById('input-runs').value = data.runs ?? "";
-                document.getElementById('input-wickets').value = data.wickets ?? "";
-                document.getElementById('input-overs').value = data.overs || "";
-                document.getElementById('input-commentary').value = data.commentary || "";
-                document.getElementById('input-batting-team').value = data.batting_team || "";
-                document.getElementById('input-bowling-team').value = data.bowling_team || "";
+            const { data: match } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+            if (match) {
+                activeMatchState = match;
+                document.getElementById('input-runs').value = match.runs ?? 0;
+                document.getElementById('input-wickets').value = match.wickets ?? 0;
+                document.getElementById('input-overs').value = match.overs || "0.0";
+                document.getElementById('input-commentary').value = match.commentary || "";
+                document.getElementById('input-batting-team').value = match.batting_team || "";
+                document.getElementById('input-bowling-team').value = match.bowling_team || "";
                 
-                document.getElementById('input-bat1-stats').value = data.batsman_on_strike_stats || "";
-                document.getElementById('input-bat2-stats').value = data.batsman_off_strike_stats || "";
-                document.getElementById('input-bowler-stats').value = data.current_bowler_stats || "";
+                document.getElementById('input-bat1-stats').value = match.batsman_on_strike_stats || "";
+                document.getElementById('input-bat2-stats').value = match.batsman_off_strike_stats || "";
+                document.getElementById('input-bowler-stats').value = match.current_bowler_stats || "";
 
-                updateMatchPlayerDropdowns(data);
+                // Parse standard cricket decimal overs back into current ball configuration counting loop
+                if(match.overs) {
+                    const parts = match.overs.toString().split('.');
+                    document.getElementById('input-ball-counter').value = parts[1] ? parseInt(parts[1]) : 0;
+                }
+
+                updateMatchPlayerDropdowns(match);
                 updateLeaderboardPlayerDropdown();
+                await fetchMatchScorecard();
+            }
+        }
+
+        async function fetchMatchScorecard() {
+            const { data } = await supabaseConnection.from('match_scorecard').select('*');
+            if (data) {
+                scorecardMemory = data;
+            }
+        }
+
+        function getOrCreatePlayerRow(playerName, houseName, defaultRole) {
+            let row = scorecardMemory.find(p => p.player_name === playerName);
+            if (!row) {
+                row = {
+                    player_name: playerName,
+                    house_name: houseName,
+                    role: defaultRole,
+                    runs_scored: 0,
+                    balls_faced: 0,
+                    fours: 0,
+                    sixes: 0,
+                    is_out: false,
+                    dismissal_info: 'not out',
+                    overs_bowled: 0.0,
+                    runs_conceded: 0,
+                    wickets_taken: 0,
+                    maidens: 0
+                };
+                scorecardMemory.push(row);
+            }
+            return row;
+        }
+
+        // Action Engine 1: Triggered when balls or boundaries are added
+        async function executeBallEvent(runs) {
+            const strikerName = document.getElementById('input-bat1').value;
+            const nonStrikerName = document.getElementById('input-bat2').value;
+            const bowlerName = document.getElementById('input-bowler').value;
+            
+            const batTeam = document.getElementById('input-batting-team').value;
+            const bowlTeam = document.getElementById('input-bowling-team').value;
+
+            if (!strikerName || !bowlerName) return alert("Error: Please select a Striker and a Bowler first!");
+
+            // 1. Update Team Totals
+            let currentRuns = parseInt(document.getElementById('input-runs').value) || 0;
+            currentRuns += runs;
+            document.getElementById('input-runs').value = currentRuns;
+
+            // 2. Compute Striker Stats
+            let striker = getOrCreatePlayerRow(strikerName, batTeam, 'batting');
+            striker.runs_scored += runs;
+            striker.balls_faced += 1;
+            if (runs === 4) striker.fours += 1;
+            if (runs === 6) striker.sixes += 1;
+
+            // 3. Compute Bowler Stats
+            let bowler = getOrCreatePlayerRow(bowlerName, bowlTeam, 'bowling');
+            bowler.runs_conceded += runs;
+
+            // 4. Update Balls & Overs Math System
+            let ballCount = parseInt(document.getElementById('input-ball-counter').value) || 0;
+            let overCount = parseInt(document.getElementById('input-overs').value.split('.')[0]) || 0;
+            
+            ballCount += 1;
+            if (ballCount >= 6) {
+                overCount += 1;
+                ballCount = 0;
+                document.getElementById('input-commentary').value = `End of Over ${overCount}.`;
+            }
+            document.getElementById('input-ball-counter').value = ballCount;
+            document.getElementById('input-overs').value = `${overCount}.${ballCount}`;
+
+            // Calculate active bowler decimal display string tracking metrics
+            let bOversCompleted = Math.floor(bowler.overs_bowled);
+            let bBallsCompleted = Math.round((bowler.overs_bowled - bOversCompleted) * 10) + 1;
+            if (bBallsCompleted >= 6) { bOversCompleted += 1; bBallsCompleted = 0; }
+            bowler.overs_bowled = parseFloat(`${bOversCompleted}.${bBallsCompleted}`);
+
+            // 5. Strike Rotation logic
+            if (runs === 1 || runs === 3) {
+                document.getElementById('input-bat1').value = nonStrikerName;
+                document.getElementById('input-bat2').value = strikerName;
+            }
+
+            // Sync visual text strings to form boxes safely, then submit to server
+            generateRealtimeDataStrings(striker, getOrCreatePlayerRow(nonStrikerName || "Dummy", batTeam, 'batting'), bowler);
+            await pushCalculatedMatrixToDatabase();
+        }
+
+        // Action Engine 2: Wickets
+        async function executeWicketEvent() {
+            const strikerName = document.getElementById('input-bat1').value;
+            const bowlerName = document.getElementById('input-bowler').value;
+            const batTeam = document.getElementById('input-batting-team').value;
+            const bowlTeam = document.getElementById('input-bowling-team').value;
+
+            if(!strikerName || !bowlerName) return alert("Select Striker and Bowler!");
+
+            let wickets = parseInt(document.getElementById('input-wickets').value) || 0;
+            wickets += 1;
+            document.getElementById('input-wickets').value = wickets;
+
+            // Log Dismissal to Scorecard Table
+            let striker = getOrCreatePlayerRow(strikerName, batTeam, 'batting');
+            striker.balls_faced += 1;
+            striker.is_out = true;
+            striker.dismissal_info = `b. ${bowlerName}`;
+
+            let bowler = getOrCreatePlayerRow(bowlerName, bowlTeam, 'bowling');
+            bowler.wickets_taken += 1;
+
+            // Advance over ball count logic
+            let ballCount = parseInt(document.getElementById('input-ball-counter').value) || 0;
+            let overCount = parseInt(document.getElementById('input-overs').value.split('.')[0]) || 0;
+            ballCount += 1;
+            if (ballCount >= 6) { overCount += 1; ballCount = 0; }
+            document.getElementById('input-ball-counter').value = ballCount;
+            document.getElementById('input-overs').value = `${overCount}.${ballCount}`;
+            
+            let bOversCompleted = Math.floor(bowler.overs_bowled);
+            let bBallsCompleted = Math.round((bowler.overs_bowled - bOversCompleted) * 10) + 1;
+            if (bBallsCompleted >= 6) { bOversCompleted += 1; bBallsCompleted = 0; }
+            bowler.overs_bowled = parseFloat(`${bOversCompleted}.${bBallsCompleted}`);
+
+            document.getElementById('input-commentary').value = `OUT! ${strikerName} departs ${striker.runs_scored} (${striker.balls_faced}).`;
+            
+            // Wipe striker selector box so you are forced to choose the incoming player
+            document.getElementById('input-bat1').value = "";
+
+            generateRealtimeDataStrings(striker, getOrCreatePlayerRow(document.getElementById('input-bat2').value || "Dummy", batTeam, 'batting'), bowler);
+            await pushCalculatedMatrixToDatabase();
+            alert("Wicket logged! Please pick the new incoming batsman from the dropdown menu and press 'Set Active Players'.");
+        }
+
+        // Action Engine 3: Extras (Wide/No ball)
+        async function executeExtraEvent() {
+            let currentRuns = parseInt(document.getElementById('input-runs').value) || 0;
+            currentRuns += 1;
+            document.getElementById('input-runs').value = currentRuns;
+
+            const bowlerName = document.getElementById('input-bowler').value;
+            if(bowlerName) {
+                let bowler = getOrCreatePlayerRow(bowlerName, document.getElementById('input-bowling-team').value, 'bowling');
+                bowler.runs_conceded += 1;
+            }
+            await pushCalculatedMatrixToDatabase();
+        }
+
+        function generateRealtimeDataStrings(striker, nonStriker, bowler) {
+            const sr1 = striker.balls_faced > 0 ? ((striker.runs_scored / striker.balls_faced) * 100).toFixed(1) : "0.0";
+            const sr2 = nonStriker.balls_faced > 0 ? ((nonStriker.runs_scored / nonStriker.balls_faced) * 100).toFixed(1) : "0.0";
+            
+            document.getElementById('input-bat1-stats').value = `${striker.runs_scored} (${striker.balls_faced}b) | 4s: ${striker.fours} 6s: ${striker.sixes} SR: ${sr1}`;
+            if(nonStriker.player_name !== "Dummy") {
+                document.getElementById('input-bat2-stats').value = `${nonStriker.runs_scored} (${nonStriker.balls_faced}b) | 4s: ${nonStriker.fours} 6s: ${nonStriker.sixes} SR: ${sr2}`;
+            }
+            document.getElementById('input-bowler-stats').value = `Overs: ${bowler.overs_bowled} | R: ${bowler.runs_conceded} | W: ${bowler.wickets_taken}`;
+        }
+
+        function syncCreaseLineup() {
+            // Read active choices manually set by user from dropdown switches
+            activeMatchState.batsman_on_strike = document.getElementById('input-bat1').value;
+            activeMatchState.batsman_off_strike = document.getElementById('input-bat2').value;
+            activeMatchState.current_bowler = document.getElementById('input-bowler').value;
+
+            const batTeam = document.getElementById('input-batting-team').value;
+            const bowlTeam = document.getElementById('input-bowling-team').value;
+
+            let s = getOrCreatePlayerRow(activeMatchState.batsman_on_strike, batTeam, 'batting');
+            let ns = getOrCreatePlayerRow(activeMatchState.batsman_off_strike, batTeam, 'batting');
+            let b = getOrCreatePlayerRow(activeMatchState.current_bowler, bowlTeam, 'bowling');
+
+            generateRealtimeDataStrings(s, ns, b);
+            alert("Crease assignments locked locally! Press Broadcast to push to global hubs.");
+        }
+
+        async function pushCalculatedMatrixToDatabase() {
+            // Upsert all modified players inside local state into Supabase match_scorecard table sequentially
+            for (let player of scorecardMemory) {
+                const { data } = await supabaseConnection.from('match_scorecard').select('id').eq('player_name', player.player_name).maybeSingle();
+                if(data) {
+                    await supabaseConnection.from('match_scorecard').update(player).eq('id', data.id);
+                } else {
+                    await supabaseConnection.from('match_scorecard').insert(player);
+                }
             }
         }
 
         async function broadcastData() {
-            const runsValue = document.getElementById('input-runs').value;
-            const wicketsValue = document.getElementById('input-wickets').value;
-
             const updatePayload = {
-                runs: runsValue !== "" ? parseInt(runsValue) : null,
-                wickets: wicketsValue !== "" ? parseInt(wicketsValue) : null,
-                overs: document.getElementById('input-overs').value || null,
-                commentary: document.getElementById('input-commentary').value || null,
-                batting_team: document.getElementById('input-batting-team').value || null,
-                bowling_team: document.getElementById('input-bowling-team').value || null,
-                batsman_on_strike: document.getElementById('input-bat1').value || null,
-                batsman_on_strike_stats: document.getElementById('input-bat1-stats').value || null,
-                batsman_off_strike: document.getElementById('input-bat2').value || null,
-                batsman_off_strike_stats: document.getElementById('input-bat2-stats').value || null,
-                current_bowler: document.getElementById('input-bowler').value || null,
-                current_bowler_stats: document.getElementById('input-bowler-stats').value || null
+                runs: parseInt(document.getElementById('input-runs').value) || 0,
+                wickets: parseInt(document.getElementById('input-wickets').value) || 0,
+                overs: document.getElementById('input-overs').value,
+                commentary: document.getElementById('input-commentary').value,
+                batting_team: document.getElementById('input-batting-team').value,
+                bowling_team: document.getElementById('input-bowling-team').value,
+                batsman_on_strike: document.getElementById('input-bat1').value,
+                batsman_on_strike_stats: document.getElementById('input-bat1-stats').value,
+                batsman_off_strike: document.getElementById('input-bat2').value,
+                batsman_off_strike_stats: document.getElementById('input-bat2-stats').value,
+                current_bowler: document.getElementById('input-bowler').value,
+                current_bowler_stats: document.getElementById('input-bowler-stats').value
             };
+            
             const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
-            if (error) alert(error.message); else alert("Console 01: Score & Crease updated successfully Hub side!");
+            if (error) alert(error.message); else alert("Score & Live Player Analytics Broadcasted!");
         }
 
         async function resetLiveBroadcast() {
-            if(!confirm("Are you sure you want to end this match profile? This clears all database parameters to trigger public placeholder layers.")) return;
+            if(!confirm("Wipe completely? This drops match scorecard logs and sets total score counters to zero.")) return;
 
+            // Clear database scorecard rows safely 
+            const { error: dbErr } = await supabaseConnection.from('match_scorecard').delete().neq('id', 0);
+            
             const resetPayload = {
-                runs: null,
-                wickets: null,
-                overs: null,
-                batting_team: null,
-                bowling_team: null,
-                batsman_on_strike: null,
-                batsman_on_strike_stats: null,
-                batsman_off_strike: null,
-                batsman_off_strike_stats: null,
-                current_bowler: null,
-                current_bowler_stats: null,
-                commentary: "Broadcast offline. Tune in when the next match starts!"
+                runs: 0, wickets: 0, overs: "0.0",
+                batting_team: "", bowling_team: "",
+                batsman_on_strike: "", batsman_on_strike_stats: "",
+                batsman_off_strike: "", batsman_off_strike_stats: "",
+                current_bowler: "", current_bowler_stats: "",
+                commentary: "Session reset. Next up shortly!"
             };
 
-            const { error } = await supabaseConnection.from('live_match').update(resetPayload).eq('id', 1);
-            if(error) {
-                alert(error.message);
-            } else {
-                alert("Console 01 Engine: Reset signal successfully updated! Live view cleared.");
-                fetchCurrentData(); // Soft reloading fields state safely
-            }
+            await supabaseConnection.from('live_match').update(resetPayload).eq('id', 1);
+            document.getElementById('input-ball-counter').value = 0;
+            scorecardMemory = [];
+            alert("All tables wiped cleanly!");
+            fetchCurrentData();
         }
 
+        // Rest of Legacy Consoles (02, 03, 04 Setup Operations)
         async function pushStandingsMatrix() {
             const house = document.getElementById('select-house').value;
             const payload = {
@@ -429,13 +620,12 @@
                 points: parseInt(document.getElementById('input-pts').value) || 0
             };
             const { error } = await supabaseConnection.from('points_table').update(payload).eq('house_name', house);
-            if (error) alert(error.message); else alert(`Console 02: ${house} Standings updated!`);
+            if (error) alert(error.message); else alert(`Standings updated!`);
         }
 
         async function pushPlayerTally() {
             const name = document.getElementById('stat-player-name').value;
             if(!name) return alert("Please select a player");
-
             const payload = {
                 player_name: name,
                 house_name: document.getElementById('stat-house-name').value,
@@ -443,18 +633,10 @@
                 total_wickets: parseInt(document.getElementById('stat-total-wickets').value) || 0,
                 highest_score: parseInt(document.getElementById('stat-highest-score').value) || 0
             };
-
             const { data } = await supabaseConnection.from('player_stats').select('id').eq('player_name', name).maybeSingle();
-            
-            let result;
-            if(data) {
-                result = await supabaseConnection.from('player_stats').update(payload).eq('id', data.id);
-            } else {
-                result = await supabaseConnection.from('player_stats').insert(payload);
-            }
-
-            if (result.error) alert(result.error.message);
-            else alert(`Console 03: Performance logged for ${name}!`);
+            if(data) await supabaseConnection.from('player_stats').update(payload).eq('id', data.id);
+            else await supabaseConnection.from('player_stats').insert(payload);
+            alert(`Stats logged for ${name}!`);
         }
 
         async function updateFixtureSlot() {
@@ -465,12 +647,10 @@
                 result_summary: document.getElementById('input-summary').value
             };
             const { error } = await supabaseConnection.from('fixtures').update(payload).eq('match_num', num);
-            if (error) alert(error.message); else alert(`Console 04: Match 0${num} updated!`);
+            if (error) alert(error.message); else alert(`Match 0${num} updated!`);
         }
 
-        // Initialize setup elements
-        updateMatchPlayerDropdowns();
-        updateLeaderboardPlayerDropdown();
+        // Run Initializers
         fetchCurrentData();
     </script>
 </body>
