@@ -12,17 +12,17 @@
                 extend: {
                     colors: {
                         command: {
-                            bgCanvas: '#060608',     /* Deeper, premium dark canvas */
-                            card: '#111115',         /* Sleek obsidian blocks */
-                            border: '#1F1F26',       /* Structured border line */
-                            accentYellow: '#FACC15', /* Neon Gold glow */
-                            accentGreen: '#10B981',  /* Cyber Emerald glow */
-                            accentPurple: '#A855F7', /* Dark Neon Violet */
-                            accentBlue: '#0EA5E9',   /* Deep Electric Cyan */
-                            textMain: '#F9FAFB',     /* True contrasting white */
-                            textMuted: '#9CA3AF',    /* Muted gray info fields */
-                            inputBg: '#09090C',      /* Matte black input depth */
-                            accentRed: '#EF4444'     /* Warning Indicator Red */
+                            bgCanvas: '#060608',     
+                            card: '#111115',         
+                            border: '#1F1F26',       
+                            accentYellow: '#FACC15', 
+                            accentGreen: '#10B981',  
+                            accentPurple: '#A855F7', 
+                            accentBlue: '#0EA5E9',   
+                            textMain: '#F9FAFB',     
+                            textMuted: '#9CA3AF',    
+                            inputBg: '#09090C',      
+                            accentRed: '#EF4444'     
                         }
                     },
                     boxShadow: {
@@ -466,14 +466,19 @@
             else alert(`Console 03: Performance logged for ${name}!`);
         }
 
+        // --- FIXED FOR SYNCING WITH INDEX.HTML ---
         async function updateFixtureSlot() {
             const num = parseInt(document.getElementById('select-match').value);
+            
+            // Re-mapped payload parameters to target the column names index.html expects
             const payload = {
-                time_status: document.getElementById('select-status').value,
-                teams: document.getElementById('input-lineup').value,
-                result_summary: document.getElementById('input-summary').value
+                status: document.getElementById('select-status').value,
+                team: document.getElementById('input-lineup').value,
+                result: document.getElementById('input-summary').value
             };
-            const { error } = await supabaseConnection.from('fixtures').update(payload).eq('match_num', num);
+            
+            // Re-targeted database match filtering statement to use matchNumber
+            const { error } = await supabaseConnection.from('fixtures').update(payload).eq('matchNumber', num);
             if (error) alert(error.message); else alert(`Console 04: Match 0${num} updated!`);
         }
 
