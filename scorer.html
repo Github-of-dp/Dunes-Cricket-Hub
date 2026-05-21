@@ -530,7 +530,15 @@
                 `"${(log.commentary_text || '').replace(/"/g, '""')}"`
             ]);
 
-            const csvContent = [csvHeaders.join(","), ...csvRows.map(r => r.join(","))].join("\n");
+            // Add a clean byte-order-mark (BOM) and an explicit separator definition for Excel alignment
+            const excelBOM = "\uFEFF";
+            const sepInstruction = "sep=,\n";
+            
+            const csvContent = excelBOM + sepInstruction + [
+                csvHeaders.join(","), 
+                ...csvRows.map(r => r.join(","))
+            ].join("\n");
+            
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
             const downloadAnchor = document.createElement("a");
