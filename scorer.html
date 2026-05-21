@@ -524,7 +524,7 @@
                 filenameSuffix = "final_match_conclusion";
             }
 
-            // 2. Define the Columns structure for your Data Spreadsheet (Optimized Layout)
+            // 2. Define the Columns structure for your Data Spreadsheet (13 Columns Total)
             const csvHeaders = [
                 "Sequence ID",
                 "Timestamp",
@@ -541,23 +541,23 @@
                 "Live Commentary Narrative"
             ];
 
-            // 3. Map database columns arrays securely into text array rows
+            // 3. Map database columns arrays cleanly into text array rows (Strict 1-to-1 Mapping)
             const csvRows = filteredLogs.map((log, index) => [
-                index + 1,
-                log.created_at ? new Date(log.created_at).toLocaleString() : 'N/A',
-                `Match 0${log.match_num}`,
-                log.over_num ?? 0,
-                log.ball_num ?? 0,
-                `"${log.striker_name || ''}"`,      // Explicit On-Strike Column Focus
-                `"${log.non_striker_name || ''}"`,  // Explicit Off-Strike Column Focus
-                `"${log.bowler_name || ''}"`,      // Explicit Bowler Tracker Focus
-                log.runs_off_bat ?? 0,
-                log.extras ?? 0,
-                log.extra_type || 'NONE',
-                log.is_wicket ? "YES" : "NO",
-                `"${(log.commentary_text || '').replace(/"/g, '""')}"` // Sanitize for cell safety
+                index + 1,                                              // 1. Sequence ID
+                log.created_at ? new Date(log.created_at).toLocaleTimeString() : 'N/A', // 2. Timestamp
+                `Match 0${log.match_num}`,                              // 3. Match Context
+                log.over_num ?? 0,                                      // 4. Over Number
+                log.ball_num ?? 0,                                      // 5. Ball Number
+                `"${log.striker_name || ''}"`,                          // 6. On-Strike Batsman
+                `"${log.non_striker_name || ''}"`,                      // 7. Off-Strike Batsman
+                `"${log.bowler_name || ''}"`,                          // 8. Active Bowler
+                log.runs_off_bat ?? 0,                                  // 9. Runs Off Bat
+                log.extras ?? 0,                                        // 10. Extras Penalty
+                log.extra_type || 'NONE',                               // 11. Extra Type Specified
+                log.is_wicket ? "YES" : "NO",                           // 12. Is Wicket Event
+                `"${(log.commentary_text || '').replace(/"/g, '""')}"`   // 13. Live Commentary Narrative
             ]);
-            
+
             // Add a clean byte-order-mark (BOM) and an explicit separator definition for Excel alignment
             const excelBOM = "\uFEFF";
             const sepInstruction = "sep=,\n";
