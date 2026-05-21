@@ -169,6 +169,37 @@
                     Reset Live Ticker 🗑️
                 </button>
             </div>
+
+            <div class="border-t-2 border-dashed border-command-border/80 pt-5 mt-4 bg-black/40 p-4 rounded-xl space-y-4">
+                <h3 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-1.5">
+                    🏆 Post-Match Automated Cap Compiler
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Winner</label>
+                        <select id="post-winner" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Loser</label>
+                        <select id="post-loser" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="triggerPostMatchCompilation()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-2 px-3 rounded-lg font-black text-[10px] uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">
+                            Compile Awards 🏆
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-green relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentGreen/30">
@@ -250,4 +281,269 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Highest Score</label>
-                        <input type="number" id="stat-highest-score" value="0" c
+                        <input type="number" id="stat-highest-score" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                    </div>
+                </div>
+            </div>
+            <button onclick="pushPlayerTally()" class="w-full bg-command-accentPurple text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(168,85,247,0.3)] mt-4">
+                Upsert Player Performance Stats
+            </button>
+        </section>
+
+    </main>
+
+    <script>
+        const RENDER_BACKEND_URL = "https://dunes-cricket-backend.onrender.com";
+
+        const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
+        
+        // Clean Connection Setup (Omitting default session triggers to bypass "No auth flow succeeded" alerts)
+        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+
+        const rosterDatabase = {
+            "GREEN HOUSE": [
+                "Shajan", "Aksha", "Raouth", "Rayan", "Srijith", "Zahid", "Keerthana", "Neha", "Adil", "Saahisht", "Jashmitha", "Ayman",
+                "Gaveshna", "Hrithik", "Burhanuddin", "Zaara", "Karthikay", "Venkata", "Manadev", "Ved", "Kavishna", "Kunal", "Joshit", "Vihaan"
+            ],
+            "BLUE HOUSE": [
+                "Kaushik", "Aswin", "Prajith", "Nimesh", "Rishika", "Alishba", "Atharv", "Faizan", "Rayan", "Vedika",
+                "Sriram", "Jashmita", "Aadya", "Sricharan", "Tanip", "Aprumya", "Asiv", "Rajveer", "Jones"
+            ],
+            "YELLOW HOUSE": [
+                "Kasinath", "Amaan.M", "Noel", "Haris", "Astitva", "Deepthi", "Muzaffar", "Zayan", "Zidane", "Gowri", "Sayed Umar", "Rishit",
+                "Jadon", "Spruha", "Avisha", "Nived", "Issac", "Het Utsavkumar", "Sharvesh", "Yashwini", "Abinandhan", "Niya", "Atharva"
+            ],
+            "RED HOUSE": [
+                "Vikas", "Ayaan", "Jeffery", "Ishaan", "Aniruth", "Sinan", "Sara", "Renisha",
+                "Satya", "Johann", "Ayaansh", "Bardha", "Tom", "Abiram", "Arjun", "Saanvi", "Sanjeev", "Rohit"
+            ]
+        };
+
+        let globalStriker = "";
+        let globalNonStriker = "";
+        let globalActiveBowler = "";
+
+        function renderDynamicSquadMatrix() {
+            const batTeam = document.getElementById('input-batting-team').value;
+            const bowlTeam = document.getElementById('input-bowling-team').value;
+
+            const batContainer = document.getElementById('batting-roster-assignment-container');
+            const bowlContainer = document.getElementById('bowling-roster-assignment-container');
+
+            batContainer.innerHTML = "";
+            if(!batTeam) {
+                batContainer.innerHTML = `<p class="text-xs text-command-textMuted italic">Choose a batting house...</p>`;
+            } else {
+                (rosterDatabase[batTeam] || []).forEach(player => {
+                    const row = document.createElement('div');
+                    row.className = "flex justify-between items-center bg-black/40 p-2 rounded-lg border border-command-border/60 hover:border-command-accentYellow/20 transition-all";
+                    row.innerHTML = `
+                        <span class="text-xs font-bold text-gray-200">${player}</span>
+                        <select onchange="updateCreaseBattingRole('${player}', this.value)" class="bg-command-inputBg border border-command-border text-[10px] font-black text-command-accentYellow rounded px-2 py-1 focus:outline-none">
+                            <option value="DUGOUT" ${globalStriker!==player && globalNonStriker!==player?'selected':''}>DUGOUT</option>
+                            <option value="STRIKER" ${globalStriker===player?'selected':''}>⭐ STRIKER</option>
+                            <option value="NON_STRIKER" ${globalNonStriker===player?'selected':''}>NON-STRIKER</option>
+                        </select>
+                    `;
+                    batContainer.appendChild(row);
+                });
+            }
+
+            bowlContainer.innerHTML = "";
+            if(!bowlTeam) {
+                bowlContainer.innerHTML = `<p class="text-xs text-command-textMuted italic">Choose a bowling house...</p>`;
+            } else {
+                (rosterDatabase[bowlTeam] || []).forEach(player => {
+                    const row = document.createElement('div');
+                    row.className = "flex justify-between items-center bg-black/40 p-2 rounded-lg border border-command-border/60 hover:border-command-accentPurple/20 transition-all";
+                    
+                    const isBowler = globalActiveBowler === player;
+                    row.innerHTML = `
+                        <span class="text-xs font-bold text-gray-200">${player}</span>
+                        <button onclick="assignActiveBowler('${player}')" class="text-[9px] font-black uppercase px-2 py-1.5 rounded transition-all ${isBowler ? 'bg-command-accentPurple text-white border border-transparent shadow-lg' : 'bg-command-inputBg text-command-textMuted border border-command-border hover:text-white'}">
+                            ${isBowler ? 'Active Bowler 🥎' : 'Select'}
+                        </button>
+                    `;
+                    bowlContainer.appendChild(row);
+                });
+            }
+            
+            document.getElementById('display-striker-label').textContent = globalStriker || "-";
+        }
+
+        function updateCreaseBattingRole(playerName, role) {
+            if(role === 'STRIKER') {
+                if(globalNonStriker === playerName) globalNonStriker = "";
+                globalStriker = playerName;
+            } else if (role === 'NON_STRIKER') {
+                if(globalStriker === playerName) globalStriker = "";
+                globalNonStriker = playerName;
+            } else {
+                if(globalStriker === playerName) globalStriker = "";
+                if(globalNonStriker === playerName) globalNonStriker = "";
+            }
+            renderDynamicSquadMatrix();
+        }
+
+        function assignActiveBowler(playerName) {
+            globalActiveBowler = playerName;
+            renderDynamicSquadMatrix();
+        }
+
+        function updateLeaderboardManualDropdown() {
+            const selectedHouse = document.getElementById('stat-house-name').value;
+            const players = rosterDatabase[selectedHouse] || [];
+            const el = document.getElementById('stat-player-name');
+            el.innerHTML = "";
+            players.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p; opt.textContent = p; el.appendChild(opt);
+            });
+        }
+
+        async function fetchCurrentData() {
+            try {
+                const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+                if (data) {
+                    document.getElementById('input-runs').value = data.runs ?? 0;
+                    document.getElementById('input-wickets').value = data.wickets ?? 0;
+                    document.getElementById('input-overs').value = data.overs || "0.0";
+                    document.getElementById('input-commentary').value = data.commentary || "";
+                    document.getElementById('input-batting-team').value = data.batting_team || "";
+                    document.getElementById('input-bowling-team').value = data.bowling_team || "";
+                    
+                    globalStriker = data.batsman_on_strike || "";
+                    globalNonStriker = data.batsman_off_strike || "";
+                    globalActiveBowler = data.current_bowler || "";
+
+                    renderDynamicSquadMatrix();
+                    updateLeaderboardManualDropdown();
+                }
+            } catch (err) { console.log("Supabase direct stream wait..."); }
+        }
+
+        async function triggerAutomatedBall(eventType) {
+            const payload = {
+                match_num: document.getElementById('input-match-num').value,
+                event_type: eventType,
+                striker_name: globalStriker,
+                non_striker_name: globalNonStriker,
+                bowler_name: globalActiveBowler,
+                batting_team: document.getElementById('input-batting-team').value,
+                bowling_team: document.getElementById('input-bowling-team').value
+            };
+
+            if (!payload.striker_name || !payload.bowler_name || !payload.batting_team || !payload.bowling_team) {
+                alert("⚠️ Configuration Error: Map your active Striker, Non-Striker, and Active Bowler from the cards before clicking delivery actions!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`${RENDER_BACKEND_URL}/api/process_delivery`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('input-runs').value = result.runs;
+                    document.getElementById('input-wickets').value = result.wickets;
+                    
+                    // Secure object extraction to prevent printing raw mapping hashes
+                    document.getElementById('input-overs').value = (typeof result.overs === 'object') ? result.overs.overs_string || "0.0" : result.overs;
+                    
+                    globalStriker = (typeof result.striker === 'object') ? result.striker.player_name : result.striker;
+                    globalNonStriker = (typeof result.non_striker === 'object') ? result.non_striker.player_name : result.non_striker;
+                    
+                    document.getElementById('display-striker-label').textContent = globalStriker || "-";
+
+                    const { data } = await supabaseConnection.from('live_match').select('commentary').eq('id', 1).maybeSingle();
+                    if (data && data.commentary) {
+                        document.getElementById('input-commentary').value = data.commentary;
+                    }
+
+                    renderDynamicSquadMatrix();
+                } else {
+                    alert("Backend rule rejection: " + result.message);
+                }
+            } catch (err) {
+                alert("Cannot connect to Render cloud. Check log statuses on Render dashboard!");
+            }
+        }
+
+        async function triggerPostMatchCompilation() {
+            const payload = {
+                match_num: document.getElementById('input-match-num').value,
+                winning_house: document.getElementById('post-winner').value,
+                losing_house: document.getElementById('post-loser').value
+            };
+            try {
+                const response = await fetch(`${RENDER_BACKEND_URL}/api/compile_post_match_awards`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) alert("🏆 Match awards compiled, NRR updated, and player caps calculated!");
+                else alert("Compilation failure processing arrays.");
+            } catch (err) { alert("Error linking to server."); }
+        }
+
+        async function broadcastData() {
+            const updatePayload = {
+                runs: parseInt(document.getElementById('input-runs').value) || 0,
+                wickets: parseInt(document.getElementById('input-wickets').value) || 0,
+                overs: document.getElementById('input-overs').value || "0.0",
+                commentary: document.getElementById('input-commentary').value || null,
+                batting_team: document.getElementById('input-batting-team').value || null,
+                bowling_team: document.getElementById('input-bowling-team').value || null,
+                batsman_on_strike: globalStriker || null,
+                batsman_off_strike: globalNonStriker || null,
+                current_bowler: globalActiveBowler || null
+            };
+            const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
+            if (error) alert(error.message); else alert("Overrides pushed to main broadcast display!");
+        }
+
+        async function resetLiveBroadcast() {
+            if(!confirm("Clear active session logs?")) return;
+            const resetPayload = { runs: 0, wickets: 0, overs: "0.0", batsman_on_strike: null, batsman_off_strike: null, current_bowler: null, commentary: "Match setup session pending..." };
+            await supabaseConnection.from('live_match').update(resetPayload).eq('id', 1);
+            fetchCurrentData();
+        }
+
+        async function pushStandingsMatrix() {
+            const house = document.getElementById('select-house').value;
+            const payload = {
+                played: parseInt(document.getElementById('input-played').value) || 0,
+                won: parseInt(document.getElementById('input-won').value) || 0,
+                lost: parseInt(document.getElementById('input-lost').value) || 0,
+                points: parseInt(document.getElementById('input-pts').value) || 0
+            };
+            await supabaseConnection.from('points_table').update(payload).eq('house_name', house);
+            alert("Standings array updated!");
+        }
+
+        async function pushPlayerTally() {
+            const name = document.getElementById('stat-player-name').value;
+            const payload = {
+                player_name: name,
+                house_name: document.getElementById('stat-house-name').value,
+                total_runs: parseInt(document.getElementById('stat-total-runs').value) || 0,
+                total_wickets: parseInt(document.getElementById('stat-total-wickets').value) || 0,
+                highest_score: parseInt(document.getElementById('stat-highest-score').value) || 0
+            };
+            await supabaseConnection.from('player_stats').upsert(payload);
+            alert("Player score overrides logged!");
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchCurrentData();
+        });
+    </script>
+</body>
+</html>
