@@ -52,7 +52,7 @@
                 </div>
             </div>
             <span class="text-[10px] font-bold px-3 py-1.5 bg-command-card/80 border border-command-border text-command-textMuted rounded-full tracking-wider uppercase backdrop-blur-md shadow-sm">
-                Secure Session
+                Local Host Loop Link
             </span>
         </div>
     </header>
@@ -293,7 +293,8 @@
     </main>
 
     <script>
-        const RENDER_BACKEND_URL = "https://dunes-cricket-backend.onrender.com";
+        // Set up to look at your local machine port loop context
+        const RENDER_BACKEND_URL = "http://127.0.0.1:5000";
 
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
@@ -421,7 +422,7 @@
                     renderDynamicSquadMatrix();
                     updateLeaderboardManualDropdown();
                 }
-            } catch (err) { console.log("Supabase direct stream wait..."); }
+            } catch (err) { console.log("Direct sync polling sequence passive standard exception."); }
         }
 
         async function triggerAutomatedBall(eventType) {
@@ -452,7 +453,6 @@
                 if (response.ok) {
                     document.getElementById('input-runs').value = result.runs;
                     document.getElementById('input-wickets').value = result.wickets;
-                    
                     document.getElementById('input-overs').value = (typeof result.overs === 'object') ? result.overs.overs_string || "0.0" : result.overs;
                     
                     globalStriker = (typeof result.striker === 'object') ? result.striker.player_name : result.striker;
@@ -467,10 +467,10 @@
 
                     renderDynamicSquadMatrix();
                 } else {
-                    alert("Backend rule rejection: " + result.message);
+                    alert("Local engine rule rejection: " + result.message);
                 }
             } catch (err) {
-                alert("Cannot connect to Render cloud. Check log statuses on Render dashboard!");
+                alert("Cannot reach local Python server! Verify terminal state for 'python app.py' on port 5000!");
             }
         }
 
@@ -486,9 +486,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (response.ok) alert("🏆 Match awards compiled, NRR updated, and player caps calculated!");
-                else alert("Compilation failure processing arrays.");
-            } catch (err) { alert("Error linking to server."); }
+                if (response.ok) alert("🏆 Post match sequence compiled successfully via Local Engine!");
+                else alert("Compilation rule mismatch error.");
+            } catch (err) { alert("Local connection fault."); }
         }
 
         async function broadcastData() {
