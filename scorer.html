@@ -44,7 +44,7 @@
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="bg-gradient-to-b from-white/[0.08] to-transparent p-2 rounded-xl border border-command-border/80 backdrop-blur-md shadow-inner">
-                    <img src="DIS_Logo.png" alt="School Logo" class="h-10 w-auto object-contain fallback-logo" onerror="this.style.display='none'">
+                    <span class="text-command-accentYellow font-black text-xl tracking-tighter block leading-none">DFM</span>
                 </div>
                 <div class="text-center sm:text-left">
                     <h1 class="text-xl font-black tracking-wider text-command-accentYellow uppercase drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]">Dunes FM Command Center</h1>
@@ -106,7 +106,7 @@
                     <h3 class="text-[10px] font-black text-command-accentYellow uppercase tracking-wider flex items-center gap-1">
                         🏏 Batting Squad Role Assigner
                     </h3>
-                    <div id="batting-roster-assignment-container" class="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <div id="batting-roster-assignment-container" class="max-h-60 overflow-y-auto space-y-2 pr-1">
                         <p class="text-xs text-command-textMuted italic">Please choose a batting house team to map lineups...</p>
                     </div>
                 </div>
@@ -115,14 +115,14 @@
                     <h3 class="text-[10px] font-black text-command-accentPurple uppercase tracking-wider flex items-center gap-1">
                         🥎 Bowling Assignment Core
                     </h3>
-                    <div id="bowling-roster-assignment-container" class="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <div id="bowling-roster-assignment-container" class="max-h-60 overflow-y-auto space-y-2 pr-1">
                         <p class="text-xs text-command-textMuted italic">Please choose a bowling house team to map lineups...</p>
                     </div>
                 </div>
             </div>
 
             <div class="bg-black/40 p-4 rounded-xl border border-command-border space-y-3">
-                <label class="text-[10px] font-black tracking-wider text-command-accentYellow uppercase block">
+                <label class="text-[10px] font-black tracking-wider text-command-accentYellow block">
                     ⚡ Instant Ball-By-Ball Transaction Deck
                 </label>
                 <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">
@@ -186,7 +186,7 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Loser</label>
-                        <select id="post-winner" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
+                        <select id="post-loser" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
                             <option value="GREEN HOUSE">GREEN HOUSE</option>
                             <option value="BLUE HOUSE">BLUE HOUSE</option>
                             <option value="YELLOW HOUSE">YELLOW HOUSE</option>
@@ -293,12 +293,15 @@
     </main>
 
     <script>
-        // REPLACE THIS URL STRING WITH YOUR ACTUAL DEPLOYED RENDER BACKEND ADDRESS URL STRING VALUE:
         const RENDER_BACKEND_URL = "https://dunes-cricket-backend.onrender.com";
 
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
-        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Clean Connection Setup (Omitting default session triggers to bypass "No auth flow succeeded" alerts)
+        const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
 
         const rosterDatabase = {
             "GREEN HOUSE": [
@@ -319,7 +322,6 @@
             ]
         };
 
-        // Track local configurations for active tracking
         let globalStriker = "";
         let globalNonStriker = "";
         let globalActiveBowler = "";
@@ -331,7 +333,6 @@
             const batContainer = document.getElementById('batting-roster-assignment-container');
             const bowlContainer = document.getElementById('bowling-roster-assignment-container');
 
-            // Render Batting Lineup Selector Cards
             batContainer.innerHTML = "";
             if(!batTeam) {
                 batContainer.innerHTML = `<p class="text-xs text-command-textMuted italic">Choose a batting house...</p>`;
@@ -351,7 +352,6 @@
                 });
             }
 
-            // Render Bowling Deck Radio/Select Lineup Options
             bowlContainer.innerHTML = "";
             if(!bowlTeam) {
                 bowlContainer.innerHTML = `<p class="text-xs text-command-textMuted italic">Choose a bowling house...</p>`;
@@ -371,7 +371,7 @@
                 });
             }
             
-            document.getElementById('display-striker-label').textContent = globalStriker || "Awaiting Setup";
+            document.getElementById('display-striker-label').textContent = globalStriker || "-";
         }
 
         function updateCreaseBattingRole(playerName, role) {
@@ -405,22 +405,24 @@
         }
 
         async function fetchCurrentData() {
-            const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
-            if (data) {
-                document.getElementById('input-runs').value = data.runs ?? 0;
-                document.getElementById('input-wickets').value = data.wickets ?? 0;
-                document.getElementById('input-overs').value = data.overs || "0.0";
-                document.getElementById('input-commentary').value = data.commentary || "";
-                document.getElementById('input-batting-team').value = data.batting_team || "";
-                document.getElementById('input-bowling-team').value = data.bowling_team || "";
-                
-                globalStriker = data.batsman_on_strike || "";
-                globalNonStriker = data.batsman_off_strike || "";
-                globalActiveBowler = data.current_bowler || "";
+            try {
+                const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
+                if (data) {
+                    document.getElementById('input-runs').value = data.runs ?? 0;
+                    document.getElementById('input-wickets').value = data.wickets ?? 0;
+                    document.getElementById('input-overs').value = data.overs || "0.0";
+                    document.getElementById('input-commentary').value = data.commentary || "";
+                    document.getElementById('input-batting-team').value = data.batting_team || "";
+                    document.getElementById('input-bowling-team').value = data.bowling_team || "";
+                    
+                    globalStriker = data.batsman_on_strike || "";
+                    globalNonStriker = data.batsman_off_strike || "";
+                    globalActiveBowler = data.current_bowler || "";
 
-                renderDynamicSquadMatrix();
-                updateLeaderboardManualDropdown();
-            }
+                    renderDynamicSquadMatrix();
+                    updateLeaderboardManualDropdown();
+                }
+            } catch (err) { console.log("Supabase direct stream wait..."); }
         }
 
         async function triggerAutomatedBall(eventType) {
@@ -445,18 +447,25 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                
                 const result = await response.json();
+                
                 if (response.ok) {
                     document.getElementById('input-runs').value = result.runs;
                     document.getElementById('input-wickets').value = result.wickets;
-                    document.getElementById('input-overs').value = result.overs;
                     
-                    globalStriker = result.striker;
-                    globalNonStriker = result.non_striker;
+                    // Secure object extraction to prevent printing raw mapping hashes
+                    document.getElementById('input-overs').value = (typeof result.overs === 'object') ? result.overs.overs_string || "0.0" : result.overs;
                     
-                    // Fetch trailing custom commentary live from sync logic
+                    globalStriker = (typeof result.striker === 'object') ? result.striker.player_name : result.striker;
+                    globalNonStriker = (typeof result.non_striker === 'object') ? result.non_striker.player_name : result.non_striker;
+                    
+                    document.getElementById('display-striker-label').textContent = globalStriker || "-";
+
                     const { data } = await supabaseConnection.from('live_match').select('commentary').eq('id', 1).maybeSingle();
-                    if(data) document.getElementById('input-commentary').value = data.commentary;
+                    if (data && data.commentary) {
+                        document.getElementById('input-commentary').value = data.commentary;
+                    }
 
                     renderDynamicSquadMatrix();
                 } else {
