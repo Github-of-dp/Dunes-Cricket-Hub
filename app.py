@@ -4,10 +4,8 @@ from flask_cors import CORS
 from supabase import create_client, Client
 
 app = Flask(__name__)
-# This line gives your Vercel site the official security pass to talk to Render
 CORS(app)
 
-# Supabase Initialization Matrix
 SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -29,7 +27,6 @@ def process_delivery():
         batting_team = data.get('batting_team', '')
         bowling_team = data.get('bowling_team', '')
 
-        # 1. Fetch current scoreboard snapshot from live_match table
         match_query = supabase.from_('live_match').select('*').eq('id', 1).maybeSingle().execute()
         current_match = match_query.data if match_query else None
 
@@ -40,7 +37,6 @@ def process_delivery():
         total_wickets = int(current_match.get('wickets', 0))
         current_overs_str = str(current_match.get('overs', '0.0'))
 
-        # Parse overs string into exact ball calculations
         if '.' in current_overs_str:
             parts = current_overs_str.split('.')
             completed_overs = int(parts[0])
@@ -51,7 +47,6 @@ def process_delivery():
 
         total_balls = (completed_overs * 6) + balls_in_over
 
-        # 2. Match Rules Calculation Core
         runs_off_bat = 0
         extra_penalty = 0
         extra_type = "NONE"
@@ -61,44 +56,39 @@ def process_delivery():
         if delivery_action in ['1', '2', '3', '4', '6']:
             runs_off_bat = int(delivery_action)
             total_runs += runs_off_bat
-            total_balls += 1 # Legal ball delivery counted
+            total_balls += 1
             event_commentary = f"{striker} hits it away safely for {runs_off_bat} run(s)."
             if delivery_action in ['4', '6']:
                 event_commentary = f"BOUNDARIES CHASED! {striker} hits a spectacular {delivery_action}!"
                 
-            # Perform strike rotation for odd runs
             if runs_off_bat in [1, 3]:
                 striker, non_striker = non_striker, striker
 
         elif delivery_action == 'DOT':
-            total_balls += 1 # Legal ball delivery counted
+            total_balls += 1
             event_commentary = f"Good defensive play. Dot ball from {active_bowler}."
 
         elif delivery_action == 'WIDE':
-            extra_penalty = 2 # Automatically registers 2 penalty runs per tournament guidelines
+            extra_penalty = 2
             total_runs += extra_penalty
             extra_type = "WIDE"
             event_commentary = f"Wide ball down the leg side. +2 Extras assigned to {batting_team}."
-            # Note: Wides do not increment total_balls since they are an illegal delivery
 
         elif delivery_action == 'WICKET':
             total_wickets += 1
-            total_balls += 1 # Legal ball delivery counted
+            total_balls += 1
             is_wicket_event = True
             event_commentary = f"OUT! Huge breakthrough! {active_bowler} dismisses {striker}!"
 
-        # Re-calculate over structure format
         new_overs = total_balls // 6
         new_balls = total_balls % 6
         
-        # Auto-rotate strike if the over concludes (6 legal deliveries)
         if new_balls == 0 and total_balls > 0 and delivery_action != 'WIDE':
             striker, non_striker = non_striker, striker
             event_commentary += " End of the over. Bowlers swapping sides."
 
         overs_string = f"{new_overs}.{new_balls}"
 
-        # 3. Save updates back to broadcast tracking layout
         update_payload = {
             "runs": total_runs,
             "wickets": total_wickets,
@@ -112,7 +102,6 @@ def process_delivery():
         }
         supabase.from_('live_match').update(update_payload).eq('id', 1).execute()
 
-        # 4. Write an entry into our ball-by-ball immutable ledger log table
         log_payload = {
             "match_num": match_num,
             "striker_name": striker,
@@ -126,7 +115,6 @@ def process_delivery():
         }
         supabase.from_('ball_by_ball_log').insert(log_payload).execute()
 
-        # Output payload mapping values cleanly
         return jsonify({
             "success": True,
             "runs": total_runs,
@@ -141,7 +129,6 @@ def process_delivery():
 
 @app.route('/api/compile_post_match_awards', methods=['POST'])
 def compile_post_match_awards():
-    # Placeholder layout for automatic calculation configurations at tournament conclusion
     return jsonify({"success": True, "message": "Accolades compiled safely."}), 200
 
 if __name__ == '__main__':
