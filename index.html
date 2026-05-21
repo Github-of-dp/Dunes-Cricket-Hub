@@ -127,7 +127,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 border-t border-white/15 pt-6 mt-10">
-                    <div class="glass-subcard p-5 rounded-2xl shadow-2xl relative overflow-hidden group">
+                    <div class="glass-subcard p-5 rounded-2xl shadow-2xl relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none"></div>
                         <p class="text-[9px] font-black text-glowYellow uppercase tracking-widest mb-1.5 flex items-center gap-1">🏏 Strike Batsman</p>
                         <p id="live-bat1" class="text-base font-extrabold text-gray-200 italic truncate">No Active Batsman</p>
@@ -190,7 +190,6 @@
 
         <section id="section-stats" class="tab-content hidden">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-purple border-l-4 border-l-glowPurple flex flex-col justify-between relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none"></div>
                     <div>
@@ -244,7 +243,6 @@
                         <span id="mvp-score" class="text-2xl font-black text-glowPurple font-mono drop-shadow-[0_0_15px_rgba(168,85,247,0.45)]">-</span>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -283,10 +281,19 @@
         }
 
         function initializeRealtimeScoreboard() {
+            // Realtime Stream Channel 1: Live Scorecard Listener
             supabaseConnection
                 .channel('score-channel')
                 .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
                     renderLiveScore(payload.new);
+                })
+                .subscribe();
+
+            // Realtime Stream Channel 2: Fixtures Pipeline Listener
+            supabaseConnection
+                .channel('fixtures-channel')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'fixtures' }, () => {
+                    streamFixturesList();
                 })
                 .subscribe();
 
@@ -384,26 +391,29 @@
         }
 
         async function streamFixturesList() {
-            const { data } = await supabaseConnection.from('fixtures').select('*').order('match_num', { ascending: true });
+            // Corrected to use 'fixtures' (plural) and sorted by 'matchNumber' to link with scorer.html
+            const { data } = await supabaseConnection.from('fixtures').select('*').order('matchNumber', { ascending: true });
             const container = document.getElementById('fixtures-container');
+            if(!container) return; 
             container.innerHTML = "";
             if(data) {
                 data.forEach(match => {
+                    // Corrected mapping keys to process 'status', 'team', and 'result'
                     let badgeStyles = "bg-gray-500/10 text-gray-400 border-gray-500/20";
-                    if(match.time_status === 'LIVE') badgeStyles = "bg-glowYellow/20 text-glowYellow border-glowYellow/40 animate-pulse shadow-[0_0_15px_rgba(250,204,21,0.2)]";
-                    if(match.time_status === 'COMPLETED') badgeStyles = "bg-glowGreen/20 text-glowGreen border-glowGreen/40";
+                    if(match.status === 'LIVE') badgeStyles = "bg-glowYellow/20 text-glowYellow border-glowYellow/40 animate-pulse shadow-[0_0_15px_rgba(250,204,21,0.2)]";
+                    if(match.status === 'COMPLETED') badgeStyles = "bg-glowGreen/20 text-glowGreen border-glowGreen/40";
 
                     const div = document.createElement('div');
                     div.className = "flex flex-col sm:flex-row justify-between items-start sm:items-center p-5 glass-subcard rounded-2xl gap-4 hover:border-white/20 transition duration-300 shadow-2xl bg-black/20";
                     div.innerHTML = `
                         <div>
                             <div class="flex items-center gap-2.5">
-                                <span class="text-xs font-black text-white tracking-wide">Match 0${match.match_num}</span>
-                                <span class="text-[9px] font-black px-2 py-0.5 rounded-md border uppercase ${badgeStyles}">${match.time_status}</span>
+                                <span class="text-xs font-black text-white tracking-wide">Match 0${match.matchNumber}</span>
+                                <span class="text-[9px] font-black px-2 py-0.5 rounded-md border uppercase ${badgeStyles}">${match.status}</span>
                             </div>
-                            <p class="text-base font-black text-gray-200 mt-1 uppercase tracking-wide italic">${match.teams || 'TBD VS TBD'}</p>
+                            <p class="text-base font-black text-gray-200 mt-1 uppercase tracking-wide italic">${match.team || 'TBD VS TBD'}</p>
                         </div>
-                        <p class="text-xs font-bold text-gray-400 bg-black/50 px-4 py-2 rounded-xl border border-white/5 w-full sm:w-auto text-left sm:text-right shadow-inner leading-relaxed">${match.result_summary || 'No summary registered yet'}</p>
+                        <p class="text-xs font-bold text-gray-400 bg-black/50 px-4 py-2 rounded-xl border border-white/5 w-full sm:w-auto text-left sm:text-right shadow-inner leading-relaxed">${match.result || 'No summary registered yet'}</p>
                     `;
                     container.appendChild(div);
                 });
