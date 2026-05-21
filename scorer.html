@@ -164,23 +164,26 @@
             <div class="border-t-2 border-dashed border-command-border/80 pt-5 mt-4 bg-black/40 p-4 rounded-xl space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-1.5">
-                        📥 Game Over CSV Logger
+                        📥 Historical Player CSV Logger
                     </h3>
-                    <span class="text-[8px] bg-white/10 text-command-textMuted border border-command-border font-mono px-2 py-0.5 rounded uppercase">Local Generator</span>
+                    <div class="flex items-center gap-2">
+                        <span id="csv-player-count" class="text-[9px] bg-command-accentGreen/20 text-command-accentGreen font-bold px-2 py-0.5 rounded border border-command-accentGreen/30">0 Players Logged</span>
+                        <button onclick="clearLocalMatchSession()" class="text-[8px] bg-command-accentRed/10 text-command-accentRed hover:bg-command-accentRed/20 border border-command-accentRed/20 font-bold px-2 py-0.5 rounded uppercase transition-all">Clear Session</button>
+                    </div>
                 </div>
                 
                 <p class="text-[11px] text-command-textMuted leading-relaxed">
-                    When a game finishes, click the button below to extract stats directly from the inputs above and compile them into an exportable file format instantly.
+                    This engine logs player stats instantly every time you hit <b class="text-white">Broadcast Live Update</b>. Even if players drop out of the selection box later on, they remain tracked in this game's session history data.
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match ID Tag (For Filename)</label>
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Filename Identifier Prefix</label>
                         <input type="text" id="csv-match-tag" placeholder="match_01_final" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentYellow transition-all">
                     </div>
                     <div class="flex items-end">
                         <button onclick="generateMatchScoresCSV()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-2 px-4 rounded-lg font-black text-xs uppercase tracking-wider hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-2 shadow-lg">
-                            Export Scores to CSV File 📄
+                            Export Logged Scores to CSV 📄
                         </button>
                     </div>
                 </div>
@@ -302,6 +305,9 @@
             ]
         };
 
+        // Live ongoing record dictionary object
+        let activeMatchSessionLog = {};
+
         function populateSelectOptions(selectId, playerArray, selectedValue = "") {
             const el = document.getElementById(selectId);
             el.innerHTML = "";
@@ -357,7 +363,47 @@
             }
         }
 
+        // Intercepts and logs data history to our memory cache upon update
+        function logCreaseToMemorySession() {
+            const batTeam = document.getElementById('input-batting-team').value || "BATTING";
+            const bowlTeam = document.getElementById('input-bowling-team').value || "BOWLING";
+
+            const bat1 = document.getElementById('input-bat1').value;
+            const bat1Stats = document.getElementById('input-bat1-stats').value || "0(0)";
+            
+            const bat2 = document.getElementById('input-bat2').value;
+            const bat2Stats = document.getElementById('input-bat2-stats').value || "0(0)";
+            
+            const bowler = document.getElementById('input-bowler').value;
+            const bowlerStats = document.getElementById('input-bowler-stats').value || "0-0-0-0";
+
+            if (bat1) {
+                activeMatchSessionLog[bat1] = { name: bat1, team: batTeam, role: "Striker", stats: bat1Stats };
+            }
+            if (bat2) {
+                activeMatchSessionLog[bat2] = { name: bat2, team: batTeam, role: "Non-Striker", stats: bat2Stats };
+            }
+            if (bowler) {
+                activeMatchSessionLog[bowler] = { name: bowler, team: bowlTeam, role: "Bowler", stats: bowlerStats };
+            }
+
+            // Sync visual tag indicator counters
+            const count = Object.keys(activeMatchSessionLog).length;
+            document.getElementById('csv-player-count').textContent = `${count} Player${count === 1 ? '' : 's'} Logged`;
+        }
+
+        function clearLocalMatchSession() {
+            if(confirm("Reset the historical file tracker logs for this specific layout session?")) {
+                activeMatchSessionLog = {};
+                document.getElementById('csv-player-count').textContent = "0 Players Logged";
+                alert("Session history tracking wiped cleaner.");
+            }
+        }
+
         async function broadcastData() {
+            // Log state snapshot to internal local memory lists first
+            logCreaseToMemorySession();
+
             const runsValue = document.getElementById('input-runs').value;
             const wicketsValue = document.getElementById('input-wickets').value;
 
@@ -376,7 +422,7 @@
                 current_bowler_stats: document.getElementById('input-bowler-stats').value || null
             };
             const { error } = await supabaseConnection.from('live_match').update(updatePayload).eq('id', 1);
-            if (error) alert(error.message); else alert("Console 01: Score & Crease updated successfully Hub side!");
+            if (error) alert(error.message); else alert("Console 01: Score & Crease updated and logged locally!");
         }
 
         async function resetLiveBroadcast() {
@@ -443,48 +489,45 @@
             else alert(`Console 03: Performance logged for ${name}!`);
         }
 
-        // --- LOCAL DYNAMIC CSV GENERATION LOGIC ---
+        // --- COMPREHENSIVE CSV DOWNLOAD GENERATION PIPELINE ---
         function generateMatchScoresCSV() {
-            const batTeam = document.getElementById('input-batting-team').value || "UNKNOWN_BAT";
-            const bowlTeam = document.getElementById('input-bowling-team').value || "UNKNOWN_BOWL";
-            
-            const bat1 = document.getElementById('input-bat1').value || "None";
-            const bat1Stats = document.getElementById('input-bat1-stats').value || "0(0)";
-            
-            const bat2 = document.getElementById('input-bat2').value || "None";
-            const bat2Stats = document.getElementById('input-bat2-stats').value || "0(0)";
-            
-            const bowler = document.getElementById('input-bowler').value || "None";
-            const bowlerStats = document.getElementById('input-bowler-stats').value || "0-0-0-0";
+            // Log whoever is currently in the inputs right now before building the spreadsheet layout
+            logCreaseToMemorySession();
+
+            const playerKeys = Object.keys(activeMatchSessionLog);
+            if (playerKeys.length === 0) {
+                return alert("No performance data snapshots captured this session yet! Update metrics first.");
+            }
 
             let customMatchTag = document.getElementById('csv-match-tag').value.trim();
             if(!customMatchTag) {
-                customMatchTag = `match_${batTeam.split(' ')[0]}_vs_${bowlTeam.split(' ')[0]}`.toLowerCase();
+                customMatchTag = "dunes_tournament_match_log";
             }
 
-            // CSV Columns Structural Content Map
+            // CSV Structural Base Headings Layout Arrays
             const csvRows = [
-                ["Player Name", "House Team Role", "Performance Metrics Data"],
-                [bat1, `${batTeam} (Striker)`, bat1Stats],
-                [bat2, `${batTeam} (Non-Striker)`, bat2Stats],
-                [bowler, `${bowlTeam} (Bowler)`, bowlerStats]
+                ["Player Name", "House Team Stream", "Last Crease Assignment Role", "Final Registered Metric Summary Line"]
             ];
 
-            // Build structural raw CSV string block
+            // Map values from your tracked dictionary matrix rows
+            playerKeys.forEach(key => {
+                const p = activeMatchSessionLog[key];
+                csvRows.push([p.name, p.team, p.role, p.stats]);
+            });
+
+            // Convert to clean spreadsheet CSV formatted output text block structures
             let csvContent = "data:text/csv;charset=utf-8,";
             csvRows.forEach(rowArray => {
                 let row = rowArray.map(val => `"${val.replace(/"/g, '""')}"`).join(",");
                 csvContent += row + "\r\n";
             });
 
-            // Virtual dynamic browser element bridge to execute auto-download command
             const encodedUri = encodeURI(csvContent);
             const downloadAnchor = document.createElement("a");
             downloadAnchor.setAttribute("href", encodedUri);
             downloadAnchor.setAttribute("download", `${customMatchTag}_scores.csv`);
             document.body.appendChild(downloadAnchor);
             
-            // Fires download pipeline
             downloadAnchor.click();
             document.body.removeChild(downloadAnchor);
         }
