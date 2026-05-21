@@ -172,7 +172,7 @@
 
             <div class="border-t-2 border-dashed border-command-border/80 pt-5 mt-4 bg-black/40 p-4 rounded-xl space-y-4">
                 <h3 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-1.5">
-                    🏆 Post-Match Automated Cap Compiler
+                    🏆 Post-Match Automated Cap Compiler & Spreadsheet Ledger
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div class="space-y-1">
@@ -198,6 +198,15 @@
                             Compile Awards 🏆
                         </button>
                     </div>
+                </div>
+
+                <div class="border-t border-command-border/60 pt-3 mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="downloadMatchLedgerSpreadsheet('1st_Half')" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-2.5 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2">
+                        📊 Export 1st Innings Spreadsheet
+                    </button>
+                    <button onclick="downloadMatchLedgerSpreadsheet('2nd_Half')" class="bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white py-2.5 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2">
+                        📈 Export Complete Match Spreadsheet
+                    </button>
                 </div>
             </div>
         </section>
@@ -293,7 +302,6 @@
     </main>
 
     <script>
-        // Set up to look at your local machine port loop context
         const RENDER_BACKEND_URL = "http://127.0.0.1:5000";
 
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
@@ -422,7 +430,7 @@
                     renderDynamicSquadMatrix();
                     updateLeaderboardManualDropdown();
                 }
-            } catch (err) { console.log("Direct sync polling sequence passive standard exception."); }
+            } catch (err) { console.log("Direct sync polling sequence passive exception."); }
         }
 
         async function triggerAutomatedBall(eventType) {
@@ -474,6 +482,67 @@
             }
         }
 
+        async function downloadMatchLedgerSpreadsheet(segmentType) {
+            const matchNum = document.getElementById('input-match-num').value;
+            
+            const { data: logs, error } = await supabaseConnection
+                .from('ball_by_ball_log')
+                .select('*')
+                .eq('match_num', matchNum)
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                alert("Database retrieval fault: " + error.message);
+                return;
+            }
+
+            if (!logs || logs.length === 0) {
+                alert(`No delivery logs found for Match 0${matchNum}.`);
+                return;
+            }
+
+            let filteredLogs = logs;
+            let filenameSuffix = "full_match";
+
+            if (segmentType === '1st_Half') {
+                filenameSuffix = "1st_innings_conclusion";
+                // Optionally filter logs here if a definitive cutoff parameter is preferred
+            } else {
+                filenameSuffix = "final_match_conclusion";
+            }
+
+            const csvHeaders = [
+                "Sequence ID", "Timestamp", "Match Context", "Striker", "Non-Striker", 
+                "Active Bowler", "Runs Off Bat", "Extras", "Extra Type", "Is Wicket", "Commentary Narrative"
+            ];
+
+            const csvRows = filteredLogs.map((log, index) => [
+                index + 1,
+                log.created_at ? new Date(log.created_at).toLocaleString() : 'N/A',
+                `Match 0${log.match_num}`,
+                `"${log.striker_name || ''}"`,
+                `"${log.non_striker_name || ''}"`,
+                `"${log.bowler_name || ''}"`,
+                log.runs_off_bat ?? 0,
+                log.extras ?? 0,
+                log.extra_type || 'NONE',
+                log.is_wicket ? "YES" : "NO",
+                `"${(log.commentary_text || '').replace(/"/g, '""')}"`
+            ]);
+
+            const csvContent = [csvHeaders.join(","), ...csvRows.map(r => r.join(","))].join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement("a");
+            
+            downloadAnchor.setAttribute("href", url);
+            downloadAnchor.setAttribute("download", `DunesFM_Match0${matchNum}_Spreadsheet_${filenameSuffix}.csv`);
+            downloadAnchor.style.visibility = 'hidden';
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+        }
+
         async function triggerPostMatchCompilation() {
             const payload = {
                 match_num: document.getElementById('input-match-num').value,
@@ -486,9 +555,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (response.ok) alert("🏆 Post match sequence compiled successfully via Local Engine!");
-                else alert("Compilation rule mismatch error.");
-            } catch (err) { alert("Local connection fault."); }
+                if (response.ok) alert("🏆 Match parameters compiled successfully via local engine.");
+                else alert("Compilation failure processing arrays.");
+            } catch (err) { alert("Error connecting to local server."); }
         }
 
         async function broadcastData() {
