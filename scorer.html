@@ -434,11 +434,24 @@
         }
 
         async function triggerAutomatedBall(eventType) {
+            // Force fetch exact labels showing on screen right now
+            const currentStriker = document.getElementById('display-striker-label').textContent.trim();
+            
+            // Find who is set to NON_STRIKER in the select elements dynamically
+            let currentNonStriker = "";
+            const selects = document.querySelectorAll('#batting-roster-assignment-container select');
+            selects.forEach(sel => {
+                if(sel.value === 'NON_STRIKER') {
+                    // Grab the player name from the parent container's first child text
+                    currentNonStriker = sel.parentElement.firstElementChild.textContent.trim();
+                }
+            });
+
             const payload = {
                 match_num: document.getElementById('input-match-num').value,
                 event_type: eventType,
-                striker_name: globalStriker,
-                non_striker_name: globalNonStriker,
+                striker_name: currentStriker === '-' ? '' : currentStriker,
+                non_striker_name: currentNonStriker,
                 bowler_name: globalActiveBowler,
                 batting_team: document.getElementById('input-batting-team').value,
                 bowling_team: document.getElementById('input-bowling-team').value
