@@ -73,7 +73,6 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center">
                         <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Batting House</label>
-                        <span class="text-[8px] text-command-accentYellow/80 font-bold uppercase tracking-wider">Set empty for pre-match</span>
                     </div>
                     <select id="input-batting-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow focus:ring-1 focus:ring-command-accentYellow/30 transition-all">
                         <option value="">-- NO BATTING TEAM (AWAITING TOSS) --</option>
@@ -86,7 +85,6 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center">
                         <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Bowling House</label>
-                        <span class="text-[8px] text-command-accentYellow/80 font-bold uppercase tracking-wider">Set empty for pre-match</span>
                     </div>
                     <select id="input-bowling-team" onchange="updateMatchPlayerDropdowns()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentYellow focus:ring-1 focus:ring-command-accentYellow/30 transition-all">
                         <option value="">-- NO BOWLING TEAM (AWAITING TOSS) --</option>
@@ -144,7 +142,7 @@
                     </div>
                     <div class="space-y-1">
                         <label class="text-[9px] font-bold text-command-textMuted uppercase">Bowler Stats</label>
-                        <input type="text" id="input-bowler-stats" placeholder="O - M - R - W" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow transition-all">
+                        <input type="text" id="input-bowler-stats" placeholder="O-M-R-W" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-command-accentYellow transition-all">
                     </div>
                 </div>
             </div>
@@ -161,6 +159,31 @@
                 <button onclick="resetLiveBroadcast()" class="bg-transparent hover:bg-red-600/10 border border-command-accentRed/30 text-command-accentRed py-3.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all active:scale-[0.99]">
                     Reset & Clear Ticker 🛑
                 </button>
+            </div>
+
+            <div class="border-t-2 border-dashed border-command-border/80 pt-5 mt-4 bg-black/40 p-4 rounded-xl space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-1.5">
+                        📥 Game Over CSV Logger
+                    </h3>
+                    <span class="text-[8px] bg-white/10 text-command-textMuted border border-command-border font-mono px-2 py-0.5 rounded uppercase">Local Generator</span>
+                </div>
+                
+                <p class="text-[11px] text-command-textMuted leading-relaxed">
+                    When a game finishes, click the button below to extract stats directly from the inputs above and compile them into an exportable file format instantly.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match ID Tag (For Filename)</label>
+                        <input type="text" id="csv-match-tag" placeholder="match_01_final" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-command-accentYellow transition-all">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="generateMatchScoresCSV()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-2 px-4 rounded-lg font-black text-xs uppercase tracking-wider hover:opacity-90 active:scale-[0.98] transition-all flex justify-center items-center gap-2 shadow-lg">
+                            Export Scores to CSV File 📄
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -249,52 +272,6 @@
             </div>
             <button onclick="pushPlayerTally()" class="w-full bg-command-accentPurple text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 active:scale-[0.99] transition-all shadow-[0_4px_20px_rgba(168,85,247,0.3)] mt-4">
                 Upsert Player Performance Stats
-            </button>
-        </section>
-
-        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-blue relative space-y-5 lg:col-span-2 backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentBlue/30">
-            <div class="absolute top-0 right-0 bg-command-accentBlue text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
-                Console 04
-            </div>
-
-            <h2 class="text-xs font-black tracking-wider text-command-accentBlue uppercase flex items-center gap-2 drop-shadow-[0_0_6px_rgba(14,165,233,0.2)]">
-                <span class="w-2 h-2 rounded-full bg-command-accentBlue shadow-[0_0_8px_#0EA5E9] animate-pulse"></span>
-                4. Fixtures Stream Allocator
-            </h2>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Number</label>
-                    <select id="select-match" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue focus:ring-1 focus:ring-command-accentBlue/30 transition-all">
-                        <option value="1">Match 01</option>
-                        <option value="2">Match 02</option>
-                        <option value="3">Match 03</option>
-                        <option value="4">Match 04</option>
-                        <option value="5">Match 05</option>
-                    </select>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Time Status Badge</label>
-                    <select id="select-status" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue focus:ring-1 focus:ring-command-accentBlue/30 transition-all">
-                        <option value="UPCOMING">UPCOMING</option>
-                        <option value="LIVE">LIVE</option>
-                        <option value="COMPLETED">COMPLETED</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="space-y-1">
-                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Lineup Description</label>
-                <input type="text" id="input-lineup" placeholder="GREEN HOUSE VS RED HOUSE" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentBlue focus:ring-1 focus:ring-command-accentBlue/30 transition-all">
-            </div>
-
-            <div class="space-y-1">
-                <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Result Summary Line</label>
-                <input type="text" id="input-summary" placeholder="Match Schedule summary details line" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-semibold text-white focus:outline-none focus:border-command-accentBlue focus:ring-1 focus:ring-command-accentBlue/30 transition-all">
-            </div>
-
-            <button onclick="updateFixtureSlot()" class="w-full bg-command-accentBlue text-black py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 active:scale-[0.99] transition-all shadow-[0_4px_20px_rgba(14,165,233,0.25)]">
-                Update Fixture Slot Info
             </button>
         </section>
 
@@ -466,20 +443,50 @@
             else alert(`Console 03: Performance logged for ${name}!`);
         }
 
-        // --- FIXED FOR SYNCING WITH INDEX.HTML ---
-        async function updateFixtureSlot() {
-            const num = parseInt(document.getElementById('select-match').value);
+        // --- LOCAL DYNAMIC CSV GENERATION LOGIC ---
+        function generateMatchScoresCSV() {
+            const batTeam = document.getElementById('input-batting-team').value || "UNKNOWN_BAT";
+            const bowlTeam = document.getElementById('input-bowling-team').value || "UNKNOWN_BOWL";
             
-            // Re-mapped payload parameters to target the column names index.html expects
-            const payload = {
-                status: document.getElementById('select-status').value,
-                team: document.getElementById('input-lineup').value,
-                result: document.getElementById('input-summary').value
-            };
+            const bat1 = document.getElementById('input-bat1').value || "None";
+            const bat1Stats = document.getElementById('input-bat1-stats').value || "0(0)";
             
-            // Re-targeted database match filtering statement to use matchNumber
-            const { error } = await supabaseConnection.from('fixtures').update(payload).eq('matchNumber', num);
-            if (error) alert(error.message); else alert(`Console 04: Match 0${num} updated!`);
+            const bat2 = document.getElementById('input-bat2').value || "None";
+            const bat2Stats = document.getElementById('input-bat2-stats').value || "0(0)";
+            
+            const bowler = document.getElementById('input-bowler').value || "None";
+            const bowlerStats = document.getElementById('input-bowler-stats').value || "0-0-0-0";
+
+            let customMatchTag = document.getElementById('csv-match-tag').value.trim();
+            if(!customMatchTag) {
+                customMatchTag = `match_${batTeam.split(' ')[0]}_vs_${bowlTeam.split(' ')[0]}`.toLowerCase();
+            }
+
+            // CSV Columns Structural Content Map
+            const csvRows = [
+                ["Player Name", "House Team Role", "Performance Metrics Data"],
+                [bat1, `${batTeam} (Striker)`, bat1Stats],
+                [bat2, `${batTeam} (Non-Striker)`, bat2Stats],
+                [bowler, `${bowlTeam} (Bowler)`, bowlerStats]
+            ];
+
+            // Build structural raw CSV string block
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvRows.forEach(rowArray => {
+                let row = rowArray.map(val => `"${val.replace(/"/g, '""')}"`).join(",");
+                csvContent += row + "\r\n";
+            });
+
+            // Virtual dynamic browser element bridge to execute auto-download command
+            const encodedUri = encodeURI(csvContent);
+            const downloadAnchor = document.createElement("a");
+            downloadAnchor.setAttribute("href", encodedUri);
+            downloadAnchor.setAttribute("download", `${customMatchTag}_scores.csv`);
+            document.body.appendChild(downloadAnchor);
+            
+            // Fires download pipeline
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
         }
 
         // Initialize setup elements
