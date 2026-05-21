@@ -169,6 +169,37 @@
                     Reset Live Ticker 🗑️
                 </button>
             </div>
+
+            <div class="border-t-2 border-dashed border-command-border/80 pt-5 mt-4 bg-black/40 p-4 rounded-xl space-y-4">
+                <h3 class="text-xs font-black tracking-wider text-command-accentYellow uppercase flex items-center gap-1.5">
+                    🏆 Post-Match Automated Cap Compiler
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Winner</label>
+                        <select id="post-winner" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-bold text-command-textMuted uppercase">Loser</label>
+                        <select id="post-loser" class="w-full bg-command-inputBg border border-command-border rounded-lg px-2 py-2 text-xs font-semibold text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="triggerPostMatchCompilation()" class="w-full bg-gradient-to-r from-amber-500 to-yellow-500 text-black py-2 px-3 rounded-lg font-black text-[10px] uppercase tracking-wider hover:opacity-90 transition-all shadow-lg">
+                            Compile Awards 🏆
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-green relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentGreen/30">
@@ -351,9 +382,13 @@
                 globalNonStriker = playerName;
             } else {
                 if(globalStriker === playerName) globalStriker = "";
-                if(globalNonStriker === playerName) globalNonTrad = "";
                 if(globalNonStriker === playerName) globalNonStriker = "";
             }
+            renderDynamicSquadMatrix();
+        }
+
+        function assignActiveBowler(playerName) {
+            globalActiveBowler = playerName;
             renderDynamicSquadMatrix();
         }
 
@@ -366,11 +401,6 @@
                 const opt = document.createElement('option');
                 opt.value = p; opt.textContent = p; el.appendChild(opt);
             });
-        }
-
-        function assignActiveBowler(playerName) {
-            globalActiveBowler = playerName;
-            renderDynamicSquadMatrix();
         }
 
         async function fetchCurrentData() {
@@ -391,7 +421,7 @@
                     renderDynamicSquadMatrix();
                     updateLeaderboardManualDropdown();
                 }
-            } catch (err) { console.log("Error syncing state from broadcast snapshot."); }
+            } catch (err) { console.log("Supabase direct stream wait..."); }
         }
 
         async function triggerAutomatedBall(eventType) {
@@ -422,6 +452,7 @@
                 if (response.ok) {
                     document.getElementById('input-runs').value = result.runs;
                     document.getElementById('input-wickets').value = result.wickets;
+                    
                     document.getElementById('input-overs').value = (typeof result.overs === 'object') ? result.overs.overs_string || "0.0" : result.overs;
                     
                     globalStriker = (typeof result.striker === 'object') ? result.striker.player_name : result.striker;
@@ -441,6 +472,23 @@
             } catch (err) {
                 alert("Cannot connect to Render cloud. Check log statuses on Render dashboard!");
             }
+        }
+
+        async function triggerPostMatchCompilation() {
+            const payload = {
+                match_num: document.getElementById('input-match-num').value,
+                winning_house: document.getElementById('post-winner').value,
+                losing_house: document.getElementById('post-loser').value
+            };
+            try {
+                const response = await fetch(`${RENDER_BACKEND_URL}/api/compile_post_match_awards`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (response.ok) alert("🏆 Match awards compiled, NRR updated, and player caps calculated!");
+                else alert("Compilation failure processing arrays.");
+            } catch (err) { alert("Error linking to server."); }
         }
 
         async function broadcastData() {
