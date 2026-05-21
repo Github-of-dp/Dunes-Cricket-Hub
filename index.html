@@ -391,14 +391,14 @@
         }
 
         async function streamFixturesList() {
-            // Corrected to use 'fixtures' (plural) and sorted by 'matchNumber' to link with scorer.html
+            // Fully re-mapped to target 'fixtures' and order sequentially via 'matchNumber'
             const { data } = await supabaseConnection.from('fixtures').select('*').order('matchNumber', { ascending: true });
             const container = document.getElementById('fixtures-container');
             if(!container) return; 
             container.innerHTML = "";
             if(data) {
                 data.forEach(match => {
-                    // Corrected mapping keys to process 'status', 'team', and 'result'
+                    // Pulls parameters cleanly matching layout inputs inside scorer.html
                     let badgeStyles = "bg-gray-500/10 text-gray-400 border-gray-500/20";
                     if(match.status === 'LIVE') badgeStyles = "bg-glowYellow/20 text-glowYellow border-glowYellow/40 animate-pulse shadow-[0_0_15px_rgba(250,204,21,0.2)]";
                     if(match.status === 'COMPLETED') badgeStyles = "bg-glowGreen/20 text-glowGreen border-glowGreen/40";
@@ -420,9 +420,13 @@
             }
         }
 
+        // Bootstrapping Engine
         document.addEventListener("DOMContentLoaded", () => {
             switchTab('live');
             initializeRealtimeScoreboard();
+            
+            // Background pre-fetch execution block
+            streamFixturesList();
         });
     </script>
 </body>
