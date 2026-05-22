@@ -132,7 +132,7 @@
                     <button onclick="triggerAutomatedBall('3')" class="bg-command-inputBg hover:bg-white/10 border border-command-border text-white text-xs font-black py-3 rounded-lg uppercase transition-all">3</button>
                     <button onclick="triggerAutomatedBall('4')" class="bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-command-accentYellow text-xs font-black py-3 rounded-lg uppercase transition-all">4</button>
                     <button onclick="triggerAutomatedBall('6')" class="bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-command-accentPurple text-xs font-black py-3 rounded-lg uppercase transition-all">6</button>
-                    <button onclick="triggerAutomatedBall('WIDE')" class="bg-blue-500/20 hover:bg-blue-500/30 border border-command-accentBlue/40 text-command-accentBlue text-xs font-black py-3 rounded-lg uppercase transition-all">Wide(2)</button>
+                    <button onclick="triggerAutomatedBall('WIDE')" class="bg-blue-500/20 hover:bg-blue-500/30 border border-command-accentBlue/40 text-command-accentBlue text-xs font-black py-3 rounded-lg uppercase transition-all">Wide</button>
                     <button onclick="triggerAutomatedBall('NO_BALL')" class="bg-amber-600/20 hover:bg-amber-600/30 border border-amber-600/40 text-amber-500 text-xs font-black py-3 rounded-lg uppercase">No Ball</button>
                     <button onclick="triggerAutomatedBall('WICKET')" class="bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-command-accentRed text-xs font-black py-3 rounded-lg uppercase transition-all">Wkt</button>
                 </div>
@@ -259,42 +259,67 @@
             </button>
         </section>
 
-        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-purple relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentPurple/30">
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-purple relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentPurple/30 lg:col-span-2">
             <div class="space-y-5">
                 <div class="absolute top-0 right-0 bg-command-accentPurple text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
                     Console 03
                 </div>
                 <h2 class="text-xs font-black tracking-wider text-command-accentPurple uppercase flex items-center gap-2 drop-shadow-[0_0_6px_rgba(168,85,247,0.2)]">
                     <span class="w-2 h-2 rounded-full bg-command-accentPurple shadow-[0_0_8px_#A855F7]"></span>
-                    3. Player Leaderboard Allocator
+                    3. Live Top 5 Player Cap Compiler & Leaderboards
                 </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">House Stream</label>
-                        <select id="stat-house-name" onchange="updateLeaderboardManualDropdown()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white">
-                            <option value="GREEN HOUSE">GREEN HOUSE</option>
-                            <option value="BLUE HOUSE">BLUE HOUSE</option>
-                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
-                            <option value="RED HOUSE">RED HOUSE</option>
-                        </select>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-black/40 p-4 rounded-xl border border-command-border">
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-black text-amber-500 uppercase tracking-widest border-b border-command-border pb-1">🟠 Orange Cap (Top 5 Runs)</h4>
+                        <div id="orange-cap-top5-container" class="space-y-1.5 min-h-[180px]">
+                            <p class="text-[11px] text-command-textMuted italic">Syncing stats...</p>
+                        </div>
                     </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Player Name</label>
-                        <select id="stat-player-name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold text-white"></select>
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-black text-command-accentPurple uppercase tracking-widest border-b border-command-border pb-1">🟣 Purple Cap (Top 5 Wickets)</h4>
+                        <div id="purple-cap-top5-container" class="space-y-1.5 min-h-[180px]">
+                            <p class="text-[11px] text-command-textMuted italic">Syncing stats...</p>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-[10px] font-black text-command-accentBlue uppercase tracking-widest border-b border-command-border pb-1">🔵 Top 5 Highest Individual Score</h4>
+                        <div id="highest-score-top5-container" class="space-y-1.5 min-h-[180px]">
+                            <p class="text-[11px] text-command-textMuted italic">Syncing stats...</p>
+                        </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Runs</label>
-                        <input type="number" id="stat-total-runs" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+
+                <div class="border-t border-command-border/60 pt-4 space-y-4">
+                    <label class="text-[9px] font-black tracking-wider text-command-accentPurple uppercase block">⚙️ Manual Statistics Injector Override</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">House Stream</label>
+                            <select id="stat-house-name" onchange="updateLeaderboardManualDropdown()" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white focus:outline-none focus:border-command-accentPurple">
+                                <option value="GREEN HOUSE">GREEN HOUSE</option>
+                                <option value="BLUE HOUSE">BLUE HOUSE</option>
+                                <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                                <option value="RED HOUSE">RED HOUSE</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Player Name</label>
+                            <select id="stat-player-name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold text-white focus:outline-none focus:border-command-accentPurple"></select>
+                        </div>
                     </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Wickets</label>
-                        <input type="number" id="stat-total-wickets" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
-                    </div>
-                    <div class="space-y-1">
-                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Highest Score</label>
-                        <input type="number" id="stat-highest-score" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Runs</label>
+                            <input type="number" id="stat-total-runs" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Total Wickets</label>
+                            <input type="number" id="stat-total-wickets" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Highest Score</label>
+                            <input type="number" id="stat-highest-score" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -416,6 +441,72 @@
             });
         }
 
+        /* DYNAMIC LEADERBOARD RENDERER FOR THE TOP 5 LISTS */
+        async function renderTopFiveLeaderboards() {
+            try {
+                // 1. Fetch Top 5 For Orange Cap
+                const { data: orangeData, error: orangeErr } = await supabaseConnection
+                    .from('player_stats')
+                    .select('*')
+                    .order('total_runs', { ascending: false })
+                    .limit(5);
+
+                // 2. Fetch Top 5 For Purple Cap
+                const { data: purpleData, error: purpleErr } = await supabaseConnection
+                    .from('player_stats')
+                    .select('*')
+                    .order('total_wickets', { ascending: false })
+                    .limit(5);
+
+                // 3. Fetch Top 5 For Highest Individual Score
+                const { data: scoreData, error: scoreErr } = await supabaseConnection
+                    .from('player_stats')
+                    .select('*')
+                    .order('highest_score', { ascending: false })
+                    .limit(5);
+
+                if (!orangeErr) compileLeaderboardHtmlList(orangeData, 'orange-cap-top5-container', 'total_runs', 'Runs', 'text-amber-400');
+                if (!purpleErr) compileLeaderboardHtmlList(purpleData, 'purple-cap-top5-container', 'total_wickets', 'Wkts', 'text-purple-400');
+                if (!scoreErr) compileLeaderboardHtmlList(scoreData, 'highest-score-top5-container', 'highest_score', 'Score', 'text-sky-400');
+
+            } catch (ex) {
+                console.log("Error loading leaderboard elements:", ex);
+            }
+        }
+
+        function compileLeaderboardHtmlList(playersList, containerId, targetField, labelSuffix, highlightColorClass) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = "";
+
+            if (!playersList || playersList.length === 0) {
+                container.innerHTML = `<p class="text-[10px] text-command-textMuted italic pt-2">No stats recorded.</p>`;
+                return;
+            }
+
+            playersList.forEach((player, idx) => {
+                const rank = idx + 1;
+                const isLeader = rank === 1;
+
+                const block = `
+                    <div class="flex justify-between items-center bg-black/40 p-1.5 rounded border border-command-border/40 text-[11px] ${isLeader ? 'bg-white/[0.03] border-white/10' : ''}">
+                        <div class="flex items-center gap-2 truncate">
+                            <span class="font-black text-[10px] w-4 ${isLeader ? highlightColorClass : 'text-command-textMuted'}">#${rank}</span>
+                            <div class="truncate">
+                                <p class="font-bold text-white truncate">${player.player_name}</p>
+                                <p class="text-[8px] text-command-textMuted uppercase tracking-wider">${player.house_name || ''}</p>
+                            </div>
+                        </div>
+                        <div class="text-right pl-2 shrink-0">
+                            <span class="font-black text-white">${player[targetField] ?? 0}</span>
+                            <span class="text-[8px] text-command-textMuted block">${labelSuffix}</span>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', block);
+            });
+        }
+
         async function fetchCurrentData() {
             try {
                 const { data } = await supabaseConnection.from('live_match').select('*').eq('id', 1).maybeSingle();
@@ -433,6 +524,7 @@
 
                     renderDynamicSquadMatrix();
                     updateLeaderboardManualDropdown();
+                    renderTopFiveLeaderboards(); 
                 }
             } catch (err) { console.log("Direct sync polling sequence passive exception."); }
         }
@@ -488,6 +580,7 @@
                     }
 
                     renderDynamicSquadMatrix();
+                    renderTopFiveLeaderboards();
                 } else {
                     alert("Local engine rule rejection: " + result.message);
                 }
@@ -681,7 +774,10 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                if (response.ok) alert("🏆 Match parameters compiled successfully via local engine.");
+                if (response.ok) {
+                    alert("🏆 Match parameters compiled successfully via local engine.");
+                    renderTopFiveLeaderboards();
+                }
                 else alert("Compilation failure processing arrays.");
             } catch (err) { alert("Error connecting to local server."); }
         }
@@ -732,6 +828,7 @@
             };
             await supabaseConnection.from('player_stats').upsert(payload);
             alert("Player score overrides logged!");
+            renderTopFiveLeaderboards(); 
         }
 
         document.addEventListener("DOMContentLoaded", () => {
