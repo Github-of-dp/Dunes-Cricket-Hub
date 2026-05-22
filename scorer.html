@@ -201,12 +201,15 @@
                     </div>
                 </div>
 
-                <div class="border-t border-command-border/60 pt-3 mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="border-t border-command-border/60 pt-3 mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <button onclick="downloadMatchLedgerSpreadsheet('1st_Half')" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white py-2.5 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2">
-                        📊 Export 1st Innings Spreadsheet
+                        📊 Export Innings Ledger
+                    </button>
+                    <button onclick="downloadInningsScorecardSummary()" class="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white py-2.5 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2">
+                        📋 Export Innings Scorecard
                     </button>
                     <button onclick="downloadMatchLedgerSpreadsheet('2nd_Half')" class="bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white py-2.5 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg flex items-center justify-center gap-2">
-                        📈 Export Complete Match Spreadsheet
+                        📈 Export Full Match Ledger
                     </button>
                 </div>
             </div>
@@ -435,15 +438,12 @@
         }
 
         async function triggerAutomatedBall(eventType) {
-            // Force fetch exact labels showing on screen right now
             const currentStriker = document.getElementById('display-striker-label').textContent.trim();
             
-            // Find who is set to NON_STRIKER in the select elements dynamically
             let currentNonStriker = "";
             const selects = document.querySelectorAll('#batting-roster-assignment-container select');
             selects.forEach(sel => {
                 if(sel.value === 'NON_STRIKER') {
-                    // Grab the player name from the parent container's first child text
                     currentNonStriker = sel.parentElement.firstElementChild.textContent.trim();
                 }
             });
@@ -515,40 +515,25 @@
                 return;
             }
 
-            let filteredLogs = logs;
             let filenameSuffix = "full_match";
-
             if (segmentType === '1st_Half') {
                 filenameSuffix = "1st_innings_conclusion";
-                // Optionally filter logs here if a definitive cutoff parameter is preferred
             } else {
                 filenameSuffix = "final_match_conclusion";
             }
 
-            // 2. Define the Columns structure for your Data Spreadsheet (13 Columns Total)
             const csvHeaders = [
-                "Sequence ID",
-                "Timestamp",
-                "Match Context",
-                "Over Number",
-                "Ball Number",
-                "On-Strike Batsman",
-                "Off-Strike Batsman",
-                "Active Bowler",
-                "Runs Off Bat",
-                "Extras Penalty",
-                "Extra Type Specified",
-                "Is Wicket Event",
-                "Live Commentary Narrative"
+                "Sequence ID", "Timestamp", "Match Context", "Over Number", "Ball Number",
+                "On-Strike Batsman", "Off-Strike Batsman", "Active Bowler", "Runs Off Bat",
+                "Extras Penalty", "Extra Type Specified", "Is Wicket Event", "Live Commentary Narrative"
             ];
 
-            // 3. Map database columns arrays cleanly into text array rows (Strict 1-to-1 Mapping)
             const csvRows = logs.map((log, index) => [
                 index + 1,
                 log.created_at ? new Date(log.created_at).toLocaleTimeString() : 'N/A',
                 `Match 0${log.match_num}`,
                 log.over_num ?? 0,
-                log.ball_num ?? 0, // ⬅️ Ensures current ball tracks correctly
+                log.ball_num ?? 0,
                 `"${log.striker_name || ''}"`,
                 `"${log.non_striker_name || ''}"`,
                 `"${log.bowler_name || ''}"`,
@@ -559,7 +544,6 @@
                 `"${(log.commentary_text || '').replace(/"/g, '""')}"`
             ]);
 
-            // Add a clean byte-order-mark (BOM) and an explicit separator definition for Excel alignment
             const excelBOM = "\uFEFF";
             const sepInstruction = "sep=,\n";
             
@@ -575,6 +559,111 @@
             downloadAnchor.setAttribute("href", url);
             downloadAnchor.setAttribute("download", `DunesFM_Match0${matchNum}_Spreadsheet_${filenameSuffix}.csv`);
             downloadAnchor.style.visibility = 'hidden';
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
+        }
+
+        async function downloadInningsScorecardSummary() {
+            const matchNum = document.getElementById('input-match-num').value;
+            const battingTeam = document.getElementById('input-batting-team').value || "Batting Team";
+            const bowlingTeam = document.getElementById('input-bowling-team').value || "Bowling Team";
+            
+            const { data: logs, error } = await supabaseConnection
+                .from('ball_by_ball_log')
+                .select('*')
+                .eq('match_num', matchNum)
+                .order('id', { ascending: true });
+
+            if (error || !logs || logs.length === 0) {
+                alert("No historical log records found to compile a scorecard summary.");
+                return;
+            }
+
+            let battersData = {};  
+            let bowlersData = {};  
+            let totalInningsRuns = 0;
+            let totalInningsExtras = 0;
+            let totalInningsWickets = 0;
+
+            logs.forEach(log => {
+                const striker = log.striker_name;
+                const nonStriker = log.non_striker_name;
+                const bowler = log.bowler_name;
+                const runsOffBat = log.runs_off_bat ?? 0;
+                const extrasPenalty = log.extras ?? 0;
+
+                if (striker && !battersData[striker]) {
+                    battersData[striker] = { runs: 0, status: "not out" };
+                }
+                if (nonStriker && !battersData[nonStriker]) {
+                    battersData[nonStriker] = { runs: 0, status: "not out" };
+                }
+                if (bowler && !bowlersData[bowler]) {
+                    bowlersData[bowler] = { balls: 0, runsConceded: 0, wickets: 0 };
+                }
+
+                if (striker) {
+                    battersData[striker].runs += runsOffBat;
+                }
+
+                if (bowler) {
+                    bowlersData[bowler].runsConceded += (runsOffBat + extrasPenalty);
+                    if (log.extra_type !== 'NO_BALL') {
+                        bowlersData[bowler].balls += 1;
+                    }
+                    if (log.is_wicket) {
+                        bowlersData[bowler].wickets += 1;
+                    }
+                }
+
+                totalInningsRuns += (runsOffBat + extrasPenalty);
+                totalInningsExtras += extrasPenalty;
+
+                if (log.is_wicket) {
+                    totalInningsWickets += 1;
+                    if (striker) {
+                        let dismissalNarrative = log.commentary_text || "Dismissed";
+                        dismissalNarrative = dismissalNarrative.replace(/"/g, "'");
+                        battersData[striker].status = `"${dismissalNarrative}"`;
+                    }
+                }
+            });
+
+            let csvLines = [];
+            const excelBOM = "\uFEFF";
+            csvLines.push("sep=,"); 
+
+            csvLines.push(`DUNES FM TOURNAMENT SCORECARD SUMMARY - MATCH 0${matchNum}`);
+            csvLines.push(`Batting Lineup: ${battingTeam} , Bowling Lineup: ${bowlingTeam}`);
+            csvLines.push("");
+
+            csvLines.push("BATTING PERFORMANCE INNINGS MATRIX");
+            csvLines.push("Batsman Name,Runs Scored,Dismissal Status Mode");
+            Object.keys(battersData).forEach(player => {
+                csvLines.push(`"${player}",${battersData[player].runs},${battersData[player].status}`);
+            });
+            csvLines.push("");
+
+            csvLines.push("BOWLING PERFORMANCE ANALYSIS MATRIX");
+            csvLines.push("Bowler Name,Balls Bowled,Overs Completed,Runs Conceded,Wickets Taken");
+            Object.keys(bowlersData).forEach(player => {
+                const b = bowlersData[player];
+                const oversConverted = `${Math.floor(b.balls / 6)}.${b.balls % 6}`;
+                csvLines.push(`"${player}",${b.balls},${oversConverted},${b.runsConceded},${b.wickets}`);
+            });
+            csvLines.push("");
+
+            csvLines.push("INNINGS TOTAL ACCUMULATION SUMMARY");
+            csvLines.push(`Total Innings Extras Penalty, ${totalInningsExtras}`);
+            csvLines.push(`Final Scoreboard Total, ${totalInningsRuns} runs for ${totalInningsWickets} wickets`);
+
+            const csvContent = excelBOM + csvLines.join("\n");
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const downloadAnchor = document.createElement("a");
+            downloadAnchor.href = url;
+            downloadAnchor.download = `DunesFM_Match0${matchNum}_Innings_Scorecard.csv`;
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             document.body.removeChild(downloadAnchor);
