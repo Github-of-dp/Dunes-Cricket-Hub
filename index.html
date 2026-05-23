@@ -90,6 +90,7 @@
 
     <main class="max-w-6xl mx-auto">
         
+        <!-- LIVE MATCH SECTION -->
         <section id="section-live" class="tab-content space-y-6">
             <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-orange relative overflow-hidden border-l-4 border-l-themeOrange">
                 <div class="absolute inset-0 bg-gradient-to-tr from-white/[0.01] via-transparent to-transparent pointer-events-none"></div>
@@ -157,6 +158,7 @@
             </div>
         </section>
 
+        <!-- STANDINGS SECTION -->
         <section id="section-standings" class="tab-content space-y-4 hidden">
             <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-green relative overflow-hidden border-l-4 border-l-themeGreen">
                 <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase mb-6 flex items-center gap-1.5">
@@ -180,61 +182,53 @@
             </div>
         </section>
 
+        <!-- PLAYER LEADBOARDS (TOP 5 DECK) -->
         <section id="section-stats" class="tab-content hidden">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- ORANGE CAP LEADERBOARD -->
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-orange border-l-4 border-l-themeOrange flex flex-col justify-between relative overflow-hidden">
                     <div>
-                        <div class="flex justify-between items-center border-b border-white/10 pb-3.5 mb-5">
-                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🍊 Orange Cap</h3>
-                            <span class="text-[9px] bg-orange-500/10 text-orange-400 border border-orange-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Most Runs</span>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🍊 Orange Cap Tally</h3>
+                            <span class="text-[9px] bg-orange-500/10 text-orange-400 border border-orange-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Top 5 Runs</span>
                         </div>
-                        <div class="space-y-1">
-                            <p id="orange-cap-name" class="text-2xl font-black text-white tracking-tight">-</p>
-                            <p id="orange-cap-house" class="text-[10px] font-black text-gray-400 uppercase tracking-widest">-</p>
+                        <div id="orange-cap-top5-display" class="space-y-2.5">
+                            <p class="text-xs text-gray-400 italic">Syncing tournament statistics...</p>
                         </div>
-                    </div>
-                    <div class="mt-8 glass-subcard p-4 rounded-xl flex justify-between items-center bg-black/10">
-                        <span class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Total Match Runs</span>
-                        <span id="orange-cap-runs" class="text-2xl font-black text-themeOrange font-mono drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">-</span>
                     </div>
                 </div>
 
+                <!-- PURPLE CAP LEADERBOARD -->
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-green border-l-4 border-l-themeGreen flex flex-col justify-between relative overflow-hidden">
                     <div>
-                        <div class="flex justify-between items-center border-b border-white/10 pb-3.5 mb-5">
-                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🍏 Purple Cap</h3>
-                            <span class="text-[9px] bg-emerald-500/10 text-themeGreen border border-emerald-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Most Wickets</span>
+                        <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🍏 Purple Cap Tally</h3>
+                            <span class="text-[9px] bg-emerald-500/10 text-themeGreen border border-emerald-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Top 5 Wickets</span>
                         </div>
-                        <div class="space-y-1">
-                            <p id="purple-cap-name" class="text-2xl font-black text-white tracking-tight">-</p>
-                            <p id="purple-cap-house" class="text-[10px] font-black text-gray-400 uppercase tracking-widest">-</p>
+                        <div id="purple-cap-top5-display" class="space-y-2.5">
+                            <p class="text-xs text-gray-400 italic">Syncing tournament statistics...</p>
                         </div>
-                    </div>
-                    <div class="mt-8 glass-subcard p-4 rounded-xl flex justify-between items-center bg-black/10">
-                        <span class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Total Scale Wickets</span>
-                        <span id="purple-cap-wickets" class="text-2xl font-black text-themeGreen font-mono drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">-</span>
                     </div>
                 </div>
 
+                <!-- TOURNAMENT MVP LEADERBOARD -->
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-gold border-l-4 border-l-themeGold flex flex-col justify-between relative overflow-hidden">
                     <div>
-                        <div class="flex justify-between items-center border-b border-white/10 pb-3.5 mb-5">
+                        <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
                             <h3 class="text-xs font-black tracking-widest text-themeGold uppercase">🏆 Tournament MVP</h3>
-                            <span class="text-[9px] bg-yellow-500/10 text-themeGold border border-yellow-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Top Score</span>
+                            <span class="text-[9px] bg-yellow-500/10 text-themeGold border border-yellow-500/30 font-black px-2 py-0.5 rounded-md backdrop-blur-xl">Top 5 High Scores</span>
                         </div>
-                        <div class="space-y-1">
-                            <p id="mvp-name" class="text-2xl font-black text-white tracking-tight">-</p>
-                            <p id="mvp-house" class="text-[10px] font-black text-gray-400 uppercase tracking-widest">-</p>
+                        <div id="mvp-top5-display" class="space-y-2.5">
+                            <p class="text-xs text-gray-400 italic">Syncing tournament statistics...</p>
                         </div>
-                    </div>
-                    <div class="mt-8 glass-subcard p-4 rounded-xl flex justify-between items-center bg-black/10">
-                        <span class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Highest Innings Score</span>
-                        <span id="mvp-score" class="text-2xl font-black text-themeGold font-mono drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]">-</span>
                     </div>
                 </div>
+                
             </div>
         </section>
 
+        <!-- SCHEDULE/FIXTURES SECTION -->
         <section id="section-fixtures" class="tab-content space-y-4 hidden">
             <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-cyan relative overflow-hidden border-l-4 border-l-glowBlue">
                 <h3 class="text-xs font-black tracking-widest text-glowBlue uppercase mb-6 flex items-center gap-1.5">
@@ -356,28 +350,56 @@
         }
 
         async function streamPlayerLeaderboardCards() {
-            const { data } = await supabaseConnection.from('player_stats').select('*');
-            if (!data || data.length === 0) return;
+            try {
+                const { data: orangeData } = await supabaseConnection
+                    .from('player_stats').select('*').order('total_runs', { ascending: false }).limit(5);
 
-            const orangeLeader = [...data].sort((a, b) => b.total_runs - a.total_runs)[0];
-            const purpleLeader = [...data].sort((a, b) => b.total_wickets - a.total_wickets)[0];
-            const mvpLeader = [...data].sort((a, b) => b.highest_score - a.highest_score)[0];
+                const { data: purpleData } = await supabaseConnection
+                    .from('player_stats').select('*').order('total_wickets', { ascending: false }).limit(5);
 
-            if(orangeLeader) {
-                document.getElementById('orange-cap-name').textContent = orangeLeader.player_name;
-                document.getElementById('orange-cap-house').textContent = orangeLeader.house_name;
-                document.getElementById('orange-cap-runs').textContent = orangeLeader.total_runs;
+                const { data: mvpData } = await supabaseConnection
+                    .from('player_stats').select('*').order('highest_score', { ascending: false }).limit(5);
+
+                buildAudienceLeaderboardRows(orangeData, 'orange-cap-top5-display', 'total_runs', 'Runs', 'text-themeOrange');
+                buildAudienceLeaderboardRows(purpleData, 'purple-cap-top5-display', 'total_wickets', 'Wickets', 'text-themeGreen');
+                buildAudienceLeaderboardRows(mvpData, 'mvp-top5-display', 'highest_score', 'Runs', 'text-themeGold');
+
+            } catch (err) {
+                console.error("Leaderboard component build failure:", err);
             }
-            if(purpleLeader) {
-                document.getElementById('purple-cap-name').textContent = purpleLeader.player_name;
-                document.getElementById('purple-cap-house').textContent = purpleLeader.house_name;
-                document.getElementById('purple-cap-wickets').textContent = purpleLeader.total_wickets;
+        }
+
+        function buildAudienceLeaderboardRows(playersList, elementId, trackingField, trackingLabel, numericHighlightClass) {
+            const container = document.getElementById(elementId);
+            if (!container) return;
+            container.innerHTML = "";
+
+            if (!playersList || playersList.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 italic py-4">No data logged yet.</p>`;
+                return;
             }
-            if(mvpLeader) {
-                document.getElementById('mvp-name').textContent = mvpLeader.player_name;
-                document.getElementById('mvp-house').textContent = mvpLeader.house_name;
-                document.getElementById('mvp-score').textContent = mvpLeader.highest_score;
-            }
+
+            playersList.forEach((player, index) => {
+                const rank = index + 1;
+                const isTopSpot = rank === 1;
+
+                const cardHtml = `
+                    <div class="flex justify-between items-center p-3 rounded-xl border border-white/[0.04] transition duration-200 ${isTopSpot ? 'bg-white/[0.04] border-white/10 shadow-lg' : 'bg-black/20 hover:border-white/10'}">
+                        <div class="flex items-center gap-3 truncate">
+                            <span class="font-mono font-black text-xs w-5 ${isTopSpot ? numericHighlightClass : 'text-gray-500'}">#0${rank}</span>
+                            <div class="truncate">
+                                <p class="text-xs font-black text-gray-100 tracking-wide truncate">${player.player_name}</p>
+                                <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">${player.house_name || ''}</p>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0 pl-2">
+                            <span class="font-mono font-black text-sm text-white">${player[trackingField] ?? 0}</span>
+                            <span class="text-[8px] font-bold text-gray-400 uppercase block tracking-wider">${trackingLabel}</span>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
         }
 
         async function streamFixturesList() {
