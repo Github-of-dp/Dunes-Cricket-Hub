@@ -65,7 +65,6 @@
         
         <nav class="flex bg-black/60 p-1.5 rounded-xl border border-white/10 space-x-1 relative z-10 shadow-2xl backdrop-blur-md overflow-x-auto max-w-full">
             <button onclick="switchTab('live')" id="tab-btn-live" class="text-xs font-bold px-4 py-2 rounded-lg transition">Live Match</button>
-            <button onclick="switchTab('scorer')" id="tab-btn-scorer" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Scoring Deck</button>
             <button onclick="switchTab('standings')" id="tab-btn-standings" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Standings</button>
             <button onclick="switchTab('stats')" id="tab-btn-stats" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Player Stats</button>
             <button onclick="switchTab('fixtures')" id="tab-btn-fixtures" class="text-xs font-bold text-gray-400 px-4 py-2 rounded-lg transition hover:text-white">Schedule</button>
@@ -141,93 +140,6 @@
             </div>
         </section>
 
-        <!-- ADMINISTRATIVE SCORING CONTROL DECK -->
-        <section id="section-scorer" class="tab-content space-y-6 hidden">
-            <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-orange border-l-4 border-l-themeOrange">
-                <h3 class="text-xs font-black tracking-widest text-themeOrange uppercase mb-6 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-themeOrange"></span> Match Environment Lineups & Configurations
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Match Number</label>
-                        <input type="number" id="matchNum" value="1">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Batting Lineup</label>
-                        <input type="text" id="battingTeam" value="Team Alpha">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Bowling Field</label>
-                        <input type="text" id="bowlingTeam" value="Team Omega">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 border-t border-white/10 pt-6">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">On-Strike Batsman</label>
-                        <input type="text" id="strikerName" value="Striker A">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Non-Strike Batsman</label>
-                        <input type="text" id="nonStrikerName" value="Striker B">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Current Bowler Name</label>
-                        <input type="text" id="bowlerName" value="Bowler X">
-                    </div>
-                </div>
-            </div>
-
-            <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-2xl">
-                <h3 class="text-xs font-black tracking-widest text-gray-300 uppercase mb-4">Ball Event Processing Core</h3>
-                <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-3">
-                    <button onclick="triggerDeliveryEvent('DOT')" class="bg-zinc-900 border border-white/10 p-4 rounded-xl text-xs font-black tracking-wider text-white hover:bg-white/10 transition">DOT</button>
-                    <button onclick="triggerDeliveryEvent('1')" class="bg-zinc-900 border border-white/10 p-4 rounded-xl text-xs font-black tracking-wider text-white hover:bg-white/10 transition">1 RUN</button>
-                    <button onclick="triggerDeliveryEvent('2')" class="bg-zinc-900 border border-white/10 p-4 rounded-xl text-xs font-black tracking-wider text-white hover:bg-white/10 transition">2 RUNS</button>
-                    <button onclick="triggerDeliveryEvent('3')" class="bg-zinc-900 border border-white/10 p-4 rounded-xl text-xs font-black tracking-wider text-white hover:bg-white/10 transition">3 RUNS</button>
-                    <button onclick="triggerDeliveryEvent('4')" class="bg-orange-600/20 border border-themeOrange/40 p-4 rounded-xl text-xs font-black tracking-wider text-themeOrange hover:bg-themeOrange hover:text-white transition">4 FOUR</button>
-                    <button onclick="triggerDeliveryEvent('6')" class="bg-orange-600/20 border border-themeOrange/40 p-4 rounded-xl text-xs font-black tracking-wider text-themeOrange hover:bg-themeOrange hover:text-white transition">6 SIX</button>
-                    <button onclick="triggerDeliveryEvent('WIDE')" class="bg-yellow-600/10 border border-amber-500/30 p-4 rounded-xl text-xs font-black tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black transition">WIDE</button>
-                    <button onclick="triggerDeliveryEvent('NO_BALL')"" class="bg-yellow-600/10 border border-amber-500/30 p-4 rounded-xl text-xs font-black tracking-wider text-amber-400 hover:bg-amber-500 hover:text-black transition">NO BALL</button>
-                    <button onclick="triggerDeliveryEvent('WICKET')" class="bg-red-600/20 border border-red-500/40 p-4 rounded-xl text-xs font-black tracking-wider text-red-500 hover:bg-red-600 hover:text-white transition">WICKET</button>
-                </div>
-                <div class="mt-4 p-3 bg-black/40 rounded-xl border border-white/5 text-[11px] font-mono text-gray-400" id="scorer-status-msg">
-                    Awaiting local score transmission actions...
-                </div>
-            </div>
-
-            <!-- Historical Outcome Archive Dispatch Form -->
-            <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-purple border-l-4 border-l-glowPurple">
-                <h3 class="text-xs font-black tracking-widest text-glowPurple uppercase mb-6 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-glowPurple"></span> Concluding Post-Match Registry & Archive Forms
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Team A Custom Score Summary</label>
-                        <input type="text" id="resTeamAScore" placeholder="e.g. 54/2 (6.0 Overs)">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Team B Custom Score Summary</label>
-                        <input type="text" id="resTeamBScore" placeholder="e.g. 55/1 (4.3 Overs)">
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Man Of the Match</label>
-                        <input type="text" id="resMvp" placeholder="Player Name / House">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[10px] uppercase tracking-wider font-bold text-gray-400">Match Summary Narrative Statement</label>
-                        <input type="text" id="resSummary" placeholder="e.g. Team B won by 9 wickets in a dramatic fashion.">
-                    </div>
-                </div>
-                <button onclick="commitMatchToHistoryArchive()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs tracking-widest uppercase p-4 rounded-xl shadow-xl border border-white/10 transition">
-                    Commit Match Scorecard Parameters directly to Supabase Storage
-                </button>
-            </div>
-        </section>
-
         <!-- STANDINGS SECTION -->
         <section id="section-standings" class="tab-content space-y-4 hidden">
             <div class="glass-panel rounded-3xl p-6 sm:p-8 shadow-neon-green border-l-4 border-l-themeGreen">
@@ -259,7 +171,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-orange border-l-4 border-l-themeOrange flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🏆 Orange Cap Tally</h3>
+                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🏏 Orange Cap Tally</h3>
                             <span class="text-[9px] bg-orange-500/10 text-orange-400 border border-orange-500/30 font-black px-2 py-0.5 rounded-md">Top 5 Runs</span>
                         </div>
                         <div id="orange-cap-top5-display" class="space-y-2.5">
@@ -272,7 +184,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-green border-l-4 border-l-themeGreen flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🏆 Purple Cap Tally</h3>
+                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🏏 Purple Cap Tally</h3>
                             <span class="text-[9px] bg-emerald-500/10 text-themeGreen border border-emerald-500/30 font-black px-2 py-0.5 rounded-md">Top 5 Wickets</span>
                         </div>
                         <div id="purple-cap-top5-display" class="space-y-2.5">
@@ -285,7 +197,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-gold border-l-4 border-l-themeGold flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-themeGold uppercase">🏆 Tournament MVP</h3>
+                            <h3 class="text-xs font-black tracking-widest text-themeGold uppercase">🏏 Tournament MVP</h3>
                             <span class="text-[9px] bg-yellow-500/10 text-themeGold border border-yellow-500/30 font-black px-2 py-0.5 rounded-md">Top 5 High Scores</span>
                         </div>
                         <div id="mvp-top5-display" class="space-y-2.5">
@@ -325,7 +237,6 @@
         const SUPABASE_URL = "https://gukcpxzcffflrgywqrpy.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_O3RVhFtwti2D8nOyTAnU4w_2N-0ZL44"; 
         const supabaseConnection = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const FLASK_SERVER_ENDPOINT = "http://127.0.0.1:5000";
 
         function switchTab(targetId) {
             document.querySelectorAll('.tab-content').forEach(element => element.classList.add('hidden'));
@@ -375,63 +286,6 @@
             document.getElementById('live-bat1-stats').textContent = row.batsman_on_strike_stats || "-";
             document.getElementById('live-bat2-stats').textContent = row.batsman_off_strike_stats || "-";
             document.getElementById('live-bowler-stats').textContent = row.current_bowler_stats || "-";
-        }
-
-        async function triggerDeliveryEvent(actionType) {
-            const currentPayload = {
-                match_num: document.getElementById('matchNum').value,
-                event_type: actionType,
-                striker_name: document.getElementById('strikerName').value,
-                non_striker_name: document.getElementById('nonStrikerName').value,
-                bowler_name: document.getElementById('bowlerName').value,
-                batting_team: document.getElementById('battingTeam').value,
-                bowling_team: document.getElementById('bowlingTeam').value
-            };
-            
-            const outputMsg = document.getElementById('scorer-status-msg');
-            outputMsg.innerText = `Syncing delivery sequence structure [${actionType}] to backend endpoint...`;
-
-            try {
-                const queryResponse = await fetch(`${FLASK_SERVER_ENDPOINT}/api/process_delivery`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(currentPayload)
-                });
-                const parsedData = await queryResponse.json();
-                if(parsedData.success) {
-                    outputMsg.innerText = `Successfully transmitted event! Matches processed. Updated metrics: Run ${parsedData.runs} | Wickets ${parsedData.wickets}`;
-                    document.getElementById('strikerName').value = parsedData.striker;
-                    document.getElementById('nonStrikerName').value = parsedData.non_striker;
-                } else {
-                    outputMsg.innerText = `Engine operational warning: ${parsedData.message}`;
-                }
-            } catch(e) {
-                outputMsg.innerText = `Connection failed context. Verify API routing bounds: ${e.message}`;
-            }
-        }
-
-        async function commitMatchToHistoryArchive() {
-            const finalPayload = {
-                match_num: document.getElementById('matchNum').value,
-                team_a_name: document.getElementById('battingTeam').value,
-                team_b_name: document.getElementById('bowlingTeam').value,
-                team_a_score: document.getElementById('resTeamAScore').value,
-                team_b_score: document.getElementById('resTeamBScore').value,
-                man_of_the_match: document.getElementById('resMvp').value,
-                summary: document.getElementById('resSummary').value
-            };
-
-            try {
-                const queryResponse = await fetch(`${FLASK_SERVER_ENDPOINT}/api/submit_match_result`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(finalPayload)
-                });
-                const responseJson = await queryResponse.json();
-                alert(responseJson.message || "Archive data frame processed successfully!");
-            } catch(e) {
-                alert(`Error archiving database row parameters: ${e.message}`);
-            }
         }
 
         async function streamPointsTable() {
@@ -526,7 +380,7 @@
                     <div class="p-5 glass-panel rounded-2xl border-t-4 border-t-glowPurple space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] font-black uppercase text-glowPurple tracking-widest bg-glowPurple/10 px-2 py-1 rounded">MATCH 0${res.match_number}</span>
-                            <span class="text-[11px] font-bold text-themeGold font-mono">🌟 MVP: ${res.man_of_the_match}</span>
+                            <span class="text-[11px] font-bold text-themeGold font-mono">🏏 MVP: ${res.man_of_the_match}</span>
                         </div>
                         <div class="bg-black/40 p-3 rounded-xl border border-white/5 font-mono space-y-1.5">
                             <div class="flex justify-between text-xs font-bold">
