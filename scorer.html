@@ -939,19 +939,31 @@
         }
 
         async function pushMatchResult() {
-            const matchNum = parseInt(document.getElementById('result-match-num').value);
-            const payload = {
-                match_num: matchNum,
-                team_1: document.getElementById('result-team-1').value,
-                team_1_score: document.getElementById('result-score-1').value,
-                team_2: document.getElementById('result-team-2').value,
-                team_2_score: document.getElementById('result-score-2').value,
-                man_of_the_match: document.getElementById('result-motm').value
-            };
-            
-            const { error } = await supabaseConnection.from('match_results').upsert(payload, { onConflict: 'match_num' });
-            if (error) alert("Error pushing match result: " + error.message);
-            else alert("Match Result recorded successfully!");
+            try {
+                const matchNum = parseInt(document.getElementById('result-match-num').value);
+                const payload = {
+                    match_num: matchNum,
+                    team_1: document.getElementById('result-team-1').value,
+                    team_1_score: document.getElementById('result-score-1').value,
+                    team_2: document.getElementById('result-team-2').value,
+                    team_2_score: document.getElementById('result-score-2').value,
+                    man_of_the_match: document.getElementById('result-motm').value
+                };
+                
+                // Direct push to Supabase
+                const { error } = await supabaseConnection.from('match_results').upsert(payload, { onConflict: 'match_num' });
+                
+                if (error) {
+                    alert("Error pushing match result: " + error.message);
+                } else {
+                    alert("Match Result recorded successfully!");
+                    // If your live dashboard is running on the same page, call its fetch function here
+                    if (typeof fetchDashboardResults === "function") fetchDashboardResults();
+                }
+            } catch (catchErr) {
+                alert("Network Connection Error: Make sure your adblocker isn't blocking Supabase requests!");
+                console.error(catchErr);
+            }
         }
 
         async function pushPlayerTally() {
