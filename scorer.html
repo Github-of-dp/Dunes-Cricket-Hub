@@ -30,6 +30,7 @@
                         'neon-green': '0 0 15px -3px rgba(16, 185, 129, 0.15), 0 4px 6px -2px rgba(16, 185, 129, 0.05)',
                         'neon-purple': '0 0 15px -3px rgba(168, 85, 247, 0.15), 0 4px 6px -2px rgba(168, 85, 247, 0.05)',
                         'neon-blue': '0 0 15px -3px rgba(14, 165, 233, 0.15), 0 4px 6px -2px rgba(14, 165, 233, 0.05)',
+                        'neon-red': '0 0 15px -3px rgba(239, 68, 68, 0.15), 0 4px 6px -2px rgba(239, 68, 68, 0.05)',
                     }
                 }
             }
@@ -59,6 +60,7 @@
 
     <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         
+        <!-- CONSOLE 01 -->
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-yellow relative space-y-6 lg:col-span-2 backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentYellow/30">
             <div class="absolute top-0 right-0 bg-command-accentYellow text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
                 Console 01
@@ -215,7 +217,8 @@
             </div>
         </section>
 
-        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-green relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentGreen/30">
+        <!-- CONSOLE 02 -->
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-green relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentGreen/30 lg:col-span-1">
             <div class="space-y-5">
                 <div class="absolute top-0 right-0 bg-command-accentGreen text-black text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
                     Console 02
@@ -247,10 +250,14 @@
                         <input type="number" id="input-lost" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
                     </div>
                 </div>
-                <div class="grid grid-cols-1 gap-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Points (PTS)</label>
                         <input type="number" id="input-pts" value="0" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Net Run Rate (NRR)</label>
+                        <input type="number" step="0.001" id="input-nrr" value="0.000" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
                     </div>
                 </div>
             </div>
@@ -259,6 +266,105 @@
             </button>
         </section>
 
+        <!-- CONSOLE 04: SCHEDULE -->
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-blue relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentBlue/30 lg:col-span-1">
+            <div class="space-y-5">
+                <div class="absolute top-0 right-0 bg-command-accentBlue text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
+                    Console 04
+                </div>
+                <h2 class="text-xs font-black tracking-wider text-command-accentBlue uppercase flex items-center gap-2 drop-shadow-[0_0_6px_rgba(14,165,233,0.2)]">
+                    <span class="w-2 h-2 rounded-full bg-command-accentBlue shadow-[0_0_8px_#0EA5E9]"></span>
+                    4. Tournament Schedule Updater
+                </h2>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Number</label>
+                    <input type="number" id="sched-match-num" value="1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Team 1</label>
+                        <select id="sched-team-1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Team 2</label>
+                        <select id="sched-team-2" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2.5 text-xs font-bold uppercase text-white">
+                            <option value="GREEN HOUSE">GREEN HOUSE</option>
+                            <option value="RED HOUSE">RED HOUSE</option>
+                            <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                            <option value="BLUE HOUSE">BLUE HOUSE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Date / Time</label>
+                    <input type="text" id="sched-datetime" placeholder="e.g. May 28, 10:00 AM" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                </div>
+            </div>
+            <button onclick="pushScheduleUpdate()" class="w-full bg-command-accentBlue text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(14,165,233,0.25)] mt-4">
+                Push Schedule Data
+            </button>
+        </section>
+
+        <!-- CONSOLE 05: RESULTS -->
+        <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-red relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentRed/30 lg:col-span-2">
+            <div class="space-y-5">
+                <div class="absolute top-0 right-0 bg-command-accentRed text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
+                    Console 05
+                </div>
+                <h2 class="text-xs font-black tracking-wider text-command-accentRed uppercase flex items-center gap-2 drop-shadow-[0_0_6px_rgba(239,68,68,0.2)]">
+                    <span class="w-2 h-2 rounded-full bg-command-accentRed shadow-[0_0_8px_#EF4444]"></span>
+                    5. Match Results Ledger
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Match Number</label>
+                        <input type="number" id="result-match-num" value="1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                    </div>
+                    <div class="space-y-1 md:col-span-2">
+                        <label class="text-[10px] font-black tracking-wider text-command-textMuted uppercase">Man of the Match</label>
+                        <input type="text" id="result-motm" placeholder="Player Name" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-black/20 p-4 rounded-xl border border-command-border/40">
+                    <div class="space-y-3">
+                        <h3 class="text-[10px] font-black text-white uppercase tracking-wider">Team 1 Data</h3>
+                        <div class="space-y-2">
+                            <select id="result-team-1" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white">
+                                <option value="GREEN HOUSE">GREEN HOUSE</option>
+                                <option value="RED HOUSE">RED HOUSE</option>
+                                <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                                <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            </select>
+                            <input type="text" id="result-score-1" placeholder="Final Score (e.g. 45/2)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <h3 class="text-[10px] font-black text-white uppercase tracking-wider">Team 2 Data</h3>
+                        <div class="space-y-2">
+                            <select id="result-team-2" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold uppercase text-white">
+                                <option value="GREEN HOUSE">GREEN HOUSE</option>
+                                <option value="RED HOUSE">RED HOUSE</option>
+                                <option value="YELLOW HOUSE">YELLOW HOUSE</option>
+                                <option value="BLUE HOUSE">BLUE HOUSE</option>
+                            </select>
+                            <input type="text" id="result-score-2" placeholder="Final Score (e.g. 46/1)" class="w-full bg-command-inputBg border border-command-border rounded-lg px-3 py-2 text-xs font-bold text-white">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="pushMatchResult()" class="w-full bg-command-accentRed text-white py-3.5 rounded-xl font-black text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-[0_4px_20px_rgba(239,68,68,0.25)] mt-4">
+                Record Final Match Result
+            </button>
+        </section>
+
+        <!-- CONSOLE 03 -->
         <section class="bg-command-card border border-command-border rounded-2xl p-6 shadow-neon-purple relative space-y-5 h-full flex flex-col justify-between backdrop-blur-md bg-gradient-to-b from-command-card to-command-card/95 transition-all duration-300 hover:border-command-accentPurple/30 lg:col-span-2">
             <div class="space-y-5">
                 <div class="absolute top-0 right-0 bg-command-accentPurple text-white text-[9px] font-black px-2.5 py-0.5 rounded-bl-xl uppercase tracking-wider shadow-sm">
@@ -811,10 +917,41 @@
                 played: parseInt(document.getElementById('input-played').value) || 0,
                 won: parseInt(document.getElementById('input-won').value) || 0,
                 lost: parseInt(document.getElementById('input-lost').value) || 0,
-                points: parseInt(document.getElementById('input-pts').value) || 0
+                points: parseInt(document.getElementById('input-pts').value) || 0,
+                nrr: parseFloat(document.getElementById('input-nrr').value) || 0.0
             };
             await supabaseConnection.from('points_table').update(payload).eq('house_name', house);
-            alert("Standings array updated!");
+            alert("Standings array updated with NRR!");
+        }
+
+        async function pushScheduleUpdate() {
+            const matchNum = parseInt(document.getElementById('sched-match-num').value);
+            const payload = {
+                match_num: matchNum,
+                team_1: document.getElementById('sched-team-1').value,
+                team_2: document.getElementById('sched-team-2').value,
+                match_datetime: document.getElementById('sched-datetime').value
+            };
+            
+            const { error } = await supabaseConnection.from('schedule').upsert(payload, { onConflict: 'match_num' });
+            if (error) alert("Error pushing schedule: " + error.message);
+            else alert("Schedule updated successfully!");
+        }
+
+        async function pushMatchResult() {
+            const matchNum = parseInt(document.getElementById('result-match-num').value);
+            const payload = {
+                match_num: matchNum,
+                team_1: document.getElementById('result-team-1').value,
+                team_1_score: document.getElementById('result-score-1').value,
+                team_2: document.getElementById('result-team-2').value,
+                team_2_score: document.getElementById('result-score-2').value,
+                man_of_the_match: document.getElementById('result-motm').value
+            };
+            
+            const { error } = await supabaseConnection.from('match_results').upsert(payload, { onConflict: 'match_num' });
+            if (error) alert("Error pushing match result: " + error.message);
+            else alert("Match Result recorded successfully!");
         }
 
         async function pushPlayerTally() {
