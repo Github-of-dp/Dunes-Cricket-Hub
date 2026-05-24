@@ -171,7 +171,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-orange border-l-4 border-l-themeOrange flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🏏 Orange Cap Tally</h3>
+                            <h3 class="text-xs font-black tracking-widest text-orange-400 uppercase">🏆 Orange Cap Tally</h3>
                             <span class="text-[9px] bg-orange-500/10 text-orange-400 border border-orange-500/30 font-black px-2 py-0.5 rounded-md">Top 5 Runs</span>
                         </div>
                         <div id="orange-cap-top5-display" class="space-y-2.5">
@@ -184,7 +184,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-green border-l-4 border-l-themeGreen flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🏏 Purple Cap Tally</h3>
+                            <h3 class="text-xs font-black tracking-widest text-themeGreen uppercase">🏆 Purple Cap Tally</h3>
                             <span class="text-[9px] bg-emerald-500/10 text-themeGreen border border-emerald-500/30 font-black px-2 py-0.5 rounded-md">Top 5 Wickets</span>
                         </div>
                         <div id="purple-cap-top5-display" class="space-y-2.5">
@@ -197,7 +197,7 @@
                 <div class="glass-panel rounded-3xl p-6 shadow-neon-gold border-l-4 border-l-themeGold flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
-                            <h3 class="text-xs font-black tracking-widest text-themeGold uppercase">🏏 Tournament MVP</h3>
+                            <h3 class="text-xs font-black tracking-widest text-themeGold uppercase">🏆 Tournament MVP</h3>
                             <span class="text-[9px] bg-yellow-500/10 text-themeGold border border-yellow-500/30 font-black px-2 py-0.5 rounded-md">Top 5 High Scores</span>
                         </div>
                         <div id="mvp-top5-display" class="space-y-2.5">
@@ -256,10 +256,19 @@
         }
 
         function initializeRealtimeScoreboard() {
+            // Live broadcast listener
             supabaseConnection
                 .channel('score-channel')
                 .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'live_match' }, payload => {
                     renderLiveScore(payload.new);
+                })
+                .subscribe();
+
+            // Match archive ledger realtime listener
+            supabaseConnection
+                .channel('results-channel')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'match_results' }, payload => {
+                    streamMatchResults();
                 })
                 .subscribe();
 
@@ -366,7 +375,8 @@
         }
 
         async function streamMatchResults() {
-            const { data, error } = await supabaseConnection.from('match_results').select('*').order('match_number', { ascending: true });
+            // Pull raw dataset out without explicitly ordering in Postgres to bypass column-naming exceptions
+            const { data, error } = await supabaseConnection.from('match_results').select('*');
             const container = document.getElementById('results-container');
             container.innerHTML = "";
             
@@ -375,21 +385,24 @@
                 return;
             }
 
+            // Client-side array sorting ensures accurate match sequences regardless of match_number vs match_num column structures
+            data.sort((a, b) => (a.match_number || a.match_num || 0) - (b.match_number || b.match_num || 0));
+
             data.forEach(res => {
                 container.insertAdjacentHTML('beforeend', `
                     <div class="p-5 glass-panel rounded-2xl border-t-4 border-t-glowPurple space-y-3">
                         <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-black uppercase text-glowPurple tracking-widest bg-glowPurple/10 px-2 py-1 rounded">MATCH 0${res.match_number}</span>
-                            <span class="text-[11px] font-bold text-themeGold font-mono">🏏 MVP: ${res.man_of_the_match}</span>
+                            <span class="text-[10px] font-black uppercase text-glowPurple tracking-widest bg-glowPurple/10 px-2 py-1 rounded">MATCH 0${res.match_number || res.match_num}</span>
+                            <span class="text-[11px] font-bold text-themeGold font-mono">🏆 MVP: ${res.man_of_the_match}</span>
                         </div>
                         <div class="bg-black/40 p-3 rounded-xl border border-white/5 font-mono space-y-1.5">
                             <div class="flex justify-between text-xs font-bold">
-                                <span class="text-gray-300">${res.team_a_name}</span>
-                                <span class="text-white font-black">${res.team_a_score}</span>
+                                <span class="text-gray-300">${res.team_a_name || res.team_1}</span>
+                                <span class="text-white font-black">${res.team_a_score || res.team_1_score}</span>
                             </div>
                             <div class="flex justify-between text-xs font-bold">
-                                <span class="text-gray-300">${res.team_b_name}</span>
-                                <span class="text-white font-black">${res.team_b_score}</span>
+                                <span class="text-gray-300">${res.team_b_name || res.team_2}</span>
+                                <span class="text-white font-black">${res.team_b_score || res.team_2_score}</span>
                             </div>
                         </div>
                         <p class="text-xs font-bold text-gray-400 italic">${res.summary || 'Result securely signed off.'}</p>
