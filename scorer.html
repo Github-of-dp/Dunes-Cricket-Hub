@@ -469,6 +469,14 @@
         let globalNonStriker = "";
         let globalActiveBowler = "";
 
+        let strikerRuns = 0;
+        let strikerBalls = 0;
+        let nonStrikerRuns = 0;
+        let nonStrikerBalls = 0;
+        let bowlerRunsConceded = 0;
+        let bowlerWickets = 0;
+        let bowlerBallsBowled = 0;
+
         function renderDynamicSquadMatrix() {
             const batTeam = document.getElementById('input-batting-team').value;
             const bowlTeam = document.getElementById('input-bowling-team').value;
